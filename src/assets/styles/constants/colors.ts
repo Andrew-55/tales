@@ -1,0 +1,17 @@
+export const COLORS = {
+  color_100: '#ffffff',
+  color_150: '#f4f5f4',
+  color_200: '#dedede',
+  color_250: '#d0d1d0',
+  color_300: '#9b9b9b',
+  color_400: '#696969',
+  color_500: '#303030',
+  color_600: '#1b1b1b',
+  color_700: '#131313',
+  primary_default_light: '#02ff3a',
+  primary_default_dark: '#91c521',
+  primary_pressed_light: '#75c537',
+  primary_pressed_dark: '#7aa818',
+  error: '#c2534c',
+  ios_blur: 'Background Blur: 80',
+};
