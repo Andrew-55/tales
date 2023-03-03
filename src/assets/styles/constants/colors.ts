@@ -13,5 +13,4 @@ export const COLORS = {
   primary_pressed_light: '#75c537',
   primary_pressed_dark: '#7aa818',
   error: '#c2534c',
-  ios_blur: 'Background Blur: 80',
 };

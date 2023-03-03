@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-import {COLORS} from '../../assets/styles/constants/colors';
+import {COLORS} from '@app/assets/styles/constants';
 
 export const UiKit = () => {
   return (
