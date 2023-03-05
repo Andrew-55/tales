@@ -1,0 +1,1 @@
+export {SvgCheck} from './SvgCheck';

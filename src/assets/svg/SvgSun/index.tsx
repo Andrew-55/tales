@@ -1,0 +1,1 @@
+export {SvgSun} from './SvgSun';

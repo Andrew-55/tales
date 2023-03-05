@@ -1,0 +1,1 @@
+export {SvgTrash} from './SvgTrash';

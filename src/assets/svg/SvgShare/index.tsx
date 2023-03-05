@@ -1,0 +1,1 @@
+export {SvgShare} from './SvgShare';

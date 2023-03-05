@@ -1,0 +1,1 @@
+export {SvgHeart} from './SvgHeart';

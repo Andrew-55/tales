@@ -1,0 +1,1 @@
+export {SvgMoon} from './SvgMoon';
