@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Nokwy.otf",
+      "sha1": "09d4325743a4ff1e59a5cddc9e811183973cb266"
+    },
+    {
+      "path": "src/assets/fonts/Outfit-Medium.otf",
+      "sha1": "2d4a3cc2d291639c956d4188fb0b276449558b6e"
+    },
+    {
+      "path": "src/assets/fonts/Outfit-Regular.otf",
+      "sha1": "b6879bcd3ad82fdfab164f678fbb5525f30c999d"
+    },
+    {
+      "path": "src/assets/fonts/Outfit-SemiBold.otf",
+      "sha1": "bb8c33b51eb249651470aa22a7186ef364d9017d"
+    }
+  ]
+}

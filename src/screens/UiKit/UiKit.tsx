@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-import {COLORS} from '@app/assets/styles/constants';
+import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
 import {
   SvgArrowLeft,
   SvgArrowRightOnRectangle,
@@ -82,6 +82,10 @@ export const UiKit = () => {
         <SvgEyeSlash fill={COLORS.color_400} />
         <SvgSun />
       </View>
+      <Text style={styles.titleOneRegular55}>Title_1_Regular_55pt</Text>
+      <Text style={styles.titleTwoMedium32}>Title_2_Medium_32pt</Text>
+      <Text style={styles.titleThreeSemibold32}>Title_3_Semibold_32pt</Text>
+      <Text style={styles.bodyFiveRegular16}>Body_5_Regular_16pt</Text>
     </View>
   );
 };
@@ -109,4 +113,8 @@ const styles = StyleSheet.create({
     gap: 5,
     backgroundColor: COLORS.color_300,
   },
+  titleOneRegular55: TYPOGRAPHY.Title_1_Regular_55pf,
+  titleTwoMedium32: TYPOGRAPHY.Title_2_Medium_32pt,
+  titleThreeSemibold32: TYPOGRAPHY.Title_3_Semibold_32pt,
+  bodyFiveRegular16: TYPOGRAPHY.Body_5_Regular_16pt,
 });
