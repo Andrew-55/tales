@@ -1,8 +1,10 @@
 import React, {FC, useEffect, useRef} from 'react';
 import {Pressable, Animated, StyleSheet} from 'react-native';
+
 import {COLORS} from '@app/assets/styles/constants';
 import {SvgLoading} from '@app/assets/svg';
-import {AppText} from '../AppText';
+import {AppText} from '@app/ui';
+import {getKeyColorTextToAppButton} from '@app/utils/functions';
 
 type SizeType = keyof typeof SIZE;
 
@@ -85,23 +87,12 @@ export const AppButton: FC<Props> = ({
         ) : (
           <AppText
             variant="Body_2_Medium_16"
-            color={
-              isDarkMode
-                ? pressed
-                  ? 'color_700'
-                  : isDelete
-                  ? 'error'
-                  : isDisabled
-                  ? 'color_400'
-                  : 'primary_default_light_mode'
-                : pressed
-                ? 'color_100'
-                : isDelete
-                ? 'error'
-                : isDisabled
-                ? 'color_300'
-                : 'color_100'
-            }>
+            color={getKeyColorTextToAppButton(
+              isDarkMode,
+              pressed,
+              isDelete,
+              isDisabled,
+            )}>
             {text}
           </AppText>
         );
