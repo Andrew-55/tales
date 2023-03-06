@@ -1,10 +1,9 @@
 import React, {FC, useEffect, useRef} from 'react';
-import {Pressable, Animated, StyleSheet} from 'react-native';
+import {Pressable, Animated, StyleSheet, Text} from 'react-native';
 
-import {COLORS} from '@app/assets/styles/constants';
+import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgLoading} from '@app/assets/svg';
-import {AppText} from '@app/ui';
-import {getKeyColorTextToAppButton} from '@app/utils/functions';
+import {THEMES} from './themes';
 
 type SizeType = keyof typeof SIZE;
 
@@ -28,6 +27,11 @@ export const AppButton: FC<Props> = ({
   onPress,
 }) => {
   const value = useRef(new Animated.Value(0)).current;
+  const themeVariant = isDarkMode
+    ? ('dark' as keyof typeof THEMES)
+    : ('light' as keyof typeof THEMES);
+
+  const stylesThemes = THEMES[themeVariant];
 
   const deg = value.interpolate({
     inputRange: [0, 1],
@@ -60,14 +64,13 @@ export const AppButton: FC<Props> = ({
       onPress={onPress}
       style={({pressed}) => [
         styles.pressable,
-        isDarkMode ? SIZE[size] : SIZE_LIGHT[size],
-        isDisabled && !isLoading && !isDarkMode && stylesLight.disabled,
+        SIZE[size],
+        stylesThemes.appButton[size],
+        isDisabled && !isLoading && stylesThemes.appButton.disabled,
         pressed &&
-          (isDarkMode
-            ? styles.pressed
-            : size === 'Medium'
-            ? stylesLight.pressedMedium
-            : stylesLight.pressed),
+          (size === 'Medium'
+            ? stylesThemes.appButton.pressedMedium
+            : stylesThemes.appButton.pressed),
       ]}
       disabled={isDisabled}>
       {({pressed}) => {
@@ -85,16 +88,16 @@ export const AppButton: FC<Props> = ({
             />
           </Animated.View>
         ) : (
-          <AppText
-            variant="Body_2_Medium_16"
-            color={getKeyColorTextToAppButton(
-              isDarkMode,
-              pressed,
-              isDelete,
-              isDisabled,
-            )}>
+          <Text
+            style={[
+              styles.text,
+              stylesThemes.appButtonText[size],
+              isDelete && stylesThemes.appButtonText.delete,
+              isDisabled && stylesThemes.appButtonText.disabled,
+              pressed && stylesThemes.appButtonText.pressed,
+            ]}>
             {text}
-          </AppText>
+          </Text>
         );
       }}
     </Pressable>
@@ -118,57 +121,21 @@ const styles = StyleSheet.create({
   large: {
     paddingTop: 16,
     paddingBottom: 16,
-    backgroundColor: COLORS.color_500,
   },
   medium: {
     paddingTop: 12,
     paddingBottom: 12,
-    backgroundColor: COLORS.color_700,
   },
   small: {
     paddingTop: 12,
     paddingBottom: 12,
-    backgroundColor: COLORS.color_700,
     width: 148,
   },
+  text: {...TYPOGRAPHY.Body_2_Medium_16},
 });
 
 const SIZE = {
   Large: styles.large,
   Medium: styles.medium,
   Small: styles.small,
-};
-
-const stylesLight = StyleSheet.create({
-  pressed: {
-    backgroundColor: COLORS.primary_pressed_dark_mode,
-  },
-  pressedMedium: {
-    backgroundColor: COLORS.primary_default_dark_mode,
-  },
-  disabled: {
-    backgroundColor: COLORS.color_200,
-  },
-  large: {
-    paddingTop: 16,
-    paddingBottom: 16,
-    backgroundColor: COLORS.primary_default_dark_mode,
-  },
-  medium: {
-    paddingTop: 12,
-    paddingBottom: 12,
-    backgroundColor: COLORS.color_100,
-  },
-  small: {
-    paddingTop: 12,
-    paddingBottom: 12,
-    backgroundColor: COLORS.primary_default_dark_mode,
-    width: 148,
-  },
-});
-
-const SIZE_LIGHT = {
-  Large: stylesLight.large,
-  Medium: stylesLight.medium,
-  Small: stylesLight.small,
 };
