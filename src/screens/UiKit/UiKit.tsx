@@ -25,6 +25,7 @@ import {
   SvgUser,
   SvgXmark,
 } from '@app/assets/svg';
+import {AppText} from '@app/ui';
 
 export const UiKit = () => {
   return (
@@ -86,6 +87,12 @@ export const UiKit = () => {
       <Text style={styles.titleTwoMedium32}>Title_2_Medium_32pt</Text>
       <Text style={styles.titleThreeSemibold32}>Title_3_Semibold_32pt</Text>
       <Text style={styles.bodyFiveRegular16}>Body_5_Regular_16pt</Text>
+      <AppText variant="Headline_1_Semibold_18" color="color_500">
+        App Text Headline_1_Semibold_18
+      </AppText>
+      <AppText variant="Caption_1_Medium_12" color="primary_pressed_dark">
+        App Text Caption_1_Medium_12
+      </AppText>
     </View>
   );
 };
@@ -113,8 +120,8 @@ const styles = StyleSheet.create({
     gap: 5,
     backgroundColor: COLORS.color_300,
   },
-  titleOneRegular55: TYPOGRAPHY.Title_1_Regular_55pf,
-  titleTwoMedium32: TYPOGRAPHY.Title_2_Medium_32pt,
-  titleThreeSemibold32: TYPOGRAPHY.Title_3_Semibold_32pt,
-  bodyFiveRegular16: TYPOGRAPHY.Body_5_Regular_16pt,
+  titleOneRegular55: TYPOGRAPHY.Title_1_Regular_55,
+  titleTwoMedium32: TYPOGRAPHY.Title_2_Medium_32,
+  titleThreeSemibold32: TYPOGRAPHY.Title_3_Semibold_32,
+  bodyFiveRegular16: TYPOGRAPHY.Body_5_Regular_16,
 });
