@@ -6,8 +6,8 @@ export type TextColors = keyof typeof COLORS;
 
 type Props = RNTextProps & {
   children: React.ReactNode;
-  variant: TextVariants;
-  color: TextColors;
+  variant?: TextVariants;
+  color?: TextColors;
 };
 
 export const AppText: FC<Props> = ({

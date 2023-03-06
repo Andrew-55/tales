@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView, StyleSheet, Alert} from 'react-native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 
 import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
 import {
@@ -96,35 +96,22 @@ export const UiKit = () => {
           App Text Caption_1_Medium_12
         </AppText>
         <View style={styles.wrapButtons}>
-          <AppButton
-            text="Continue"
-            size="Large"
-            onPress={() => Alert.alert('Works', 'AppButton Works')}
-          />
+          <AppButton text="Continue" size="Large" onPress={() => {}} />
           <AppButton
             text="Continue"
             size="Large"
             isDisabled
-            onPress={() => Alert.alert('Works', 'AppButton Works')}
+            onPress={() => {}}
           />
           <AppButton
             text="Continue"
             size="Large"
             isLoading
             isDisabled
-            onPress={() => Alert.alert('Works', 'AppButton Works')}
+            onPress={() => {}}
           />
-          <AppButton
-            text="Medium"
-            size="Medium"
-            isDelete
-            onPress={() => Alert.alert('Works', 'AppButton Works')}
-          />
-          <AppButton
-            text="Small"
-            size="Small"
-            onPress={() => Alert.alert('Works', 'AppButton Works')}
-          />
+          <AppButton text="Medium" size="Medium" isDelete onPress={() => {}} />
+          <AppButton text="Small" size="Small" onPress={() => {}} />
         </View>
       </View>
     </ScrollView>

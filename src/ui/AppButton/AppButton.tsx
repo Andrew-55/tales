@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useRef} from 'react';
-import {Pressable, Animated, StyleSheet, Text} from 'react-native';
-import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
+import {Pressable, Animated, StyleSheet} from 'react-native';
+import {COLORS} from '@app/assets/styles/constants';
 import {SvgLoading} from '@app/assets/svg';
+import {AppText} from '../AppText';
 
 type SizeType = keyof typeof SIZE;
 
@@ -55,8 +56,8 @@ export const AppButton: FC<Props> = ({
       onPress={onPress}
       style={({pressed}) => [
         styles.pressable,
-        pressed && styles.pressed,
         SIZE[size],
+        pressed && styles.pressed,
       ]}
       disabled={isDisabled}>
       {({pressed}) => {
@@ -68,16 +69,19 @@ export const AppButton: FC<Props> = ({
             <SvgLoading />
           </Animated.View>
         ) : (
-          <Text
-            style={[
-              styles.textFont,
-              styles.colorInitial,
-              isDelete && styles.colorDelete,
-              pressed && styles.colorPressed,
-              isDisabled && styles.colorDisabled,
-            ]}>
+          <AppText
+            variant="Body_2_Medium_16"
+            color={
+              pressed
+                ? 'color_700'
+                : isDelete
+                ? 'error'
+                : isDisabled
+                ? 'color_400'
+                : 'primary_default_light_mode'
+            }>
             {text}
-          </Text>
+          </AppText>
         );
       }}
     </Pressable>
@@ -97,21 +101,6 @@ const styles = StyleSheet.create({
   },
   pressed: {
     backgroundColor: COLORS.primary_default_light_mode,
-  },
-  colorDisabled: {
-    color: COLORS.color_400,
-  },
-  colorPressed: {
-    color: COLORS.color_700,
-  },
-  colorDelete: {
-    color: COLORS.error,
-  },
-  colorInitial: {
-    color: COLORS.primary_default_light_mode,
-  },
-  textFont: {
-    ...TYPOGRAPHY.Body_2_Medium_16pt,
   },
   large: {
     paddingTop: 16,
