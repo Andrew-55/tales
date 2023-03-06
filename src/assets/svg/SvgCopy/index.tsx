@@ -1,0 +1,1 @@
+export {SvgCopy} from './SvgCopy';

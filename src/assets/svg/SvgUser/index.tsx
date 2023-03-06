@@ -1,0 +1,1 @@
+export {SvgUser} from './SvgUser';

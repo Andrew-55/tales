@@ -1,0 +1,1 @@
+export {SvgPlus} from './SvgPlus';

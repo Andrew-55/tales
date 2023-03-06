@@ -1,0 +1,1 @@
+export {SvgArrowRightOnRectangle} from './SvgArrowRightOnRectangle';

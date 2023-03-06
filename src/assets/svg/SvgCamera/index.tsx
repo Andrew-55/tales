@@ -1,0 +1,1 @@
+export {SvgCamera} from './SvgCamera';
