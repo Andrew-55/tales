@@ -12,6 +12,7 @@ type Props = {
   isDisabled?: boolean;
   isDelete?: boolean;
   size: SizeType;
+  isDarkMode?: boolean;
   onPress?: () => void;
 };
 
@@ -21,6 +22,7 @@ export const AppButton: FC<Props> = ({
   isLoading,
   isDisabled,
   isDelete,
+  isDarkMode,
   onPress,
 }) => {
   const value = useRef(new Animated.Value(0)).current;
@@ -56,8 +58,14 @@ export const AppButton: FC<Props> = ({
       onPress={onPress}
       style={({pressed}) => [
         styles.pressable,
-        SIZE[size],
-        pressed && styles.pressed,
+        isDarkMode ? SIZE[size] : SIZE_LIGHT[size],
+        isDisabled && !isLoading && !isDarkMode && stylesLight.disabled,
+        pressed &&
+          (isDarkMode
+            ? styles.pressed
+            : size === 'Medium'
+            ? stylesLight.pressedMedium
+            : stylesLight.pressed),
       ]}
       disabled={isDisabled}>
       {({pressed}) => {
@@ -66,19 +74,33 @@ export const AppButton: FC<Props> = ({
             style={{
               transform: [{rotate: deg}],
             }}>
-            <SvgLoading />
+            <SvgLoading
+              stroke={
+                isDarkMode
+                  ? COLORS.primary_default_light_mode
+                  : COLORS.primary_pressed_dark_mode
+              }
+            />
           </Animated.View>
         ) : (
           <AppText
             variant="Body_2_Medium_16"
             color={
-              pressed
-                ? 'color_700'
+              isDarkMode
+                ? pressed
+                  ? 'color_700'
+                  : isDelete
+                  ? 'error'
+                  : isDisabled
+                  ? 'color_400'
+                  : 'primary_default_light_mode'
+                : pressed
+                ? 'color_100'
                 : isDelete
                 ? 'error'
                 : isDisabled
-                ? 'color_400'
-                : 'primary_default_light_mode'
+                ? 'color_300'
+                : 'color_100'
             }>
             {text}
           </AppText>
@@ -124,4 +146,38 @@ const SIZE = {
   Large: styles.large,
   Medium: styles.medium,
   Small: styles.small,
+};
+
+const stylesLight = StyleSheet.create({
+  pressed: {
+    backgroundColor: COLORS.primary_pressed_dark_mode,
+  },
+  pressedMedium: {
+    backgroundColor: COLORS.primary_default_dark_mode,
+  },
+  disabled: {
+    backgroundColor: COLORS.color_200,
+  },
+  large: {
+    paddingTop: 16,
+    paddingBottom: 16,
+    backgroundColor: COLORS.primary_default_dark_mode,
+  },
+  medium: {
+    paddingTop: 12,
+    paddingBottom: 12,
+    backgroundColor: COLORS.color_100,
+  },
+  small: {
+    paddingTop: 12,
+    paddingBottom: 12,
+    backgroundColor: COLORS.primary_default_dark_mode,
+    width: 148,
+  },
+});
+
+const SIZE_LIGHT = {
+  Large: stylesLight.large,
+  Medium: stylesLight.medium,
+  Small: stylesLight.small,
 };

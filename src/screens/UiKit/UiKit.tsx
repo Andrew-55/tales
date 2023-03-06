@@ -111,7 +111,44 @@ export const UiKit = () => {
             onPress={() => {}}
           />
           <AppButton text="Medium" size="Medium" isDelete onPress={() => {}} />
+          <AppButton
+            text="Medium"
+            size="Medium"
+            isDisabled
+            onPress={() => {}}
+          />
           <AppButton text="Small" size="Small" onPress={() => {}} />
+        </View>
+        <View style={styles.wrapButtons}>
+          <AppButton
+            text="Continue"
+            size="Large"
+            isDarkMode
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Continue"
+            size="Large"
+            isDisabled
+            isDarkMode
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Continue"
+            size="Large"
+            isLoading
+            isDisabled
+            isDarkMode
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Medium"
+            size="Medium"
+            isDelete
+            isDarkMode
+            onPress={() => {}}
+          />
+          <AppButton text="Small" size="Small" isDarkMode onPress={() => {}} />
         </View>
       </View>
     </ScrollView>
