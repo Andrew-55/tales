@@ -96,11 +96,17 @@ export const UiKit = () => {
           App Text Caption_1_Medium_12
         </AppText>
         <View style={styles.wrapButtons}>
-          <AppButton text="Continue" size="Large" onPress={() => {}} />
+          <AppButton
+            text="Continue"
+            size="Large"
+            themeVariant="dark"
+            onPress={() => {}}
+          />
           <AppButton
             text="Continue"
             size="Large"
             isDisabled
+            themeVariant="dark"
             onPress={() => {}}
           />
           <AppButton
@@ -108,47 +114,65 @@ export const UiKit = () => {
             size="Large"
             isLoading
             isDisabled
-            onPress={() => {}}
-          />
-          <AppButton text="Medium" size="Medium" isDelete onPress={() => {}} />
-          <AppButton
-            text="Medium"
-            size="Medium"
-            isDisabled
-            onPress={() => {}}
-          />
-          <AppButton text="Small" size="Small" onPress={() => {}} />
-        </View>
-        <View style={styles.wrapButtons}>
-          <AppButton
-            text="Continue"
-            size="Large"
-            isDarkMode
-            onPress={() => {}}
-          />
-          <AppButton
-            text="Continue"
-            size="Large"
-            isDisabled
-            isDarkMode
-            onPress={() => {}}
-          />
-          <AppButton
-            text="Continue"
-            size="Large"
-            isLoading
-            isDisabled
-            isDarkMode
+            themeVariant="dark"
             onPress={() => {}}
           />
           <AppButton
             text="Medium"
             size="Medium"
             isDelete
-            isDarkMode
+            themeVariant="dark"
             onPress={() => {}}
           />
-          <AppButton text="Small" size="Small" isDarkMode onPress={() => {}} />
+          <AppButton
+            text="Medium"
+            size="Medium"
+            isDisabled
+            themeVariant="dark"
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Small"
+            size="Small"
+            themeVariant="dark"
+            onPress={() => {}}
+          />
+        </View>
+        <View style={styles.wrapButtons}>
+          <AppButton
+            text="Continue"
+            size="Large"
+            themeVariant="light"
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Continue"
+            size="Large"
+            isDisabled
+            themeVariant="light"
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Continue"
+            size="Large"
+            isLoading
+            isDisabled
+            themeVariant="light"
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Medium"
+            size="Medium"
+            isDelete
+            themeVariant="light"
+            onPress={() => {}}
+          />
+          <AppButton
+            text="Small"
+            size="Small"
+            themeVariant="light"
+            onPress={() => {}}
+          />
         </View>
       </View>
     </ScrollView>

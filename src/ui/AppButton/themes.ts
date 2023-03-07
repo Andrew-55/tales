@@ -28,6 +28,7 @@ export const THEMES = {
       Medium: {color: COLORS.primary_default_light_mode},
       Small: {color: COLORS.primary_default_light_mode},
     },
+    appButtonSvgLoading: COLORS.primary_default_light_mode,
   },
   light: {
     appButton: {
@@ -58,5 +59,6 @@ export const THEMES = {
       Medium: {color: COLORS.primary_default_light_mode},
       Small: {color: COLORS.color_100},
     },
+    appButtonSvgLoading: COLORS.primary_pressed_dark_mode,
   },
 };

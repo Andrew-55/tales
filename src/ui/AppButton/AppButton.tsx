@@ -13,7 +13,7 @@ type Props = {
   isDisabled?: boolean;
   isDelete?: boolean;
   size: SizeType;
-  isDarkMode?: boolean;
+  themeVariant: keyof typeof THEMES;
   onPress?: () => void;
 };
 
@@ -23,13 +23,10 @@ export const AppButton: FC<Props> = ({
   isLoading,
   isDisabled,
   isDelete,
-  isDarkMode,
+  themeVariant,
   onPress,
 }) => {
   const value = useRef(new Animated.Value(0)).current;
-  const themeVariant = isDarkMode
-    ? ('dark' as keyof typeof THEMES)
-    : ('light' as keyof typeof THEMES);
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -79,13 +76,7 @@ export const AppButton: FC<Props> = ({
             style={{
               transform: [{rotate: deg}],
             }}>
-            <SvgLoading
-              stroke={
-                isDarkMode
-                  ? COLORS.primary_default_light_mode
-                  : COLORS.primary_pressed_dark_mode
-              }
-            />
+            <SvgLoading color={stylesThemes.appButtonSvgLoading} />
           </Animated.View>
         ) : (
           <Text
