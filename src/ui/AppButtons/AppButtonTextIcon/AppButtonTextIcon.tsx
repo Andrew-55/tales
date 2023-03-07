@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useRef} from 'react';
 import {Pressable, Animated, StyleSheet, Text, View} from 'react-native';
 
-import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
+import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {SvgLoading} from '@app/assets/svg';
 import {THEMES} from './themes';
@@ -10,7 +10,6 @@ type Props = {
   text: string;
   isLoading?: boolean;
   isDisabled?: boolean;
-  isDarkMode?: boolean;
   Icon: FC<SvgPropsInterface>;
   themeVariant: keyof typeof THEMES;
   onPress?: () => void;
@@ -21,7 +20,6 @@ export const AppButtonTextIcon: FC<Props> = ({
   isLoading,
   isDisabled,
   themeVariant,
-  isDarkMode,
   Icon,
   onPress,
 }) => {
@@ -71,13 +69,7 @@ export const AppButtonTextIcon: FC<Props> = ({
             style={{
               transform: [{rotate: deg}],
             }}>
-            <SvgLoading
-              stroke={
-                isDarkMode
-                  ? COLORS.primary_default_light_mode
-                  : COLORS.primary_pressed_dark_mode
-              }
-            />
+            <SvgLoading color={stylesThemes.appButtonSvgLoading} />
           </Animated.View>
         ) : (
           <View style={styles.view}>
@@ -113,14 +105,11 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingLeft: 16,
     borderRadius: 8,
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
   },
   view: {
-    color: '#ff0000',
     width: '100%',
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

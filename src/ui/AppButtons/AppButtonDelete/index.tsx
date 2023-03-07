@@ -1,0 +1,1 @@
+export {AppButtonDelete} from './AppButtonDelete';

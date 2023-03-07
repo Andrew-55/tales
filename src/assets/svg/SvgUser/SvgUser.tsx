@@ -5,8 +5,7 @@ import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 export const SvgUser = ({
   width = 24,
   height = 24,
-  fill = '#ffffff',
-  stroke = '#ffffff',
+  color = '#ffffff',
   ...props
 }: SvgPropsInterface) => (
   <Svg
@@ -19,11 +18,11 @@ export const SvgUser = ({
     <G clipPath="url(#a)">
       <Path
         d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-        fill={fill}
+        fill={color}
       />
       <Path
         d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-        stroke={stroke}
+        stroke={color}
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

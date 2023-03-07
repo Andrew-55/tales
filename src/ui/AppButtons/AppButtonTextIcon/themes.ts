@@ -18,6 +18,7 @@ export const THEMES = {
       pressed: {color: COLORS.color_500},
       disabled: {color: COLORS.color_200},
     },
+    appButtonSvgLoading: COLORS.primary_default_light_mode,
   },
   light: {
     appButtonTextIcon: {
@@ -36,5 +37,6 @@ export const THEMES = {
       pressed: {color: COLORS.color_700},
       disabled: {color: COLORS.color_300},
     },
+    appButtonSvgLoading: COLORS.primary_pressed_dark_mode,
   },
 };

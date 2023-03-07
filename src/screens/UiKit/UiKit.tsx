@@ -26,12 +26,43 @@ import {
   SvgXmark,
 } from '@app/assets/svg';
 
-import {AppText, AppButton, AppButtonTextIcon, AppButtonText} from '@app/ui';
+import {
+  AppText,
+  AppButton,
+  AppButtonTextIcon,
+  AppButtonText,
+  AppButtonDelete,
+  AppButtonIconText,
+  AppButtonIcon,
+} from '@app/ui';
 
 export const UiKit = () => {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic">
       <View style={styles.container}>
+        <View style={styles.wrapIcons}>
+          <AppButtonIconText
+            text="Profile"
+            Icon={SvgUser}
+            themeVariant="dark"
+          />
+          <AppButtonIconText
+            text="Night theme"
+            Icon={SvgMoon}
+            themeVariant="light"
+          />
+        </View>
+        <View style={styles.wrapIcons}>
+          <AppButtonIcon Icon={SvgHeart} themeVariant="dark" />
+          <AppButtonIcon Icon={SvgShare} themeVariant="light" />
+          <AppButtonIcon
+            width={20}
+            height={20}
+            Icon={SvgXmark}
+            isDisabled
+            themeVariant="light"
+          />
+        </View>
         <Text>COLORS Black</Text>
         <View style={styles.blackBlock} />
         <Text>COLORS Error</Text>
@@ -75,12 +106,7 @@ export const UiKit = () => {
           <SvgXmark width={13} height={13} stroke={COLORS.error} />
           <SvgCheck width={14} height={12} />
           <SvgCloudArrowUp />
-          <SvgUser
-            width={64}
-            height={80}
-            fill={COLORS.color_600}
-            stroke={COLORS.color_600}
-          />
+          <SvgUser width={64} height={80} color={COLORS.color_600} />
           <SvgEye fill={COLORS.color_400} />
           <SvgEyeSlash fill={COLORS.color_400} />
           <SvgSun />
@@ -189,6 +215,7 @@ export const UiKit = () => {
           <AppButtonText text="Copy" themeVariant="light" />
           <AppButtonText text="Copy" isDisabled themeVariant="dark" />
         </View>
+        <AppButtonDelete />
       </View>
     </ScrollView>
   );
@@ -215,7 +242,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: COLORS.color_300,
+    backgroundColor: COLORS.color_250,
   },
   titleOneRegular55: TYPOGRAPHY.Title_1_Regular_55,
   titleTwoMedium32: TYPOGRAPHY.Title_2_Medium_32,
@@ -228,7 +255,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   wrapButtonsText: {
-    paddingTop: 8,
+    padding: 8,
     display: 'flex',
     flexDirection: 'row',
     gap: 8,
