@@ -175,13 +175,19 @@ export const UiKit = () => {
           />
         </View>
         <View style={styles.wrapButtons}>
-          <AppButtonTextIcon text="Copy" icon={<SvgCopy />} isDarkMode />
-          <AppButtonTextIcon text="Copy" icon={<SvgCopy />} />
+          <AppButtonTextIcon text="Copy" Icon={SvgCopy} themeVariant="dark" />
+          <AppButtonTextIcon
+            text="Copy"
+            Icon={SvgCopy}
+            themeVariant="light"
+            isDisabled
+          />
+          <AppButtonTextIcon text="Copy" Icon={SvgCopy} themeVariant="light" />
         </View>
         <View style={styles.wrapButtonsText}>
-          <AppButtonText text="Copy" isDarkMode />
-          <AppButtonText text="Copy" />
-          <AppButtonText text="Copy" isDisabled />
+          <AppButtonText text="Copy" themeVariant="dark" />
+          <AppButtonText text="Copy" themeVariant="light" />
+          <AppButtonText text="Copy" isDisabled themeVariant="dark" />
         </View>
       </View>
     </ScrollView>
@@ -222,7 +228,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   wrapButtonsText: {
-    color: '#00ff00',
     paddingTop: 8,
     display: 'flex',
     flexDirection: 'row',

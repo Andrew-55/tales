@@ -2,6 +2,7 @@ import React, {FC, useEffect, useRef} from 'react';
 import {Pressable, Animated, StyleSheet, Text, View} from 'react-native';
 
 import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
+import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {SvgLoading} from '@app/assets/svg';
 import {THEMES} from './themes';
 
@@ -10,7 +11,8 @@ type Props = {
   isLoading?: boolean;
   isDisabled?: boolean;
   isDarkMode?: boolean;
-  icon: JSX.Element;
+  Icon: FC<SvgPropsInterface>;
+  themeVariant: keyof typeof THEMES;
   onPress?: () => void;
 };
 
@@ -18,14 +20,12 @@ export const AppButtonTextIcon: FC<Props> = ({
   text,
   isLoading,
   isDisabled,
+  themeVariant,
   isDarkMode,
-  icon,
+  Icon,
   onPress,
 }) => {
   const value = useRef(new Animated.Value(0)).current;
-  const themeVariant = isDarkMode
-    ? ('dark' as keyof typeof THEMES)
-    : ('light' as keyof typeof THEMES);
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -90,7 +90,15 @@ export const AppButtonTextIcon: FC<Props> = ({
               ]}>
               {text}
             </Text>
-            {icon}
+            <Icon
+              color={
+                isDisabled
+                  ? stylesThemes.appButtonTextIconText.disabled.color
+                  : pressed
+                  ? stylesThemes.appButtonTextIconText.pressed.color
+                  : stylesThemes.appButtonTextIconText.initial.color
+              }
+            />
           </View>
         );
       }}

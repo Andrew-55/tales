@@ -7,20 +7,16 @@ import {THEMES} from './themes';
 type Props = {
   text: string;
   isDisabled?: boolean;
-  isDarkMode?: boolean;
+  themeVariant: keyof typeof THEMES;
   onPress?: () => void;
 };
 
 export const AppButtonText: FC<Props> = ({
   text,
   isDisabled,
-  isDarkMode,
+  themeVariant,
   onPress,
 }) => {
-  const themeVariant = isDarkMode
-    ? ('dark' as keyof typeof THEMES)
-    : ('light' as keyof typeof THEMES);
-
   const stylesThemes = THEMES[themeVariant];
 
   return (
