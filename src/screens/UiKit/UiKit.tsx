@@ -26,7 +26,7 @@ import {
   SvgXmark,
 } from '@app/assets/svg';
 
-import {AppText, AppButton} from '@app/ui';
+import {AppText, AppButton, AppButtonTextIcon, AppButtonText} from '@app/ui';
 
 export const UiKit = () => {
   return (
@@ -174,6 +174,15 @@ export const UiKit = () => {
             onPress={() => {}}
           />
         </View>
+        <View style={styles.wrapButtons}>
+          <AppButtonTextIcon text="Copy" icon={<SvgCopy />} isDarkMode />
+          <AppButtonTextIcon text="Copy" icon={<SvgCopy />} />
+        </View>
+        <View style={styles.wrapButtonsText}>
+          <AppButtonText text="Copy" isDarkMode />
+          <AppButtonText text="Copy" />
+          <AppButtonText text="Copy" isDisabled />
+        </View>
       </View>
     </ScrollView>
   );
@@ -210,6 +219,13 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     display: 'flex',
     flexDirection: 'column',
+    gap: 8,
+  },
+  wrapButtonsText: {
+    color: '#00ff00',
+    paddingTop: 8,
+    display: 'flex',
+    flexDirection: 'row',
     gap: 8,
   },
 });
