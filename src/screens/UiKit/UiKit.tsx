@@ -34,6 +34,8 @@ import {
   AppButtonDelete,
   AppButtonIconText,
   AppButtonIcon,
+  AppButtonIconCircle,
+  AppButtonIconCircleBlack,
 } from '@app/ui';
 
 export const UiKit = () => {
@@ -41,6 +43,23 @@ export const UiKit = () => {
     <ScrollView contentInsetAdjustmentBehavior="automatic">
       <View style={styles.container}>
         <View style={styles.wrapIcons}>
+          <AppButtonIconCircle Icon={SvgCamera} themeVariant="dark" />
+          <AppButtonIconCircle Icon={SvgCamera} themeVariant="light" />
+          <AppButtonIconCircle
+            Icon={SvgCamera}
+            themeVariant="dark"
+            isDisabled
+          />
+          <AppButtonIconCircle
+            Icon={SvgPlus}
+            padding={16}
+            themeVariant="light"
+          />
+          <AppButtonIconCircle
+            Icon={SvgPlus}
+            padding={16}
+            themeVariant="dark"
+          />
           <AppButtonIconText
             text="Profile"
             Icon={SvgUser}
@@ -50,6 +69,13 @@ export const UiKit = () => {
             text="Night theme"
             Icon={SvgMoon}
             themeVariant="light"
+          />
+          <AppButtonIconCircleBlack Icon={SvgXmark} themeVariant="dark" />
+          <AppButtonIconCircleBlack Icon={SvgXmark} themeVariant="light" />
+          <AppButtonIconCircleBlack
+            Icon={SvgXmark}
+            themeVariant="light"
+            isDisabled
           />
         </View>
         <View style={styles.wrapIcons}>
@@ -71,44 +97,38 @@ export const UiKit = () => {
         <View style={styles.wrapIcons}>
           <SvgCheckCircle />
           <SvgHeart />
-          <SvgHeart
-            fill={COLORS.primary_default_light_mode}
-            stroke={COLORS.primary_default_light_mode}
-          />
+          <SvgHeart color={COLORS.primary_default_light_mode} />
           <SvgShare />
-          <SvgShare fill={COLORS.primary_default_light_mode} />
+          <SvgShare color={COLORS.primary_default_light_mode} />
           <SvgPhoto />
-          <SvgPhoto fill={COLORS.primary_default_light_mode} />
+          <SvgPhoto color={COLORS.primary_default_light_mode} />
           <SvgBookmark />
-          <SvgBookmark
-            fill={COLORS.primary_default_light_mode}
-            stroke={COLORS.primary_default_light_mode}
-          />
+          <SvgBookmark color={COLORS.primary_default_light_mode} />
           <SvgHome />
-          <SvgHome fill={COLORS.primary_default_light_mode} />
+          <SvgHome color={COLORS.primary_default_light_mode} />
           <SvgCopy />
           <SvgUser />
           <SvgArrowRightOnRectangle />
           <SvgMoon />
           <SvgPlus />
-          <SvgPlus stroke={COLORS.primary_default_light_mode} />
+          <SvgPlus color={COLORS.primary_default_light_mode} />
           <SvgCamera />
           <SvgTrash />
           <SvgLoading />
           <SvgXmark />
           <SvgCheck />
-          <SvgPhoto fill={COLORS.color_100} />
-          <SvgXmark width={20} height={20} stroke={COLORS.color_700} />
-          <SvgXmark width={13} height={13} stroke={COLORS.color_700} />
+          <SvgPhoto color={COLORS.color_100} />
+          <SvgXmark width={20} height={20} color={COLORS.color_700} />
+          <SvgXmark width={13} height={13} color={COLORS.color_700} />
           <SvgArrowLeft />
           <SvgEye />
           <SvgEyeSlash />
-          <SvgXmark width={13} height={13} stroke={COLORS.error} />
+          <SvgXmark width={13} height={13} color={COLORS.error} />
           <SvgCheck width={14} height={12} />
           <SvgCloudArrowUp />
           <SvgUser width={64} height={80} color={COLORS.color_600} />
-          <SvgEye fill={COLORS.color_400} />
-          <SvgEyeSlash fill={COLORS.color_400} />
+          <SvgEye color={COLORS.color_400} />
+          <SvgEyeSlash color={COLORS.color_400} />
           <SvgSun />
         </View>
         <Text style={styles.titleOneRegular55}>Title_1_Regular_55pt</Text>

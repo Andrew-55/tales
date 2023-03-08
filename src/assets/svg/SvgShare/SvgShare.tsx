@@ -15,7 +15,7 @@ export const SvgShare = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}>
-    <G clipPath="url(#a)">
+    <G clipPath="url(#clip0_81_3705)">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -24,7 +24,7 @@ export const SvgShare = ({
       />
     </G>
     <Defs>
-      <ClipPath id="a">
+      <ClipPath id="clip0_81_3705">
         <Path fill="#fff" d="M0 0h20v20H0z" />
       </ClipPath>
     </Defs>

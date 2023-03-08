@@ -5,7 +5,7 @@ import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 export const SvgCamera = ({
   width = 22,
   height = 22,
-  fill = '#131313',
+  color = '#131313',
   ...props
 }: SvgPropsInterface) => (
   <Svg
@@ -15,7 +15,7 @@ export const SvgCamera = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}>
-    <G clipPath="url(#a)" fill={fill}>
+    <G clipPath="url(#clip0_81_3775)" fill={color}>
       <Path d="M11 8.25a3.437 3.437 0 1 0 0 6.875 3.437 3.437 0 0 0 0-6.875Z" />
       <Path
         fillRule="evenodd"
@@ -24,7 +24,7 @@ export const SvgCamera = ({
       />
     </G>
     <Defs>
-      <ClipPath id="a">
+      <ClipPath id="clip0_81_3775">
         <Path fill="#fff" d="M0 0h22v22H0z" />
       </ClipPath>
     </Defs>

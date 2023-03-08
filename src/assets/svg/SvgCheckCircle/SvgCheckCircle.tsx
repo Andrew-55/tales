@@ -5,7 +5,7 @@ import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 export const SvgCheckCircle = ({
   width = 18,
   height = 18,
-  stroke = '#B8DE64',
+  color = '#B8DE64',
   ...props
 }: SvgPropsInterface) => (
   <Svg
@@ -15,17 +15,17 @@ export const SvgCheckCircle = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}>
-    <G clipPath="url(#a)">
+    <G clipPath="url(#clip0_81_3693)">
       <Path
         d="M6.5 9.313 8.188 11 11 7.062m4.5 1.688a6.75 6.75 0 1 1-13.5 0 6.75 6.75 0 0 1 13.5 0Z"
-        stroke={stroke}
+        stroke={color}
         strokeWidth={1.1}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </G>
     <Defs>
-      <ClipPath id="a">
+      <ClipPath id="clip0_81_3693">
         <Path fill="#fff" d="M0 0h18v18H0z" />
       </ClipPath>
     </Defs>

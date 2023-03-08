@@ -5,7 +5,7 @@ import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 export const SvgEye = ({
   width = 20,
   height = 20,
-  fill = '#ffffff',
+  color = '#ffffff',
   ...props
 }: SvgPropsInterface) => (
   <Svg
@@ -15,7 +15,7 @@ export const SvgEye = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}>
-    <G clipPath="url(#a)" fill={fill}>
+    <G clipPath="url(#clip0_1707_484)" fill={color}>
       <Path d="M10.445 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
       <Path
         fillRule="evenodd"
@@ -24,7 +24,7 @@ export const SvgEye = ({
       />
     </G>
     <Defs>
-      <ClipPath id="a">
+      <ClipPath id="clip0_1707_484">
         <Path fill="#fff" d="M0 0h20v20H0z" />
       </ClipPath>
     </Defs>
