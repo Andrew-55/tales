@@ -38,10 +38,16 @@ import {
   AppButtonIconCircleBlack,
 } from '@app/ui';
 
-export const UiKit = () => {
+export const UiKit = ({navigation}: any) => {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic">
       <View style={styles.container}>
+        <AppButton
+          text="Main"
+          themeVariant="dark"
+          size="Large"
+          onPress={() => navigation.navigate('MainTab')}
+        />
         <View style={styles.wrapIcons}>
           <AppButtonIconCircle Icon={SvgCamera} themeVariant="dark" />
           <AppButtonIconCircle Icon={SvgCamera} themeVariant="light" />
