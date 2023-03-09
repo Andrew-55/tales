@@ -12,7 +12,13 @@ import {THEMES} from './themes';
 const Tab = createBottomTabNavigator();
 
 export const MainTab = () => {
-  const stylesThemes = THEMES.light;
+  const stylesThemes = THEMES.dark;
+
+  const getColorIcon = (focused: boolean) => {
+    return focused
+      ? stylesThemes.mainTab.active
+      : stylesThemes.mainTab.inActive;
+  };
 
   return (
     <Tab.Navigator
@@ -21,35 +27,11 @@ export const MainTab = () => {
           let icon;
 
           if (route.name === 'Main') {
-            icon = (
-              <SvgHome
-                color={
-                  focused
-                    ? stylesThemes.mainTab.active
-                    : stylesThemes.mainTab.inActive
-                }
-              />
-            );
+            icon = <SvgHome color={getColorIcon(focused)} />;
           } else if (route.name === 'Favorites') {
-            icon = (
-              <SvgBookmark
-                color={
-                  focused
-                    ? stylesThemes.mainTab.active
-                    : stylesThemes.mainTab.inActive
-                }
-              />
-            );
+            icon = <SvgBookmark color={getColorIcon(focused)} />;
           } else if (route.name === 'MyPosts') {
-            icon = (
-              <SvgPhoto
-                color={
-                  focused
-                    ? stylesThemes.mainTab.active
-                    : stylesThemes.mainTab.inActive
-                }
-              />
-            );
+            icon = <SvgPhoto color={getColorIcon(focused)} />;
           }
 
           return icon;
