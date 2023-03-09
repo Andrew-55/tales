@@ -36,12 +36,18 @@ import {
   AppButtonIcon,
   AppButtonIconCircle,
   AppButtonIconCircleBlack,
+  AppTab,
 } from '@app/ui';
 
 export const UiKit = ({navigation}: any) => {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic">
       <View style={styles.container}>
+        <AppTab
+          themeVariant="dark"
+          onPressNew={() => {}}
+          onPressTop={() => {}}
+        />
         <AppButton
           text="Main"
           themeVariant="dark"
@@ -250,6 +256,7 @@ export const UiKit = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
+    gap: 8,
   },
   blackBlock: {
     width: 'auto',
