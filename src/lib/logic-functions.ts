@@ -9,11 +9,12 @@ export const getColorIconToButton = (
   pressed: boolean,
   isDisabled?: boolean,
 ) => {
-  if (isDisabled) {
-    return colorVariants.disabled.color;
+  switch (true) {
+    case isDisabled:
+      return colorVariants.disabled.color;
+    case pressed:
+      return colorVariants.pressed.color;
+    default:
+      return colorVariants.initial.color;
   }
-  if (pressed) {
-    return colorVariants.pressed.color;
-  }
-  return colorVariants.initial.color;
 };
