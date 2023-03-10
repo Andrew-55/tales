@@ -5,6 +5,7 @@ import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {SvgLoading} from '@app/assets/svg';
 import {THEMES} from './themes';
+import {getColorIconToButton} from '../functions';
 
 type Props = {
   text: string;
@@ -83,13 +84,11 @@ export const AppButtonTextIcon: FC<Props> = ({
               {text}
             </Text>
             <Icon
-              color={
-                isDisabled
-                  ? stylesThemes.appButtonTextIconText.disabled.color
-                  : pressed
-                  ? stylesThemes.appButtonTextIconText.pressed.color
-                  : stylesThemes.appButtonTextIconText.initial.color
-              }
+              color={getColorIconToButton(
+                stylesThemes.appButtonTextIconText,
+                pressed,
+                isDisabled,
+              )}
             />
           </View>
         );

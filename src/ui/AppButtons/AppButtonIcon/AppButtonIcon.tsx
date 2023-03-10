@@ -3,6 +3,7 @@ import {Pressable, StyleSheet} from 'react-native';
 
 import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {THEMES} from './themes';
+import {getColorIconToButton} from '../functions';
 
 type Props = {
   width?: number;
@@ -30,13 +31,11 @@ export const AppButtonIcon: FC<Props> = ({
           <Icon
             width={width}
             height={height}
-            color={
-              isDisabled
-                ? stylesThemes.appButtonIcon.disabled.color
-                : pressed
-                ? stylesThemes.appButtonIcon.pressed.color
-                : stylesThemes.appButtonIcon.initial.color
-            }
+            color={getColorIconToButton(
+              stylesThemes.appButtonIcon,
+              pressed,
+              isDisabled,
+            )}
           />
         );
       }}

@@ -4,6 +4,7 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {THEMES} from './themes';
+import {getColorIconToButton} from '../functions';
 
 type Props = {
   text: string;
@@ -28,13 +29,11 @@ export const AppButtonIconText: FC<Props> = ({
         return (
           <View style={styles.view}>
             <Icon
-              color={
-                isDisabled
-                  ? stylesThemes.appButtonIconText.disabled.color
-                  : pressed
-                  ? stylesThemes.appButtonIconText.pressed.color
-                  : stylesThemes.appButtonIconText.initial.color
-              }
+              color={getColorIconToButton(
+                stylesThemes.appButtonIconText,
+                pressed,
+                isDisabled,
+              )}
             />
             <Text
               style={[
