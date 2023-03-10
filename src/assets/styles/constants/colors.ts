@@ -13,5 +13,7 @@ export const COLORS = {
   primary_pressed_light: '#75c537',
   primary_pressed_dark: '#7aa818',
   error: '#c2534c',
-  icon_light_mode: '#B8DE64',
+  primary_default_light_mode: '#B8DE64',
+  primary_default_dark_mode: '#87b71f',
+  primary_pressed_dark_mode: '#618909',
 };

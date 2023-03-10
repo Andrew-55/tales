@@ -5,7 +5,7 @@ import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 export const SvgPlus = ({
   width = 24,
   height = 24,
-  stroke = '#131313',
+  color = '#131313',
   ...props
 }: SvgPropsInterface) => (
   <Svg
@@ -15,17 +15,17 @@ export const SvgPlus = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}>
-    <G clipPath="url(#a)">
+    <G clipPath="url(#clip0_81_3767)">
       <Path
         d="M12 3v18m9-9H3"
-        stroke={stroke}
+        stroke={color}
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </G>
     <Defs>
-      <ClipPath id="a">
+      <ClipPath id="clip0_81_3767">
         <Path fill="#fff" d="M0 0h24v24H0z" />
       </ClipPath>
     </Defs>

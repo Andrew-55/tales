@@ -5,7 +5,7 @@ import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 export const SvgEyeSlash = ({
   width = 20,
   height = 20,
-  fill = '#ffffff',
+  color = '#ffffff',
   ...props
 }: SvgPropsInterface) => (
   <Svg
@@ -15,7 +15,7 @@ export const SvgEyeSlash = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}>
-    <G clipPath="url(#a)" fill={fill}>
+    <G clipPath="url(#clip0_1707_1066)" fill={color}>
       <Path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -24,7 +24,7 @@ export const SvgEyeSlash = ({
       <Path d="m10.748 13.93 2.523 2.523a9.987 9.987 0 0 1-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 0 1 0-1.186A10.007 10.007 0 0 1 2.839 6.02L6.07 9.252a4 4 0 0 0 4.678 4.678Z" />
     </G>
     <Defs>
-      <ClipPath id="a">
+      <ClipPath id="clip0_1707_1066">
         <Path fill="#fff" d="M0 0h20v20H0z" />
       </ClipPath>
     </Defs>
