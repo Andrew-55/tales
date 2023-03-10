@@ -4,7 +4,7 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {THEMES} from './themes';
-import {getColorIconToButton} from '@app/lib/logic-functions';
+import {getColorIconToButton} from '@app/lib';
 
 type Props = {
   text: string;

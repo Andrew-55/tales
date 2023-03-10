@@ -3,7 +3,7 @@ import {Pressable, StyleSheet} from 'react-native';
 
 import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {THEMES} from './themes';
-import {getColorIconToButton} from '@app/lib/logic-functions';
+import {getColorIconToButton} from '@app/lib';
 
 type Props = {
   width?: number;
