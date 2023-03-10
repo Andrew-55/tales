@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 
 import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
@@ -38,10 +38,32 @@ import {
   AppButtonIconCircleBlack,
   AppTab,
 } from '@app/ui';
+import {DatePick} from '@app/components';
 
 export const UiKit = ({navigation}: any) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleConfirm = (date: Date) => {
+    console.log(date);
+    setIsModalVisible(false);
+  };
+
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic">
+      <AppButton
+        text="Open Modal"
+        size="Medium"
+        themeVariant="dark"
+        onPress={() => setIsModalVisible(true)}
+      />
+
+      {isModalVisible && (
+        <DatePick
+          themeVariant="dark"
+          onPress={date => handleConfirm(date)}
+          onClose={() => setIsModalVisible(false)}
+        />
+      )}
       <View style={styles.container}>
         <AppTab
           themeVariant="dark"

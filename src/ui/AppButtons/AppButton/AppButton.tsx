@@ -1,5 +1,12 @@
 import React, {FC, useEffect, useRef} from 'react';
-import {Pressable, Animated, StyleSheet, Text} from 'react-native';
+import {
+  Pressable,
+  Animated,
+  StyleSheet,
+  Text,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 
 import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgLoading} from '@app/assets/svg';
@@ -13,6 +20,7 @@ type Props = {
   isDisabled?: boolean;
   isDelete?: boolean;
   size: SizeType;
+  styleView?: StyleProp<ViewStyle>;
   themeVariant: keyof typeof THEMES;
   onPress?: () => void;
 };
@@ -23,6 +31,7 @@ export const AppButton: FC<Props> = ({
   isLoading,
   isDisabled,
   isDelete,
+  styleView,
   themeVariant,
   onPress,
 }) => {
@@ -61,6 +70,7 @@ export const AppButton: FC<Props> = ({
       onPress={onPress}
       style={({pressed}) => [
         styles.pressable,
+        styleView,
         SIZE[size],
         stylesThemes.appButton[size],
         isDisabled && !isLoading && stylesThemes.appButton.disabled,

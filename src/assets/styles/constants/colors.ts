@@ -16,4 +16,6 @@ export const COLORS = {
   primary_default_light_mode: '#B8DE64',
   primary_default_dark_mode: '#87b71f',
   primary_pressed_dark_mode: '#618909',
+  color_800: '#E6E4EA',
+  color_801: '#515151',
 };
