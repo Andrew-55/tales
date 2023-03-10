@@ -1,0 +1,1 @@
+export {getColorIconToButton} from './getColorIconToButton';
