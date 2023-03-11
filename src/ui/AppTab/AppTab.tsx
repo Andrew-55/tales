@@ -26,11 +26,11 @@ export const AppTab: FC<Props> = ({themeVariant, onPressNew, onPressTop}) => {
   const getActiveColorText = (active: boolean) => {
     return active
       ? stylesThemes.appTapText.active
-      : stylesThemes.appTapText.inActive;
+      : stylesThemes.appTapText.inactive;
   };
 
   const getActiveColorTab = (active: boolean) => {
-    return active ? stylesThemes.appTap.active : stylesThemes.appTap.inActive;
+    return active ? stylesThemes.appTap.active : stylesThemes.appTap.inactive;
   };
 
   return (

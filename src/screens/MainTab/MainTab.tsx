@@ -11,43 +11,47 @@ import {THEMES} from './themes';
 
 const Tab = createBottomTabNavigator();
 
+enum PAGES {
+  MAIN = 'Main',
+  FAVORITES = 'Favorites',
+  MY_POSTS = 'MyPosts',
+}
+
 export const MainTab = () => {
   const stylesThemes = THEMES.dark;
 
-  const getColorIcon = (focused: boolean) => {
-    return focused
+  const getColorIcon = (isFocused: boolean) => {
+    return isFocused
       ? stylesThemes.mainTab.active
-      : stylesThemes.mainTab.inActive;
+      : stylesThemes.mainTab.inactive;
+  };
+
+  const getTabBarIcon = (name: string, isFocused: boolean) => {
+    switch (name) {
+      case PAGES.MAIN:
+        return <SvgHome color={getColorIcon(isFocused)} />;
+      case PAGES.FAVORITES:
+        return <SvgBookmark color={getColorIcon(isFocused)} />;
+      case PAGES.MY_POSTS:
+        return <SvgPhoto color={getColorIcon(isFocused)} />;
+    }
   };
 
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused}) => {
-          let icon;
-
-          if (route.name === 'Main') {
-            icon = <SvgHome color={getColorIcon(focused)} />;
-          } else if (route.name === 'Favorites') {
-            icon = <SvgBookmark color={getColorIcon(focused)} />;
-          } else if (route.name === 'MyPosts') {
-            icon = <SvgPhoto color={getColorIcon(focused)} />;
-          }
-
-          return icon;
-        },
+        tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
         headerShown: false,
-        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           ...styles.tabBar,
           ...stylesThemes.mainTabs.backgroundColor,
         },
         tabBarActiveTintColor: stylesThemes.mainTab.active,
-        tabBarInactiveTintColor: stylesThemes.mainTab.inActive,
+        tabBarInactiveTintColor: stylesThemes.mainTab.inactive,
       })}>
-      <Tab.Screen name="Main" component={Main} />
-      <Tab.Screen name="Favorites" component={Favorites} />
-      <Tab.Screen name="MyPosts" component={MyPosts} />
+      <Tab.Screen name={PAGES.MAIN} component={Main} />
+      <Tab.Screen name={PAGES.FAVORITES} component={Favorites} />
+      <Tab.Screen name={PAGES.MY_POSTS} component={MyPosts} />
     </Tab.Navigator>
   );
 };

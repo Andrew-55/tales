@@ -9,7 +9,7 @@ export const THEMES = {
     },
     mainTab: {
       active: COLORS.primary_default_light_mode,
-      inActive: COLORS.color_400,
+      inactive: COLORS.color_400,
     },
   },
   light: {
@@ -20,7 +20,7 @@ export const THEMES = {
     },
     mainTab: {
       active: COLORS.primary_default_dark_mode,
-      inActive: COLORS.color_200,
+      inactive: COLORS.color_200,
     },
   },
 };
