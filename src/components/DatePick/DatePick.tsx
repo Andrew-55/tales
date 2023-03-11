@@ -71,8 +71,7 @@ const styles = StyleSheet.create({
     rowGap: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.color_500,
-    opacity: 0.8,
+    backgroundColor: COLORS.color_802,
     blurRadius: 5,
   },
   datePick: {
@@ -81,6 +80,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
     rowGap: 16,
+    opacity: 1,
   },
   wrapButton: {
     width: '100%',

@@ -18,4 +18,5 @@ export const COLORS = {
   primary_pressed_dark_mode: '#618909',
   color_800: '#E6E4EA',
   color_801: '#515151',
+  color_802: 'rgba(48,48,48,0.8)',
 };
