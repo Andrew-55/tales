@@ -9,6 +9,7 @@ type Props = {
   width?: number;
   height?: number;
   isDisabled?: boolean;
+  isActive?: boolean;
   Icon: FC<SvgPropsInterface>;
   themeVariant: keyof typeof THEMES;
   onPress?: () => void;
@@ -20,6 +21,7 @@ export const AppButtonIcon: FC<Props> = ({
   isDisabled,
   themeVariant,
   Icon,
+  isActive,
   onPress,
 }) => {
   const stylesThemes = THEMES[themeVariant];
@@ -31,11 +33,15 @@ export const AppButtonIcon: FC<Props> = ({
           <Icon
             width={width}
             height={height}
-            color={getColorIconToButton(
-              stylesThemes.appButtonIcon,
-              pressed,
-              isDisabled,
-            )}
+            color={
+              isActive
+                ? stylesThemes.appButtonIcon.pressed.color
+                : getColorIconToButton(
+                    stylesThemes.appButtonIcon,
+                    pressed,
+                    isDisabled,
+                  )
+            }
           />
         );
       }}
