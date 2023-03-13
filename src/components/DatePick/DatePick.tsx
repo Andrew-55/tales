@@ -1,9 +1,9 @@
-import {COLORS} from '@app/assets/styles/constants';
 import React, {FC, useState} from 'react';
 import {StyleSheet, View, Modal} from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {AppButton} from '../../ui/AppButtons';
-import {AppText} from '../../ui/AppText';
+
+import {COLORS} from '@app/assets/styles/constants';
+import {AppButton, AppText} from '@app/ui';
 import {THEMES} from './themes';
 
 type Props = {
