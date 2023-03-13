@@ -37,11 +37,14 @@ import {
   AppButtonIconCircle,
   AppButtonIconCircleBlack,
   AppTab,
+  Upload,
 } from '@app/ui';
 import {DatePick} from '@app/components';
 
 export const UiKit = ({navigation}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+  let themeVariant = isDark ? ('dark' as 'dark') : ('light' as 'light');
 
   const handleDatePickConfirm = (date: Date) => {
     console.log(date);
@@ -53,7 +56,7 @@ export const UiKit = ({navigation}: any) => {
       <AppButton
         text="Open Modal"
         size="Medium"
-        themeVariant="dark"
+        themeVariant={themeVariant}
         onPress={() => setIsModalVisible(true)}
       />
 
@@ -66,7 +69,7 @@ export const UiKit = ({navigation}: any) => {
       )}
       <View style={styles.container}>
         <AppTab
-          themeVariant="dark"
+          themeVariant={themeVariant}
           onPressNew={() => {}}
           onPressTop={() => {}}
         />
@@ -76,6 +79,7 @@ export const UiKit = ({navigation}: any) => {
           size="Large"
           onPress={() => navigation.navigate('MainTab')}
         />
+        <Upload themeVariant={themeVariant} />
         <View style={styles.wrapIcons}>
           <AppButtonIconCircle Icon={SvgCamera} themeVariant="dark" />
           <AppButtonIconCircle Icon={SvgCamera} themeVariant="light" />
@@ -103,6 +107,7 @@ export const UiKit = ({navigation}: any) => {
             text="Night theme"
             Icon={SvgMoon}
             themeVariant="light"
+            onPress={() => setIsDark(prev => !prev)}
           />
           <AppButtonIconCircleBlack Icon={SvgXmark} themeVariant="dark" />
           <AppButtonIconCircleBlack Icon={SvgXmark} themeVariant="light" />
