@@ -31,6 +31,7 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
           {`${aboutPost.authorInfo.firstName} ${aboutPost.authorInfo.lastName[0]}.`}
         </AppText>
       </View>
+
       <View style={styles.wrapButtons}>
         <View style={styles.likes}>
           <AppButtonIcon
