@@ -46,7 +46,7 @@ export const UiKit = ({navigation}: any) => {
   const [isDark, setIsDark] = useState(true);
   let themeVariant = isDark ? ('dark' as 'dark') : ('light' as 'light');
 
-  const handleConfirm = (date: Date) => {
+  const handleDatePickConfirm = (date: Date) => {
     console.log(date);
     setIsModalVisible(false);
   };
@@ -62,8 +62,8 @@ export const UiKit = ({navigation}: any) => {
 
       {isModalVisible && (
         <DatePick
-          themeVariant={themeVariant}
-          onPress={date => handleConfirm(date)}
+          themeVariant="dark"
+          onPress={date => handleDatePickConfirm(date)}
           onClose={() => setIsModalVisible(false)}
         />
       )}
