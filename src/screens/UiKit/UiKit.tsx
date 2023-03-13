@@ -39,7 +39,7 @@ import {
   AppTab,
   Upload,
 } from '@app/ui';
-import {DatePick} from '@app/components';
+import {DatePick, CardPost} from '@app/components';
 
 export const UiKit = ({navigation}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -51,23 +51,40 @@ export const UiKit = ({navigation}: any) => {
     setIsModalVisible(false);
   };
 
+  const authorInfo = {
+    avatarUrl:
+      'https://img.joomcdn.net/e2743c4f00221d5e82b693127f7d75c0413852be_original.jpeg',
+    firstName: 'Hanna',
+    lastName: 'King',
+  };
+
+  const post = {
+    id: 'string568567',
+    title: 'Apple love',
+    createdAt: '12.03.2023',
+    likesCount: 137,
+    mediaUrl: 'https://img.freepik.com/free-photo/mountains-lake_1398-1150.jpg',
+    authorInfo: authorInfo,
+  };
+
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic">
-      <AppButton
-        text="Open Modal"
-        size="Medium"
-        themeVariant={themeVariant}
-        onPress={() => setIsModalVisible(true)}
-      />
-
-      {isModalVisible && (
-        <DatePick
-          themeVariant="dark"
-          onPress={date => handleDatePickConfirm(date)}
-          onClose={() => setIsModalVisible(false)}
-        />
-      )}
       <View style={styles.container}>
+        <CardPost post={post} themeVariant={themeVariant} />
+        <AppButton
+          text="Open Modal"
+          size="Medium"
+          themeVariant={themeVariant}
+          onPress={() => setIsModalVisible(true)}
+        />
+
+        {isModalVisible && (
+          <DatePick
+            themeVariant={themeVariant}
+            onPress={date => handleDatePickConfirm(date)}
+            onClose={() => setIsModalVisible(false)}
+          />
+        )}
         <AppTab
           themeVariant={themeVariant}
           onPressNew={() => {}}

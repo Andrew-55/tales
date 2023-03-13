@@ -1,0 +1,1 @@
+export {AboutPost} from './AboutPost';
