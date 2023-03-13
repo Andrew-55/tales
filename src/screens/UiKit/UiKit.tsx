@@ -81,17 +81,37 @@ export const UiKit = ({navigation}: any) => {
           placeholder="Enter your name"
           value="Hanna"
         />
+
         <AppInput
           themeVariant={themeVariant}
           label="Email"
           placeholder="Enter your e-mail"
         />
+
+        <AppInput
+          themeVariant={themeVariant}
+          label="Email"
+          placeholder="Enter your e-mail"
+          value="email@.com"
+          isSuccess
+        />
+
+        <AppInput
+          themeVariant={themeVariant}
+          label="Email"
+          placeholder="Enter your e-mail"
+          value="email@com"
+          isError
+          errorMessage="Enter correct e-mail"
+        />
+
         <AppInput
           themeVariant={themeVariant}
           label="Password"
           placeholder="Enter password"
           isSecureTextEntry
         />
+
         <CardPost post={post} themeVariant={themeVariant} />
         <AppButton
           text="Open Modal"
