@@ -43,7 +43,7 @@ import {DatePick} from '@app/components';
 export const UiKit = ({navigation}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleConfirm = (date: Date) => {
+  const handleDatePickConfirm = (date: Date) => {
     console.log(date);
     setIsModalVisible(false);
   };
@@ -60,7 +60,7 @@ export const UiKit = ({navigation}: any) => {
       {isModalVisible && (
         <DatePick
           themeVariant="dark"
-          onPress={date => handleConfirm(date)}
+          onPress={date => handleDatePickConfirm(date)}
           onClose={() => setIsModalVisible(false)}
         />
       )}
