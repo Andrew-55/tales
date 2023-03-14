@@ -1,8 +1,9 @@
-import * as EmailValidator from 'email-validator';
+import validator from 'validator';
+
 import {ERROR_MESSAGE} from '@app/constants';
 
 export const checkIsEmail = (string: string) => {
-  return EmailValidator.validate(string) ? undefined : ERROR_MESSAGE.email;
+  return validator.isEmail(string) ? undefined : ERROR_MESSAGE.email;
 };
 
 export const checkPasswordLength = (password: string) => {

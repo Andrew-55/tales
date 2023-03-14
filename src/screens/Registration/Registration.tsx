@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   title: {
     marginBottom: 4,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   wrapControllers: {
     rowGap: 16,
-    marginBottom: 144,
+    marginBottom: 70,
   },
   questions: {
     flexDirection: 'row',
