@@ -38,6 +38,7 @@ import {
   AppButtonIconCircleBlack,
   AppTab,
   Upload,
+  AppInput,
 } from '@app/ui';
 import {DatePick, CardPost} from '@app/components';
 
@@ -69,7 +70,48 @@ export const UiKit = ({navigation}: any) => {
 
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic">
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: `${isDark ? '#131313' : '#fff'}`},
+        ]}>
+        <AppInput
+          themeVariant={themeVariant}
+          label="Name"
+          placeholder="Enter your name"
+          value="Hanna"
+        />
+
+        <AppInput
+          themeVariant={themeVariant}
+          label="Email"
+          placeholder="Enter your e-mail"
+        />
+
+        <AppInput
+          themeVariant={themeVariant}
+          label="Email"
+          placeholder="Enter your e-mail"
+          value="email@.com"
+          isSuccess
+        />
+
+        <AppInput
+          themeVariant={themeVariant}
+          label="Email"
+          placeholder="Enter your e-mail"
+          value="email@com"
+          isError
+          errorMessage="Enter correct e-mail"
+        />
+
+        <AppInput
+          themeVariant={themeVariant}
+          label="Password"
+          placeholder="Enter password"
+          isSecureTextEntry
+        />
+
         <CardPost post={post} themeVariant={themeVariant} />
         <AppButton
           text="Open Modal"

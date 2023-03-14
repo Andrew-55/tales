@@ -4,3 +4,5 @@ export {Main} from './Main';
 export {Favorites} from './Favorites';
 export {MyPosts} from './MyPosts';
 export {MainTab} from './MainTab';
+export {Registration} from './Registration';
+export {Login} from './Login';
