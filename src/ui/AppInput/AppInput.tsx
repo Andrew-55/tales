@@ -3,26 +3,23 @@ import {
   View,
   StyleSheet,
   TextInput,
-  ViewStyle,
-  StyleProp,
   Pressable,
+  TextInputProps,
 } from 'react-native';
 import {AppText} from '../AppText';
 import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {THEMES} from './themes';
 import {SvgCheck, SvgEye, SvgEyeSlash} from '@app/assets/svg';
 
-type Props = {
-  isMultiline?: boolean;
+type Props = TextInputProps & {
   isSecureTextEntry?: boolean;
   isDisabled?: boolean;
   isSuccess?: boolean;
   isError?: boolean;
   errorMessage?: string;
-  placeholder?: string;
+  placeholder: string;
   label: string;
   value?: string;
-  styleView?: StyleProp<ViewStyle>;
   themeVariant: keyof typeof THEMES;
 };
 
@@ -34,13 +31,12 @@ export const AppInput: FC<Props> = ({
   isError,
   errorMessage,
   isSecureTextEntry = false,
-  isMultiline = false,
   value = '',
   themeVariant,
+  ...props
 }) => {
-  const [valueInput, setValueInput] = useState(value);
   const [isSecurity, setIsSecurity] = useState(isSecureTextEntry);
-  const hasValue = valueInput.trim().length > 0;
+  const hasValue = value.trim().length > 0;
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -71,12 +67,11 @@ export const AppInput: FC<Props> = ({
         <TextInput
           style={[styles.input, getColorInput()]}
           editable={!isDisabled}
-          onChangeText={setValueInput}
-          multiline={isMultiline}
-          value={valueInput}
+          value={value}
           placeholder={placeholder}
           secureTextEntry={isSecurity}
           placeholderTextColor={stylesThemes.appInputPlaceholderColor}
+          {...props}
         />
 
         <View style={styles.wrapSvg}>

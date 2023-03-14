@@ -19,4 +19,5 @@ export const COLORS = {
   color_800: '#E6E4EA',
   color_801: '#515151',
   color_802: 'rgba(48,48,48,0.8)',
+  transparent: 'rgba(0, 0, 0, 0)',
 };
