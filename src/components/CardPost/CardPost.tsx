@@ -10,7 +10,7 @@ export type AuthorInfoType = {
   lastName: string;
 };
 
-type PostType = {
+export type PostType = {
   id: string;
   title: string;
   createdAt: string;
