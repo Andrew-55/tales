@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Theme} from '@app/../App';
 
 import {Main} from '../Main';
 import {Favorites} from '../Favorites';
@@ -9,6 +8,7 @@ import {MyPosts} from '../MyPosts';
 import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgBookmark, SvgHome, SvgPhoto} from '@app/assets/svg';
 import {THEMES} from './themes';
+import {Theme} from '@app/components';
 
 const Tab = createBottomTabNavigator();
 

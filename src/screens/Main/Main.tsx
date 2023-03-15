@@ -1,10 +1,9 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Pressable, FlatList, Modal} from 'react-native';
-import {Theme} from '@app/../App';
-import {AvatarMenu, CardPost} from '@app/components';
+import {AvatarMenu, CardPost, Theme} from '@app/components';
 import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
-import {posts} from './mockDate';
+import {MOCK_POSTS} from './mockDate';
 
 export const Main = () => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
@@ -13,6 +12,7 @@ export const Main = () => {
   const lastName = 'Moor';
   const avatarUrl =
     'https://virtus-img.cdnvideo.ru/images/material-card/plain/a8/a80fda76-c804-4fc9-9bb5-34d7e18b69be.webp';
+  const posts = [...MOCK_POSTS];
 
   const stylesThemes = THEMES[themeVariant];
 

@@ -1,4 +1,4 @@
-export const posts = [
+export const MOCK_POSTS = [
   {
     id: 'string568566',
     title: 'Apple love',

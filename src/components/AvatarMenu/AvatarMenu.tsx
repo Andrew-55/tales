@@ -9,7 +9,7 @@ import {
   SvgUser,
 } from '@app/assets/svg';
 import {COLORS} from '@app/assets/styles/constants';
-import {Theme} from '@app/../App';
+import {Theme, THEME_VARIANT} from '@app/components';
 
 export type AuthorInfoType = {
   avatarUrl: string;
@@ -23,8 +23,9 @@ type Props = {
 };
 
 export const AvatarMenu: FC<Props> = ({author, onClose}) => {
-  const {themeVariant, handleChangeTheme} = useContext(Theme);
-  const isDarkThemeVariant = themeVariant === 'dark';
+  const {themeVariant, isDarkThemeVariant, handleChangeTheme} =
+    useContext(Theme);
+
   const {avatarUrl, firstName, lastName} = author;
   const stylesThemes = THEMES[themeVariant];
 
@@ -69,14 +70,14 @@ export const AvatarMenu: FC<Props> = ({author, onClose}) => {
             Icon={SvgSun}
             text="Light theme"
             themeVariant={themeVariant}
-            onPress={() => handleChangeTheme('light')}
+            onPress={() => handleChangeTheme(THEME_VARIANT.LIGHT)}
           />
         ) : (
           <AppButtonIconText
             Icon={SvgMoon}
             text="Night theme"
             themeVariant={themeVariant}
-            onPress={() => handleChangeTheme('dark')}
+            onPress={() => handleChangeTheme(THEME_VARIANT.DARK)}
           />
         )}
       </View>
