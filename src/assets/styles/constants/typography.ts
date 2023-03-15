@@ -29,7 +29,8 @@ export type TextVariants =
   | 'Body_3_Medium_14'
   | 'Body_4_Regular_18'
   | 'Body_5_Regular_16'
-  | 'Body_6_Regular_14';
+  | 'Body_6_Regular_14'
+  | 'Title_4_Semibold_20';
 
 export const TYPOGRAPHY: Record<TextVariants, TypographyValueType> = {
   Title_1_Regular_55: {
@@ -48,6 +49,12 @@ export const TYPOGRAPHY: Record<TextVariants, TypographyValueType> = {
     fontFamily: 'Outfit-SemiBold',
     fontSize: 32,
     lineHeight: 40,
+    fontWeight: '600',
+  },
+  Title_4_Semibold_20: {
+    fontFamily: 'Outfit-SemiBold',
+    fontSize: 20,
+    lineHeight: 25,
     fontWeight: '600',
   },
   Headline_1_Semibold_18: {

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Theme} from '@app/../App';
 
 import {Main} from '../Main';
 import {Favorites} from '../Favorites';
@@ -18,7 +19,8 @@ enum PAGES {
 }
 
 export const MainTab = () => {
-  const stylesThemes = THEMES.dark;
+  const {themeVariant} = useContext(Theme);
+  const stylesThemes = THEMES[themeVariant];
 
   const getColorIcon = (isFocused: boolean) => {
     return isFocused

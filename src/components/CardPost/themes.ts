@@ -10,7 +10,7 @@ export const THEMES = {
   },
   light: {
     post: {
-      backgroundColor: COLORS.color_100,
+      backgroundColor: COLORS.color_150,
     },
     postTitle: {color: COLORS.color_700},
     postText: {color: COLORS.color_300},

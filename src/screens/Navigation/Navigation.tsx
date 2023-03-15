@@ -10,6 +10,11 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          name="MainTab"
+          component={MainTab}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="Login"
           component={Login}
           options={{headerShown: false}}
@@ -20,11 +25,6 @@ export const Navigation = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen name="UiKit" component={UiKit} />
-        <Stack.Screen
-          name="MainTab"
-          component={MainTab}
-          options={{headerShown: false}}
-        />
         <Stack.Screen name="MyPost" component={MyPosts} />
       </Stack.Navigator>
     </NavigationContainer>
