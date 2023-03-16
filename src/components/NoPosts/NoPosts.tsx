@@ -38,11 +38,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     transform: [{rotate: '-3.22deg'}],
   },
-  wrapDescription: {
-    width: 210,
-  },
   description: {
-    width: 210,
     textAlign: 'center',
     letterSpacing: 0.5,
   },

@@ -6,7 +6,7 @@ import {AvatarMenu, CardPost, NoPosts, Theme} from '@app/components';
 import {THEMES} from './themes';
 import {PostType} from '@app/components/CardPost';
 
-export const Favorites = () => {
+export const Favorites = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
@@ -17,6 +17,10 @@ export const Favorites = () => {
   const lastName = 'Moor';
   const avatarUrl =
     'https://virtus-img.cdnvideo.ru/images/material-card/plain/a8/a80fda76-c804-4fc9-9bb5-34d7e18b69be.webp';
+
+  const handleOpenPost = (id: string) => {
+    navigation.navigate('Post', {id: id});
+  };
 
   return (
     <View style={[styles.container, stylesThemes.favorites]}>
@@ -47,7 +51,11 @@ export const Favorites = () => {
           data={favoritePosts}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <CardPost post={item} themeVariant={themeVariant} />
+            <CardPost
+              post={item}
+              themeVariant={themeVariant}
+              onOpenPost={handleOpenPost}
+            />
           )}
         />
       ) : (
@@ -77,6 +85,8 @@ const styles = StyleSheet.create({
   wrap: {
     position: 'relative',
     top: '25%',
+    width: 220,
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },

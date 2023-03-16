@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {AboutPost} from '../AboutPost';
@@ -22,10 +22,11 @@ export type PostType = {
 
 type Props = {
   post: PostType;
+  onOpenPost: (id: string) => void;
   themeVariant: keyof typeof THEMES;
 };
 
-export const CardPost: FC<Props> = ({post, themeVariant}) => {
+export const CardPost: FC<Props> = ({post, themeVariant, onOpenPost}) => {
   const stylesThemes = THEMES[themeVariant];
 
   const aboutPost = {
@@ -46,11 +47,13 @@ export const CardPost: FC<Props> = ({post, themeVariant}) => {
           {post.createdAt}
         </AppText>
       </View>
-      <Image
-        source={{uri: post.mediaUrl, width: 500, height: 400}}
-        resizeMethod="auto"
-        style={styles.image}
-      />
+      <Pressable onLongPress={() => onOpenPost(post.id)}>
+        <Image
+          source={{uri: post.mediaUrl, width: 500, height: 400}}
+          resizeMethod="auto"
+          style={styles.image}
+        />
+      </Pressable>
       <AboutPost aboutPost={aboutPost} themeVariant={themeVariant} />
     </View>
   );

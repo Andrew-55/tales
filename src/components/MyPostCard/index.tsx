@@ -1,0 +1,1 @@
+export {MyPostCard} from './MyPostCard';

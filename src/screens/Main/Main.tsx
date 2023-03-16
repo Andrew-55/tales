@@ -5,7 +5,7 @@ import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {MOCK_POSTS} from './mockDate';
 
-export const Main = () => {
+export const Main = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {themeVariant} = useContext(Theme);
   const firstName = 'John';
@@ -18,6 +18,10 @@ export const Main = () => {
 
   const handlePressNew = () => {};
   const handlePressTop = () => {};
+
+  const handleOpenPost = (id: string) => {
+    navigation.navigate('Post', {id: id});
+  };
 
   return (
     <View style={[styles.container, stylesThemes.main]}>
@@ -53,7 +57,11 @@ export const Main = () => {
         data={posts}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <CardPost post={item} themeVariant={themeVariant} />
+          <CardPost
+            post={item}
+            themeVariant={themeVariant}
+            onOpenPost={handleOpenPost}
+          />
         )}
       />
     </View>
