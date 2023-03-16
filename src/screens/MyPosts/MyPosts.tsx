@@ -88,6 +88,7 @@ export const MyPosts = ({navigation}: any) => {
         <AvatarMenu
           author={{avatarUrl, firstName, lastName}}
           onClose={() => setIsAvatarMenuVisible(false)}
+          navigation={navigation}
         />
       </Modal>
     </View>

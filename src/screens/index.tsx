@@ -8,3 +8,4 @@ export {Registration} from './Registration';
 export {Login} from './Login';
 export {CreatePost} from './CreatePost';
 export {Post} from './Post';
+export {Profile} from './Profile';
