@@ -6,13 +6,14 @@ import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {SvgLoading} from '@app/assets/svg';
 import {THEMES} from './themes';
 import {getColorIconToButton} from '@app/lib';
+import {ThemeVariantType} from '@app/components';
 
 type Props = {
   text: string;
   isLoading?: boolean;
   isDisabled?: boolean;
   Icon: FC<SvgPropsInterface>;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
   onPress?: () => void;
 };
 

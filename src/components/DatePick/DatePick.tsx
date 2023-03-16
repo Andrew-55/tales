@@ -5,9 +5,10 @@ import DatePicker from 'react-native-date-picker';
 import {COLORS} from '@app/assets/styles/constants';
 import {AppButton, AppText} from '@app/ui';
 import {THEMES} from './themes';
+import {ThemeVariantType} from '@app/components';
 
 type Props = {
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
   onPress: (date: Date) => void;
   onClose: () => void;
 };

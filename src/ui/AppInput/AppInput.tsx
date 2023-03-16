@@ -10,6 +10,7 @@ import {AppText} from '../AppText';
 import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {THEMES} from './themes';
 import {SvgCheck, SvgEye, SvgEyeSlash} from '@app/assets/svg';
+import {ThemeVariantType} from '@app/components';
 
 type Props = TextInputProps & {
   isSecureTextEntry?: boolean;
@@ -20,7 +21,7 @@ type Props = TextInputProps & {
   placeholder: string;
   label: string;
   value?: string;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
 };
 
 export const AppInput: FC<Props> = ({

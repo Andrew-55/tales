@@ -5,6 +5,8 @@ export enum THEME_VARIANT {
   LIGHT = 'light',
 }
 
+export type ThemeVariantType = THEME_VARIANT;
+
 export const Theme = createContext({
   themeVariant: THEME_VARIANT.DARK,
   isDarkThemeVariant: true,

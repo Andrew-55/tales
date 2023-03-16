@@ -25,7 +25,7 @@ export const AppButtonDelete: FC<Props> = ({isDisabled, onPress}) => {
 
 const styles = StyleSheet.create({
   pressable: {
-    height: 364,
+    height: 360,
     alignSelf: 'flex-start',
     paddingRight: 16,
     paddingLeft: 16,

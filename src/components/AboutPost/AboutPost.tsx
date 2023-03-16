@@ -4,6 +4,7 @@ import {AppButtonIcon, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {SvgHeart, SvgShare} from '@app/assets/svg';
 import {AuthorInfoType} from '../CardPost/CardPost';
+import {ThemeVariantType} from '@app/components';
 
 type PostType = {
   isLiked?: boolean;
@@ -13,7 +14,7 @@ type PostType = {
 
 type Props = {
   aboutPost: PostType;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
 };
 
 export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {

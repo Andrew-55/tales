@@ -3,11 +3,12 @@ import {Pressable, StyleSheet, Text} from 'react-native';
 
 import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {THEMES} from './themes';
+import {ThemeVariantType} from '@app/components';
 
 type Props = {
   text: string;
   isDisabled?: boolean;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
   onPress?: () => void;
 };
 

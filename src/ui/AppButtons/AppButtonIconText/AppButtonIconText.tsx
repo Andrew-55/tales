@@ -5,12 +5,13 @@ import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgPropsInterface} from '@app/assets/svg/SvgPropsInterface';
 import {THEMES} from './themes';
 import {getColorIconToButton} from '@app/lib';
+import {ThemeVariantType} from '@app/components';
 
 type Props = {
   text: string;
   isDisabled?: boolean;
   Icon: FC<SvgPropsInterface>;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
   onPress?: () => void;
 };
 
