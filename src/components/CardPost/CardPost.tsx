@@ -3,6 +3,7 @@ import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {AboutPost} from '../AboutPost';
+import {ThemeVariantType} from '@app/components';
 
 export type AuthorInfoType = {
   avatarUrl: string;
@@ -23,7 +24,7 @@ export type PostType = {
 type Props = {
   post: PostType;
   onOpenPost: (id: string) => void;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
 };
 
 export const CardPost: FC<Props> = ({post, themeVariant, onOpenPost}) => {

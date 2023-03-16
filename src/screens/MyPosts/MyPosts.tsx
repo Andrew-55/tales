@@ -35,17 +35,6 @@ export const MyPosts = ({navigation}: any) => {
 
   return (
     <View style={[styles.container, stylesThemes.myPosts]}>
-      <Modal
-        visible={isAvatarMenuVisible}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent>
-        <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
-          onClose={() => setIsAvatarMenuVisible(false)}
-        />
-      </Modal>
-
       <View style={styles.header}>
         <AppText
           variant="Title_2_Medium_32"
@@ -90,6 +79,17 @@ export const MyPosts = ({navigation}: any) => {
           onPress={handleAddPost}
         />
       </View>
+
+      <Modal
+        visible={isAvatarMenuVisible}
+        transparent={true}
+        animationType="fade"
+        statusBarTranslucent>
+        <AvatarMenu
+          author={{avatarUrl, firstName, lastName}}
+          onClose={() => setIsAvatarMenuVisible(false)}
+        />
+      </Modal>
     </View>
   );
 };

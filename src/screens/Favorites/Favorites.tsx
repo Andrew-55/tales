@@ -24,17 +24,6 @@ export const Favorites = ({navigation}: any) => {
 
   return (
     <View style={[styles.container, stylesThemes.favorites]}>
-      <Modal
-        visible={isAvatarMenuVisible}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent>
-        <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
-          onClose={() => setIsAvatarMenuVisible(false)}
-        />
-      </Modal>
-
       <View style={styles.header}>
         <AppText
           variant="Title_2_Medium_32"
@@ -66,6 +55,17 @@ export const Favorites = ({navigation}: any) => {
           />
         </View>
       )}
+
+      <Modal
+        visible={isAvatarMenuVisible}
+        transparent={true}
+        animationType="fade"
+        statusBarTranslucent>
+        <AvatarMenu
+          author={{avatarUrl, firstName, lastName}}
+          onClose={() => setIsAvatarMenuVisible(false)}
+        />
+      </Modal>
     </View>
   );
 };

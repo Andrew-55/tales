@@ -3,10 +3,11 @@ import {View, StyleSheet} from 'react-native';
 
 import {AppText} from '@app/ui';
 import {THEMES} from './themes';
+import {ThemeVariantType} from '@app/components';
 
 type Props = {
   message: string;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
 };
 
 export const NoPosts: FC<Props> = ({message, themeVariant}) => {
@@ -14,7 +15,7 @@ export const NoPosts: FC<Props> = ({message, themeVariant}) => {
 
   return (
     <>
-      <View style={[styles.ups, stylesThemes.noPostsUps]}>
+      <View style={[styles.title, stylesThemes.noPostsUps]}>
         <AppText
           variant="Title_1_Regular_55"
           style={stylesThemes.noPostsUpsText}>
@@ -32,7 +33,7 @@ export const NoPosts: FC<Props> = ({message, themeVariant}) => {
 };
 
 const styles = StyleSheet.create({
-  ups: {
+  title: {
     paddingVertical: 12,
     paddingHorizontal: 20,
     marginBottom: 24,

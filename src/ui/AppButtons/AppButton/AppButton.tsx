@@ -11,6 +11,7 @@ import {
 import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgLoading} from '@app/assets/svg';
 import {THEMES} from './themes';
+import {ThemeVariantType} from '@app/components';
 
 type SizeType = keyof typeof SIZE;
 
@@ -21,7 +22,7 @@ type Props = {
   isDelete?: boolean;
   size: SizeType;
   styleView?: StyleProp<ViewStyle>;
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
   onPress?: () => void;
 };
 

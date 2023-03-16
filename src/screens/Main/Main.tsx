@@ -25,17 +25,6 @@ export const Main = ({navigation}: any) => {
 
   return (
     <View style={[styles.container, stylesThemes.main]}>
-      <Modal
-        visible={isAvatarMenuVisible}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent>
-        <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
-          onClose={() => setIsAvatarMenuVisible(false)}
-        />
-      </Modal>
-
       <View style={styles.header}>
         <AppText variant="Title_2_Medium_32" style={stylesThemes.mainText}>
           {`Hello ${firstName}!`}
@@ -64,6 +53,17 @@ export const Main = ({navigation}: any) => {
           />
         )}
       />
+
+      <Modal
+        visible={isAvatarMenuVisible}
+        transparent={true}
+        animationType="fade"
+        statusBarTranslucent>
+        <AvatarMenu
+          author={{avatarUrl, firstName, lastName}}
+          onClose={() => setIsAvatarMenuVisible(false)}
+        />
+      </Modal>
     </View>
   );
 };

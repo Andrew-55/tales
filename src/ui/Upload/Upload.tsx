@@ -4,9 +4,10 @@ import {Pressable, StyleSheet} from 'react-native';
 import {THEMES} from './themes';
 import {AppText} from '../AppText';
 import {SvgCloudArrowUp} from '@app/assets/svg';
+import {ThemeVariantType} from '@app/components';
 
 type Props = {
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
   onPress?: () => void;
 };
 

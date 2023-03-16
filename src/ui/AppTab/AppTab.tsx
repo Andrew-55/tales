@@ -3,9 +3,10 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 import {TYPOGRAPHY} from '@app/assets/styles/constants';
 import {THEMES} from './themes';
+import {ThemeVariantType} from '@app/components';
 
 type Props = {
-  themeVariant: keyof typeof THEMES;
+  themeVariant: ThemeVariantType;
   onPressNew: () => void;
   onPressTop: () => void;
 };
