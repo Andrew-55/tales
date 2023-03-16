@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -8,6 +8,7 @@ import {MyPosts} from '../MyPosts';
 import {COLORS, TYPOGRAPHY} from '@app/assets/styles/constants';
 import {SvgBookmark, SvgHome, SvgPhoto} from '@app/assets/svg';
 import {THEMES} from './themes';
+import {Theme} from '@app/components';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +19,8 @@ enum PAGES {
 }
 
 export const MainTab = () => {
-  const stylesThemes = THEMES.dark;
+  const {themeVariant} = useContext(Theme);
+  const stylesThemes = THEMES[themeVariant];
 
   const getColorIcon = (isFocused: boolean) => {
     return isFocused

@@ -1,17 +1,15 @@
 import React from 'react';
-import {StatusBar} from 'react-native';
 import {Navigation} from '@app/screens/Navigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {StatusBarComponent, ThemeProvider} from '@app/components';
 
 function App(): JSX.Element {
   return (
     <SafeAreaProvider>
-      <StatusBar
-        animated={true}
-        backgroundColor="transparent"
-        translucent={true}
-      />
-      <Navigation />
+      <ThemeProvider>
+        <StatusBarComponent />
+        <Navigation />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

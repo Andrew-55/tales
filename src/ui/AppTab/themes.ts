@@ -18,7 +18,7 @@ export const THEMES = {
     },
     appTapText: {
       active: {color: COLORS.color_700},
-      inactive: {color: COLORS.color_100},
+      inactive: {color: COLORS.color_700},
     },
   },
 };

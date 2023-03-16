@@ -9,6 +9,7 @@ import {checkIsEmail, checkPasswordLength} from '@app/lib';
 type RegistrationFormType = {
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
 export const Registration = ({navigation}: any) => {
@@ -40,8 +41,9 @@ export const Registration = ({navigation}: any) => {
   const onSubmit: SubmitHandler<RegistrationFormType> = ({
     email,
     password,
+    confirmPassword,
   }: RegistrationFormType) => {
-    console.warn(email, password);
+    console.warn(email, password, confirmPassword);
     navigation.navigate('MainTab');
   };
 
