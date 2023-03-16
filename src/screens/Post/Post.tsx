@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 import {AppButtonIcon, AppText} from '@app/ui';
 import {THEMES} from './themes';
@@ -25,9 +24,8 @@ export type PostType = {
   authorInfo: AuthorInfoType;
 };
 
-export const Post = ({route}: any) => {
+export const Post = ({navigation, route}: any) => {
   const id = route.params.id;
-  const navigation = useNavigation();
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
   const post = [...MOCK_POSTS].find(item => item.id === id);

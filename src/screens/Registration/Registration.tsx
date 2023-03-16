@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {AppButton, AppButtonText, AppInput, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, checkPasswordLength} from '@app/lib';
+import {Theme} from '@app/components';
 
 type RegistrationFormType = {
   email: string;
@@ -13,7 +14,7 @@ type RegistrationFormType = {
 };
 
 export const Registration = ({navigation}: any) => {
-  let themeVariant = 'dark' as 'dark';
+  const {themeVariant} = useContext(Theme);
 
   const stylesThemes = THEMES[themeVariant];
 
