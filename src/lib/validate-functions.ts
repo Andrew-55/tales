@@ -9,3 +9,7 @@ export const checkIsEmail = (string: string) => {
 export const checkPasswordLength = (password: string) => {
   return password.length >= 5 ? undefined : ERROR_MESSAGE.passwordLength;
 };
+
+export const checkStringIsEmpty = (string: string) => {
+  return string.trim().length ? undefined : ERROR_MESSAGE.required;
+};

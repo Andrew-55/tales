@@ -36,7 +36,11 @@ export const Navigation = () => {
           component={Post}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="CreatePost" component={CreatePost} />
+        <Stack.Screen
+          name="CreatePost"
+          component={CreatePost}
+          options={{headerShown: false}}
+        />
         <Stack.Screen name="UiKit" component={UiKit} />
       </Stack.Navigator>
     </NavigationContainer>
