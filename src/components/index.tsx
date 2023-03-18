@@ -6,3 +6,5 @@ export {StatusBarComponent} from './StatusBarComponent';
 export * from './ThemeProvider';
 export {NoPosts} from './NoPosts';
 export {MyPostCard} from './MyPostCard';
+export {AddAvatar} from './AddAvatar';
+export {GenderPick} from './GenderPick';

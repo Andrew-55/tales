@@ -1,63 +1,64 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {StyleSheet, View, Modal} from 'react-native';
-import DatePicker from 'react-native-date-picker';
 
 import {COLORS} from '@app/assets/styles/constants';
-import {AppButton, AppText} from '@app/ui';
+import {AppButton} from '@app/ui';
 import {THEMES} from './themes';
 import {ThemeVariantType} from '@app/components';
 
 type Props = {
   themeVariant: ThemeVariantType;
-  onPress: (date: Date) => void;
   onClose: () => void;
+  onPressTakePhoto: () => void;
+  onPressDeletePhoto: () => void;
+  onPressChoosePhoto: () => void;
 };
 
-export const DatePick: FC<Props> = ({themeVariant, onPress, onClose}) => {
-  const [date, setDate] = useState(new Date());
-
+export const AddAvatar: FC<Props> = ({
+  themeVariant,
+  onPressTakePhoto,
+  onPressChoosePhoto,
+  onPressDeletePhoto,
+  onClose,
+}) => {
   const stylesThemes = THEMES[themeVariant];
-
-  const handleConfirm = () => {
-    onPress(date);
-    onClose();
-  };
 
   return (
     <Modal transparent={true} animationType="fade" onRequestClose={onClose}>
       <View style={[styles.container]}>
-        <View style={[styles.datePick, stylesThemes.datePick]}>
-          <AppText
-            variant="Body_2_Medium_16"
-            style={{color: stylesThemes.datePickText}}>
-            Pick the date of your birth
-          </AppText>
-          <View style={[styles.line, stylesThemes.datePickTitleLine]} />
-          <DatePicker
-            date={date}
-            onDateChange={setDate}
-            mode="date"
-            textColor={stylesThemes.datePickText}
-            fadeToColor={stylesThemes.datePick.backgroundColor}
-            locale="en"
+        <View style={[styles.wrapButton]}>
+          <AppButton
+            text="Take a photo"
+            size="Medium"
+            themeVariant={themeVariant}
+            onPress={onPressTakePhoto}
+            styleView={styles.buttonTake}
+          />
+          <View style={[styles.line, stylesThemes.addAvatarTitleLine]} />
+          <AppButton
+            text="Choose from the library"
+            size="Medium"
+            themeVariant={themeVariant}
+            onPress={onPressChoosePhoto}
+            styleView={styles.buttonChoose}
+          />
+          <View style={[styles.line, stylesThemes.addAvatarTitleLine]} />
+          <AppButton
+            text="Delete photo"
+            size="Medium"
+            themeVariant={themeVariant}
+            onPress={onPressDeletePhoto}
+            styleView={styles.buttonDelete}
+            isDelete
           />
         </View>
         <View style={[styles.wrapButton]}>
-          <AppButton
-            text="Confirm"
-            size="Medium"
-            themeVariant={themeVariant}
-            onPress={handleConfirm}
-            styleView={styles.buttonConfirm}
-          />
-          <View style={[styles.line, stylesThemes.datePickTitleLine]} />
           <AppButton
             text="Cancel"
             size="Medium"
             themeVariant={themeVariant}
             onPress={onClose}
             styleView={styles.buttonCancel}
-            isDelete
           />
         </View>
       </View>
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     padding: 8,
     rowGap: 8,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     backgroundColor: COLORS.color_802,
     blurRadius: 5,
   },
@@ -82,20 +83,26 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
     rowGap: 16,
-    opacity: 1,
   },
   wrapButton: {
     width: '100%',
   },
-  buttonConfirm: {
+  buttonTake: {
     borderRadius: 0,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
-  buttonCancel: {
+  buttonChoose: {
+    borderRadius: 0,
+  },
+  buttonDelete: {
     borderRadius: 0,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
+  },
+  buttonCancel: {
+    borderRadius: 16,
+    marginBottom: 10,
   },
   line: {
     width: '100%',

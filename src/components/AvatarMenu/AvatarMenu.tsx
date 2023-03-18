@@ -31,6 +31,11 @@ export const AvatarMenu: FC<Props> = ({author, onClose, navigation}) => {
   const {avatarUrl, firstName, lastName} = author;
   const stylesThemes = THEMES[themeVariant];
 
+  const handlePressProfile = () => {
+    onClose();
+    navigation.navigate('Profile');
+  };
+
   return (
     <View style={styles.avatarMenu}>
       <View style={[styles.avatarMenuContent, stylesThemes.avatarMenu]}>
@@ -55,7 +60,7 @@ export const AvatarMenu: FC<Props> = ({author, onClose, navigation}) => {
                 Icon={SvgUser}
                 text="Profile"
                 themeVariant={themeVariant}
-                onPress={() => navigation.navigate('Profile')}
+                onPress={handlePressProfile}
               />
               <AppButtonIconText
                 Icon={SvgArrowRightOnRectangle}
