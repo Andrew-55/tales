@@ -4,8 +4,10 @@ import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {AppButton, AppButtonText, AppInput, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE} from '@app/constants';
-import {checkIsEmail} from '@app/lib';
+import {checkIsEmail, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
+import {useMutation} from '@apollo/client';
+import {LOGIN} from '@app/services';
 
 type LoginFormType = {
   email: string;
@@ -14,6 +16,9 @@ type LoginFormType = {
 
 export const Login = ({navigation}: any) => {
   const {themeVariant} = useContext(Theme);
+  const [login, {error, data}] = useMutation(LOGIN, {
+    variables: {email: 'tap@gmail.com', password: '"Qwerty12"'},
+  });
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -37,12 +42,19 @@ export const Login = ({navigation}: any) => {
     };
   }, [reset]);
 
+  const handleLogin = async ({email, password}: LoginFormType) => {
+    console.log(email, password);
+
+    const tokenT = '';
+    await setTokenStore(tokenT);
+    navigation.navigate('MainTab');
+  };
+
   const onSubmit: SubmitHandler<LoginFormType> = ({
     email,
     password,
   }: LoginFormType) => {
-    console.warn(email, password);
-    navigation.navigate('MainTab');
+    handleLogin({email, password});
   };
 
   return (

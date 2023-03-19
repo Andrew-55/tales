@@ -10,5 +10,14 @@ module.exports = {
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
       },
     ],
+    [
+      'module:react-native-dotenv',
+      {
+        envName: 'APP_ENV',
+        moduleName: 'react-native-dotenv',
+        path: '.env',
+        allowUndefined: false,
+      },
+    ],
   ],
 };

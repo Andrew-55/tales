@@ -4,14 +4,18 @@ import {AvatarMenu, CardPost, Theme} from '@app/components';
 import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {MOCK_POSTS} from './mockDate';
+import {useQuery} from '@apollo/client';
+import {USER_ME} from '@app/services/requests';
 
 export const Main = ({navigation}: any) => {
+  const {error, data} = useQuery(USER_ME);
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {themeVariant} = useContext(Theme);
-  const firstName = 'John';
-  const lastName = 'Moor';
-  const avatarUrl =
-    'https://virtus-img.cdnvideo.ru/images/material-card/plain/a8/a80fda76-c804-4fc9-9bb5-34d7e18b69be.webp';
+
+  const firstName = data?.firstName ? data.firstName : '';
+  const lastName = data?.lastName ? data.firstName : '';
+  const avatarUrl = data?.avatarUrl ? data.avatarUrl : '';
+
   const posts = [...MOCK_POSTS];
 
   const stylesThemes = THEMES[themeVariant];
@@ -22,6 +26,14 @@ export const Main = ({navigation}: any) => {
   const handleOpenPost = (id: string) => {
     navigation.navigate('Post', {id: id});
   };
+
+  if (data) {
+    console.log(data.userMe);
+  }
+
+  if (error) {
+    console.log(JSON.stringify(error, null, 2));
+  }
 
   return (
     <View style={[styles.container, stylesThemes.main]}>

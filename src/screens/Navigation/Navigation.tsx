@@ -24,11 +24,6 @@ export const Navigation = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="MainTab"
-          component={MainTab}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="Login"
           component={Login}
           options={{headerShown: false}}
@@ -36,6 +31,11 @@ export const Navigation = () => {
         <Stack.Screen
           name="Registration"
           component={Registration}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MainTab"
+          component={MainTab}
           options={{headerShown: false}}
         />
         <Stack.Screen
