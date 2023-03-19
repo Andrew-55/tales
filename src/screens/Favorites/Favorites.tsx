@@ -64,6 +64,7 @@ export const Favorites = ({navigation}: any) => {
         <AvatarMenu
           author={{avatarUrl, firstName, lastName}}
           onClose={() => setIsAvatarMenuVisible(false)}
+          navigation={navigation}
         />
       </Modal>
     </View>

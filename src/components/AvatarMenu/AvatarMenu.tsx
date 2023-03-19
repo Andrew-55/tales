@@ -1,5 +1,6 @@
 import React, {FC, useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
+
 import {AppButtonIconText, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {
@@ -20,14 +21,20 @@ export type AuthorInfoType = {
 type Props = {
   author: AuthorInfoType;
   onClose: () => void;
+  navigation: any;
 };
 
-export const AvatarMenu: FC<Props> = ({author, onClose}) => {
+export const AvatarMenu: FC<Props> = ({author, onClose, navigation}) => {
   const {themeVariant, isDarkThemeVariant, handleChangeTheme} =
     useContext(Theme);
 
   const {avatarUrl, firstName, lastName} = author;
   const stylesThemes = THEMES[themeVariant];
+
+  const handlePressProfile = () => {
+    onClose();
+    navigation.navigate('Profile');
+  };
 
   return (
     <View style={styles.avatarMenu}>
@@ -53,7 +60,7 @@ export const AvatarMenu: FC<Props> = ({author, onClose}) => {
                 Icon={SvgUser}
                 text="Profile"
                 themeVariant={themeVariant}
-                onPress={() => {}}
+                onPress={handlePressProfile}
               />
               <AppButtonIconText
                 Icon={SvgArrowRightOnRectangle}

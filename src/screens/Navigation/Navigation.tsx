@@ -8,6 +8,7 @@ import {
   Login,
   CreatePost,
   Post,
+  Profile,
 } from '@app/screens';
 
 const Stack = createNativeStackNavigator();
@@ -39,6 +40,11 @@ export const Navigation = () => {
         <Stack.Screen
           name="CreatePost"
           component={CreatePost}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
           options={{headerShown: false}}
         />
         <Stack.Screen name="UiKit" component={UiKit} />
