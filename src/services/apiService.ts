@@ -9,12 +9,11 @@ const httpLink = createHttpLink({
 
 const authLink = setContext(async (_, {headers}) => {
   const token = await getTokenStore();
-  console.log('getStore ' + token);
 
   return {
     headers: {
       ...headers,
-      authorization: `Bearer ${token}`,
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });

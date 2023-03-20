@@ -7,7 +7,7 @@ import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
 import {useMutation} from '@apollo/client';
-import {LOGIN} from '@app/services';
+import {LOGIN, UserSignInResponseType} from '@app/services';
 
 type LoginFormType = {
   email: string;
@@ -16,9 +16,7 @@ type LoginFormType = {
 
 export const Login = ({navigation}: any) => {
   const {themeVariant} = useContext(Theme);
-  const [login, {error, data}] = useMutation(LOGIN, {
-    variables: {email: 'tap@gmail.com', password: '"Qwerty12"'},
-  });
+  const [login, {error, data}] = useMutation<UserSignInResponseType>(LOGIN);
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -45,9 +43,20 @@ export const Login = ({navigation}: any) => {
   const handleLogin = async ({email, password}: LoginFormType) => {
     console.log(email, password);
 
-    const tokenT = '';
-    await setTokenStore(tokenT);
-    navigation.navigate('MainTab');
+    await login({
+      variables: {input: {email, password}},
+    });
+
+    if (error) {
+      console.log(JSON.stringify(error));
+    }
+
+    console.log('login start ' + data?.userSignIn.token);
+
+    if (data?.userSignIn.token) {
+      await setTokenStore(data.userSignIn.token);
+      navigation.navigate('MainTab');
+    }
   };
 
   const onSubmit: SubmitHandler<LoginFormType> = ({

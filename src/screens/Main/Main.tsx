@@ -5,16 +5,26 @@ import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {MOCK_POSTS} from './mockDate';
 import {useQuery} from '@apollo/client';
-import {USER_ME} from '@app/services/requests';
+import {UserType, USER_ME} from '@app/services';
 
 export const Main = ({navigation}: any) => {
-  const {error, data} = useQuery(USER_ME);
+  const {error, data: userData} = useQuery<UserType>(USER_ME);
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {themeVariant} = useContext(Theme);
 
-  const firstName = data?.firstName ? data.firstName : '';
-  const lastName = data?.lastName ? data.firstName : '';
-  const avatarUrl = data?.avatarUrl ? data.avatarUrl : '';
+  if (userData) {
+    console.log('UserDATA' + userData.userMe.email);
+  }
+
+  if (error) {
+    console.log('ErrorMain' + JSON.stringify(error));
+  }
+
+  const firstName = userData?.userMe.firstName
+    ? userData?.userMe.firstName
+    : '';
+  const lastName = userData?.userMe.lastName ? userData?.userMe.lastName : '';
+  const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
 
   const posts = [...MOCK_POSTS];
 
@@ -26,14 +36,6 @@ export const Main = ({navigation}: any) => {
   const handleOpenPost = (id: string) => {
     navigation.navigate('Post', {id: id});
   };
-
-  if (data) {
-    console.log(data.userMe);
-  }
-
-  if (error) {
-    console.log(JSON.stringify(error, null, 2));
-  }
 
   return (
     <View style={[styles.container, stylesThemes.main]}>
