@@ -1,9 +1,10 @@
 import React from 'react';
 import {Navigation} from '@app/screens/Navigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import {ApolloProvider} from '@apollo/client';
 import {StatusBarComponent, ThemeProvider} from '@app/components';
-import {client} from '@app/services';
+import {client} from '@app/graphql';
 
 function App(): JSX.Element {
   return (
@@ -13,6 +14,7 @@ function App(): JSX.Element {
           <StatusBarComponent />
           <Navigation />
         </ApolloProvider>
+        <Toast />
       </ThemeProvider>
     </SafeAreaProvider>
   );

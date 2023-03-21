@@ -1,34 +1,74 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import Toast from 'react-native-toast-message';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
+import {useMutation} from '@apollo/client';
 import {Theme} from '@app/components';
 import {THEMES} from './themes';
 import {AppButton, AppButtonIcon, AppInput, AppText, Upload} from '@app/ui';
 import {SvgArrowLeft, SvgXmark} from '@app/assets/svg';
 import {ERROR_MESSAGE} from '@app/constants';
 import {checkStringIsEmpty} from '@app/lib';
+import {ErrorApi, FILE_CATEGORY, saveImageToS3} from '@app/services';
+import {CREATE_POST, DataPostType, GET_MY_POSTS, GET_POSTS} from '@app/graphql';
 
 export type PhotoType = {
+  fileName: string;
   uri: string;
 };
 
 type CreatePostFormType = {
   title: string;
-  post: string;
+  description: string;
 };
 
 export const CreatePost = ({navigation}: any) => {
   const [photo, setPhoto] = useState<PhotoType>();
+  const [createPost, {loading, error}] = useMutation<DataPostType>(
+    CREATE_POST,
+    {
+      refetchQueries: [{query: GET_POSTS}, {query: GET_MY_POSTS}],
+    },
+  );
+
+  if (error) {
+    console.log('ERROR CREATE_POST  ' + JSON.stringify(error));
+  }
+
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
 
   const handleAddImage = async () => {
     const result = await launchImageLibrary({mediaType: 'photo'});
 
-    if (result.assets && result.assets[0].uri) {
-      console.log(result);
-      setPhoto({uri: result.assets[0].uri});
+    if (result.assets && result.assets[0].uri && result.assets[0].fileName) {
+      setPhoto({
+        fileName: result.assets[0].fileName,
+        uri: result.assets[0].uri,
+      });
+    }
+  };
+
+  const handleAddPost = async (title: string, description: string) => {
+    if (photo && photo.fileName) {
+      try {
+        const mediaUrl = await saveImageToS3(
+          photo.fileName,
+          FILE_CATEGORY.POSTS,
+          photo.uri,
+        );
+
+        await createPost({
+          variables: {input: {title, description, mediaUrl}},
+        });
+      } catch (err) {
+        const errorApi = err as ErrorApi;
+        console.log('S3 ERROR  --  ' + JSON.stringify(errorApi));
+        Toast.show({type: 'info', text1: 'Something broken'});
+      }
+    } else {
+      Toast.show({type: 'info', text1: 'Please add photo'});
     }
   };
 
@@ -40,15 +80,15 @@ export const CreatePost = ({navigation}: any) => {
     mode: 'onSubmit',
     defaultValues: {
       title: '',
-      post: '',
+      description: '',
     },
   });
 
   const onSubmit: SubmitHandler<CreatePostFormType> = ({
     title,
-    post,
+    description,
   }: CreatePostFormType) => {
-    console.warn(title, post);
+    handleAddPost(title, description);
   };
 
   return (
@@ -113,12 +153,12 @@ export const CreatePost = ({navigation}: any) => {
                   onChangeText={onChange}
                   value={value}
                   themeVariant={themeVariant}
-                  isError={!!errors.post}
-                  errorMessage={errors.post?.message}
+                  isError={!!errors.description}
+                  errorMessage={errors.description?.message}
                   multiline
                 />
               )}
-              name="post"
+              name="description"
             />
           </View>
 
@@ -129,6 +169,7 @@ export const CreatePost = ({navigation}: any) => {
               onPress={handleSubmit(onSubmit)}
               themeVariant={themeVariant}
               isDisabled={!isDirty}
+              isLoading={loading}
             />
           </View>
         </ScrollView>

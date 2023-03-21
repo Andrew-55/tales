@@ -1,12 +1,13 @@
 import React, {useContext} from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
-
+import dayjs from 'dayjs';
 import {AppButtonIcon, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {AboutPost} from '@app/components/AboutPost';
 import {Theme} from '@app/components';
-import {MOCK_POSTS} from '../Main/mockDate';
 import {SvgArrowLeft} from '@app/assets/svg';
+import {DataPostType, GET_POST} from '@app/graphql';
+import {useQuery} from '@apollo/client';
 
 export type AuthorInfoType = {
   avatarUrl: string;
@@ -26,19 +27,25 @@ export type PostType = {
 
 export const Post = ({navigation, route}: any) => {
   const id = route.params.id;
+  const {error, data: postData} = useQuery<DataPostType>(GET_POST, {
+    variables: {input: {id: id}},
+  });
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
-  const post = [...MOCK_POSTS].find(item => item.id === id);
-  const textPost =
-    'The Queen of the Carnival in Rio de Janeiro and up to two princesses having the duty to woo the revelry, along with the King Momo. Unlike  some cities, in the city of Rio de Janeiro, Queens of Carnival do not see a certain school of samba. In competitions, princesses are usually placed as second and third, and are correspondingly 1st and 2nd princess. Some of them after the reign become queens or battery bridesmaids. Incorporated into every aspect of the Rio carnival are dancing and music. The most famous dance is carnival samba, a  Brazilian dance with African influences. The samba remains a popular dance not only in carnival but in the ghettos outside of the main cities.Some of them after the reign become queens or battery bridesmaids. Incorporated into every aspect of the Rio';
 
+  const post = postData?.post;
   const aboutPost = post
     ? {
-        isLiked: false,
+        id: post.id,
+        isLiked: post.isLiked,
         likesCount: post.likesCount,
-        authorInfo: post.authorInfo,
+        authorInfo: post.author,
       }
     : undefined;
+
+  if (error) {
+    console.log('ErrorMain' + JSON.stringify(error));
+  }
 
   return (
     <View style={[styles.post, stylesThemes.post]}>
@@ -61,7 +68,7 @@ export const Post = ({navigation, route}: any) => {
             <AppText
               variant="Body_2_Medium_16"
               style={[styles.date, stylesThemes.postDate]}>
-              {post.createdAt}
+              {dayjs(post.createdAt).format('DD.MM.YYYY')}
             </AppText>
             <Image
               source={{uri: post.mediaUrl, width: 500, height: 400}}
@@ -71,7 +78,7 @@ export const Post = ({navigation, route}: any) => {
             <AppText
               variant="Body_6_Regular_14"
               style={[styles.text, stylesThemes.postText]}>
-              {textPost}
+              {post.description}
             </AppText>
             {aboutPost && (
               <AboutPost aboutPost={aboutPost} themeVariant={themeVariant} />

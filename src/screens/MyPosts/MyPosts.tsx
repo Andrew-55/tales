@@ -1,25 +1,43 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Modal, Pressable, FlatList} from 'react-native';
+import {useQuery} from '@apollo/client';
 
 import {AppButtonIconCircle, AppText, Avatar} from '@app/ui';
 import {AvatarMenu, NoPosts, Theme} from '@app/components';
+import {MyPostsType, GET_MY_POSTS, UserType, USER_ME} from '@app/graphql';
 import {THEMES} from './themes';
-import {CardPost, PostType} from '@app/components/CardPost';
+import {CardPost} from '@app/components';
 import {SvgPlus} from '@app/assets/svg';
-import {MOCK_POSTS} from '../Main/mockDate';
 import {MyPostCard} from '@app/components';
 
 export const MyPosts = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
+  const {error, data: userData} = useQuery<UserType>(USER_ME);
+  const {error: errorMyPosts, data: myPostsData} = useQuery<MyPostsType>(
+    GET_MY_POSTS,
+    {
+      variables: {input: {limit: 7}},
+    },
+  );
+
+  if (error) {
+    console.log('Error MyPost' + JSON.stringify(error));
+  }
+
+  if (errorMyPosts) {
+    console.log('Error MyPost' + JSON.stringify(errorMyPosts));
+  }
+
+  const myPost = myPostsData?.myPosts.data;
+
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
-  const favoritePosts: PostType[] = [...MOCK_POSTS];
-  const hasFavoritePosts = favoritePosts.length > 0;
 
-  const firstName = 'John';
-  const lastName = 'Moor';
-  const avatarUrl =
-    'https://virtus-img.cdnvideo.ru/images/material-card/plain/a8/a80fda76-c804-4fc9-9bb5-34d7e18b69be.webp';
+  const firstName = userData?.userMe.firstName
+    ? userData?.userMe.firstName
+    : '';
+  const lastName = userData?.userMe.lastName ? userData?.userMe.lastName : '';
+  const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
 
   const handleAddPost = () => {
     navigation.navigate('CreatePost');
@@ -46,9 +64,9 @@ export const MyPosts = ({navigation}: any) => {
         </Pressable>
       </View>
 
-      {hasFavoritePosts ? (
+      {myPost ? (
         <FlatList
-          data={favoritePosts}
+          data={myPost}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <MyPostCard id={item.id} onDeletePost={handleDeletePost}>

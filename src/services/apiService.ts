@@ -1,24 +1,39 @@
-import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
-import {setContext} from '@apollo/client/link/context';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios';
 import {getTokenStore} from '@app/lib';
-import {GQL_BASE_URL} from 'react-native-dotenv';
 
-const httpLink = createHttpLink({
-  uri: GQL_BASE_URL,
-});
+export type ErrorApi = AxiosError;
 
-const authLink = setContext(async (_, {headers}) => {
-  const token = await getTokenStore();
+export type ErrorApiData = {
+  statusCode: number;
+  message: string;
+  error: string;
+};
 
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
+export class ApiService {
+  instance: AxiosInstance;
 
-export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+  constructor() {
+    this.instance = axios.create();
+    this.instance.interceptors.request.use(
+      async (config: InternalAxiosRequestConfig) => {
+        const token = await getTokenStore();
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+    );
+  }
+
+  get<T>(url: string, config: any) {
+    return this.instance.get<T>(url, config);
+  }
+
+  put<T>(url: string, config: any) {
+    return this.instance.put<T>(url, config);
+  }
+}

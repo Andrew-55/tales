@@ -3,21 +3,33 @@ import {View, StyleSheet, Pressable, FlatList, Modal} from 'react-native';
 import {AvatarMenu, CardPost, Theme} from '@app/components';
 import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
-import {MOCK_POSTS} from './mockDate';
 import {useQuery} from '@apollo/client';
-import {UserType, USER_ME} from '@app/services';
+import {PostsType, GET_POSTS, UserType, USER_ME} from '@app/graphql';
+
+enum TYPE_REQUEST {
+  NEW = 'NEW',
+  TOP = 'TOP',
+}
 
 export const Main = ({navigation}: any) => {
+  const [typeRequest, setTypeRequest] =
+    useState<keyof typeof TYPE_REQUEST>('NEW');
   const {error, data: userData} = useQuery<UserType>(USER_ME);
+  const {error: errorPosts, data: postsData} = useQuery<PostsType>(GET_POSTS, {
+    variables: {input: {limit: 4, type: typeRequest}},
+  });
+
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {themeVariant} = useContext(Theme);
 
-  if (userData) {
-    console.log('UserDATA' + userData.userMe.email);
-  }
+  const posts = postsData ? postsData.posts.data : undefined;
 
   if (error) {
     console.log('ErrorMain' + JSON.stringify(error));
+  }
+
+  if (errorPosts) {
+    console.log('ErrorMain' + JSON.stringify(errorPosts));
   }
 
   const firstName = userData?.userMe.firstName
@@ -26,12 +38,14 @@ export const Main = ({navigation}: any) => {
   const lastName = userData?.userMe.lastName ? userData?.userMe.lastName : '';
   const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
 
-  const posts = [...MOCK_POSTS];
-
   const stylesThemes = THEMES[themeVariant];
 
-  const handlePressNew = () => {};
-  const handlePressTop = () => {};
+  const handlePressNew = () => {
+    setTypeRequest(TYPE_REQUEST.NEW);
+  };
+  const handlePressTop = () => {
+    setTypeRequest(TYPE_REQUEST.TOP);
+  };
 
   const handleOpenPost = (id: string) => {
     navigation.navigate('Post', {id: id});
@@ -56,17 +70,19 @@ export const Main = ({navigation}: any) => {
         />
       </View>
 
-      <FlatList
-        data={posts}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <CardPost
-            post={item}
-            themeVariant={themeVariant}
-            onOpenPost={handleOpenPost}
-          />
-        )}
-      />
+      {posts && (
+        <FlatList
+          data={posts}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <CardPost
+              post={item}
+              themeVariant={themeVariant}
+              onOpenPost={handleOpenPost}
+            />
+          )}
+        />
+      )}
 
       <Modal
         visible={isAvatarMenuVisible}

@@ -11,11 +11,16 @@ enum GENDER {
 }
 
 type Props = {
+  currentGender?: string | null;
   themeVariant: ThemeVariantType;
   onChooseGender: (value: string) => void;
 };
 
-export const GenderPick: FC<Props> = ({themeVariant, onChooseGender}) => {
+export const GenderPick: FC<Props> = ({
+  themeVariant,
+  onChooseGender,
+  currentGender,
+}) => {
   const stylesThemes = THEMES[themeVariant];
   const [radioButtons, setRadioButtons] = useState<RadioButtonProps[]>([
     {
@@ -23,6 +28,7 @@ export const GenderPick: FC<Props> = ({themeVariant, onChooseGender}) => {
       label: 'Male',
       color: stylesThemes.genderPickText.color,
       labelStyle: {...styles.labelStyle, ...stylesThemes.genderPickText},
+      selected: GENDER.MALE === currentGender,
       onPress: handlePressRadiobutton,
     },
     {
@@ -30,6 +36,7 @@ export const GenderPick: FC<Props> = ({themeVariant, onChooseGender}) => {
       label: 'Female',
       color: stylesThemes.genderPickText.color,
       labelStyle: {...styles.labelStyle, ...stylesThemes.genderPickText},
+      selected: GENDER.FEMALE === currentGender,
       onPress: id => handlePressRadiobutton(id),
     },
   ]);

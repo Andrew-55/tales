@@ -7,7 +7,7 @@ import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
 import {useMutation} from '@apollo/client';
-import {LOGIN, UserSignInResponseType} from '@app/services';
+import {LOGIN, UserSignInResponseType} from '@app/graphql';
 
 type LoginFormType = {
   email: string;
@@ -16,7 +16,8 @@ type LoginFormType = {
 
 export const Login = ({navigation}: any) => {
   const {themeVariant} = useContext(Theme);
-  const [login, {error, data}] = useMutation<UserSignInResponseType>(LOGIN);
+  const [login, {loading, error, data}] =
+    useMutation<UserSignInResponseType>(LOGIN);
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -141,6 +142,7 @@ export const Login = ({navigation}: any) => {
         onPress={handleSubmit(onSubmit)}
         themeVariant={themeVariant}
         isDisabled={!isDirty}
+        isLoading={loading}
       />
     </View>
   );

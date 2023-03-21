@@ -8,7 +8,7 @@ import {THEMES} from './themes';
 type Props = {
   size: number;
   themeVariant: ThemeVariantType;
-  avatarUrl?: string;
+  avatarUrl?: string | null;
 };
 
 export const Avatar: FC<Props> = ({avatarUrl = '', themeVariant, size}) => {

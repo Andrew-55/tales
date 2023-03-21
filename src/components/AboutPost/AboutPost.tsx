@@ -3,13 +3,21 @@ import {StyleSheet, View} from 'react-native';
 import {AppButtonIcon, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {SvgHeart, SvgShare} from '@app/assets/svg';
-import {AuthorInfoType} from '../CardPost/CardPost';
 import {ThemeVariantType} from '@app/components';
+import {useMutation} from '@apollo/client';
+import {
+  GET_FAVORITE_POSTS,
+  GET_MY_POSTS,
+  GET_POSTS,
+  LIKING,
+  UN_LIKING,
+} from '@app/graphql';
 
 type PostType = {
+  id: string;
   isLiked?: boolean;
   likesCount: number;
-  authorInfo: AuthorInfoType;
+  authorInfo: {avatarUrl: string; firstName: string; lastName: string};
 };
 
 type Props = {
@@ -19,6 +27,35 @@ type Props = {
 
 export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
   const stylesThemes = THEMES[themeVariant];
+  const [likePost, {error}] = useMutation(LIKING, {
+    refetchQueries: [
+      {query: GET_POSTS},
+      {query: GET_MY_POSTS},
+      {query: GET_FAVORITE_POSTS},
+    ],
+  });
+  const [unlikePost, {error: errorUnlike}] = useMutation(UN_LIKING, {
+    refetchQueries: [
+      {query: GET_POSTS},
+      {query: GET_MY_POSTS},
+      {query: GET_FAVORITE_POSTS},
+    ],
+  });
+
+  if (error) {
+    console.log(JSON.stringify(error));
+  }
+  if (errorUnlike) {
+    console.log(JSON.stringify(errorUnlike));
+  }
+
+  const handlePressLike = () => {
+    if (aboutPost.isLiked) {
+      unlikePost({variables: {input: {id: aboutPost.id}}});
+    } else {
+      likePost({variables: {input: {id: aboutPost.id}}});
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -39,6 +76,7 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
             Icon={SvgHeart}
             themeVariant={themeVariant}
             isActive={aboutPost.isLiked}
+            onPress={handlePressLike}
           />
           <AppText
             variant="Body_6_Regular_14"

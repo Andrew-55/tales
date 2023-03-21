@@ -1,3 +1,3 @@
-export {client} from './apiService';
+export {client} from './gqlService';
 export * from './requests';
 export * from './types';

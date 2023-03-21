@@ -1,22 +1,42 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Modal, Pressable, FlatList} from 'react-native';
+import {useQuery} from '@apollo/client';
 
 import {AppText, Avatar} from '@app/ui';
 import {AvatarMenu, CardPost, NoPosts, Theme} from '@app/components';
+import {
+  FavoritePostsType,
+  GET_FAVORITE_POSTS,
+  UserType,
+  USER_ME,
+} from '@app/graphql';
 import {THEMES} from './themes';
-import {PostType} from '@app/components/CardPost';
 
 export const Favorites = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
+  const {error, data: userData} = useQuery<UserType>(USER_ME);
+  const {error: errorFavoritePosts, data: favoritePostsData} =
+    useQuery<FavoritePostsType>(GET_FAVORITE_POSTS, {
+      variables: {input: {limit: 7}},
+    });
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
-  const favoritePosts: PostType[] = [];
-  const hasFavoritePosts = favoritePosts.length > 0;
+  const favoritePosts = favoritePostsData?.favouritePosts.data;
+  const hasFavoritePosts = favoritePosts && favoritePosts.length > 0;
 
-  const firstName = 'John';
-  const lastName = 'Moor';
-  const avatarUrl =
-    'https://virtus-img.cdnvideo.ru/images/material-card/plain/a8/a80fda76-c804-4fc9-9bb5-34d7e18b69be.webp';
+  const firstName = userData?.userMe.firstName
+    ? userData?.userMe.firstName
+    : '';
+  const lastName = userData?.userMe.lastName ? userData?.userMe.lastName : '';
+  const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
+
+  if (error) {
+    console.log('ErrorFavorite' + JSON.stringify(error));
+  }
+
+  if (errorFavoritePosts) {
+    console.log('Error FavoritePost' + JSON.stringify(errorFavoritePosts));
+  }
 
   const handleOpenPost = (id: string) => {
     navigation.navigate('Post', {id: id});

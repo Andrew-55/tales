@@ -1,23 +1,48 @@
-import {gql} from '@apollo/client';
+import {API_BASE_URL} from 'react-native-dotenv';
+import {ENDPOINTS} from './endpoints';
+import {ApiService} from './apiService';
 
-export const USER_ME = gql`
-  query userMe {
-    avatarUrl
-    email
-    firstName
-    birthDate
-    country
-    lastName
-    middleName
-    phone
-    gender
-  }
-`;
+export enum FILE_CATEGORY {
+  AVATARS = 'AVATARS',
+  POSTS = 'POSTS',
+}
 
-export const LOGIN = gql`
-  mutation login($input: SignInRequest!) {
-    userSignIn(input: $input) {
-      token
-    }
-  }
-`;
+const apiService = new ApiService();
+
+export const getLinkS3ToSaveImage = async (
+  fileName: string,
+  fileCategory: keyof typeof FILE_CATEGORY,
+) => {
+  const {data} = await apiService.get<string>(
+    `${API_BASE_URL}${ENDPOINTS.getLinkS3ToSaveImage}`,
+    {params: {fileName: fileName, fileCategory: fileCategory}},
+  );
+  return data;
+};
+
+// export const putImageTos3 = async (linkToS3: string, imgBlob: Blob) => {
+//   apiService.instance.defaults.headers.put['Content-Type'] =
+//     'application/octet-stream';
+//   await apiService.put(linkToS3, {imgBlob});
+// };
+
+export const saveImageToS3 = async (
+  fileName: string,
+  fileCategory: keyof typeof FILE_CATEGORY,
+  pathFile: string,
+) => {
+  const linkS3ToSaveImage = await getLinkS3ToSaveImage(fileName, fileCategory);
+
+  const response = await fetch(pathFile);
+  const imgBlob = await response.blob();
+
+  await fetch(linkS3ToSaveImage, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/octet-stream',
+    },
+    body: imgBlob,
+  });
+
+  return linkS3ToSaveImage.split('?')[0];
+};
