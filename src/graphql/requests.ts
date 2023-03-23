@@ -106,6 +106,14 @@ export const LOGIN = gql`
   }
 `;
 
+export const REGISTRATION = gql`
+  mutation createUser($user: SignUpRequest!) {
+    userSignUp(input: $user) {
+      token
+    }
+  }
+`;
+
 export const EDIT_PROFILE = gql`
   mutation editProfile($input: EditProfileRequest!) {
     userEditProfile(input: $input) {
@@ -177,6 +185,15 @@ export const UN_LIKING = gql`
       isLiked
       likesCount
       mediaUrl
+    }
+  }
+`;
+
+export const DELETE_POST = gql`
+  mutation deletePost($input: PostIdRequest!) {
+    postDelete(input: $input) {
+      id
+      ok
     }
   }
 `;

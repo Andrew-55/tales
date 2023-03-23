@@ -18,6 +18,23 @@ export type UserSignInResponseType = {
   };
 };
 
+export type UserSignUpResponseType = {
+  userSignUp: {
+    token: string;
+    problem: {
+      message: string;
+    };
+  };
+};
+
+export type UserEditProfile = {
+  userEditProfile: {
+    problem: {
+      message: string;
+    };
+  };
+};
+
 export type PostType = {
   id: string;
   author: {

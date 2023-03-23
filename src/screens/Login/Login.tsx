@@ -1,6 +1,8 @@
 import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
+import Toast from 'react-native-toast-message';
+
 import {AppButton, AppButtonText, AppInput, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE} from '@app/constants';
@@ -42,21 +44,19 @@ export const Login = ({navigation}: any) => {
   }, [reset]);
 
   const handleLogin = async ({email, password}: LoginFormType) => {
-    console.log(email, password);
-
     await login({
       variables: {input: {email, password}},
     });
 
     if (error) {
-      console.log(JSON.stringify(error));
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.somethingWrong});
     }
-
-    console.log('login start ' + data?.userSignIn.token);
 
     if (data?.userSignIn.token) {
       await setTokenStore(data.userSignIn.token);
       navigation.navigate('MainTab');
+    } else {
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.wrongEmailPassword});
     }
   };
 

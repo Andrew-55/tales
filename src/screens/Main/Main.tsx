@@ -1,10 +1,14 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Pressable, FlatList, Modal} from 'react-native';
+import {useQuery} from '@apollo/client';
+import Toast from 'react-native-toast-message';
+
 import {AvatarMenu, CardPost, Theme} from '@app/components';
 import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
-import {useQuery} from '@apollo/client';
 import {PostsType, GET_POSTS, UserType, USER_ME} from '@app/graphql';
+import {Loading} from '@app/components/Loading';
+import {ERROR_MESSAGE} from '@app/constants';
 
 enum TYPE_REQUEST {
   NEW = 'NEW',
@@ -14,9 +18,13 @@ enum TYPE_REQUEST {
 export const Main = ({navigation}: any) => {
   const [typeRequest, setTypeRequest] =
     useState<keyof typeof TYPE_REQUEST>('NEW');
-  const {error, data: userData} = useQuery<UserType>(USER_ME);
-  const {error: errorPosts, data: postsData} = useQuery<PostsType>(GET_POSTS, {
-    variables: {input: {limit: 4, type: typeRequest}},
+  const {loading, error, data: userData} = useQuery<UserType>(USER_ME);
+  const {
+    loading: loadingPost,
+    error: errorPosts,
+    data: postsData,
+  } = useQuery<PostsType>(GET_POSTS, {
+    variables: {input: {limit: 5, type: typeRequest}},
   });
 
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
@@ -25,11 +33,12 @@ export const Main = ({navigation}: any) => {
   const posts = postsData ? postsData.posts.data : undefined;
 
   if (error) {
-    console.log('ErrorMain' + JSON.stringify(error));
+    navigation.navigate('Welcome');
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
   }
 
   if (errorPosts) {
-    console.log('ErrorMain' + JSON.stringify(errorPosts));
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.gettingPosts});
   }
 
   const firstName = userData?.userMe.firstName
@@ -95,6 +104,8 @@ export const Main = ({navigation}: any) => {
           navigation={navigation}
         />
       </Modal>
+
+      {(loading || loadingPost) && <Loading message="Loading ..." />}
     </View>
   );
 };

@@ -1,11 +1,14 @@
 import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
+import Toast from 'react-native-toast-message';
+import {useMutation} from '@apollo/client';
 import {AppButton, AppButtonText, AppInput, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE} from '@app/constants';
-import {checkIsEmail, checkPasswordLength} from '@app/lib';
+import {checkIsEmail, checkPasswordLength, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
+import {REGISTRATION, UserSignUpResponseType} from '@app/graphql';
 
 type RegistrationFormType = {
   email: string;
@@ -15,7 +18,8 @@ type RegistrationFormType = {
 
 export const Registration = ({navigation}: any) => {
   const {themeVariant} = useContext(Theme);
-
+  const [createUser, {loading, error, data}] =
+    useMutation<UserSignUpResponseType>(REGISTRATION);
   const stylesThemes = THEMES[themeVariant];
 
   const {
@@ -33,6 +37,31 @@ export const Registration = ({navigation}: any) => {
     },
   });
 
+  const handleRegistration = async ({
+    email,
+    password,
+    confirmPassword,
+  }: RegistrationFormType) => {
+    await createUser({
+      variables: {input: {email, password, confirmPassword}},
+    });
+
+    if (error) {
+      console.log(JSON.stringify(error));
+    }
+
+    console.log('Registration start ' + data?.userSignUp.token);
+
+    if (data?.userSignUp.token) {
+      await setTokenStore(data.userSignUp.token);
+      navigation.navigate('MainTab');
+    } else if (data?.userSignUp.problem.message) {
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.wrongEmailPassword});
+    } else {
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.wrongEmailPassword});
+    }
+  };
+
   useEffect(() => {
     return () => {
       reset();
@@ -44,8 +73,7 @@ export const Registration = ({navigation}: any) => {
     password,
     confirmPassword,
   }: RegistrationFormType) => {
-    console.warn(email, password, confirmPassword);
-    navigation.navigate('MainTab');
+    handleRegistration({email, password, confirmPassword});
   };
 
   return (
@@ -151,6 +179,7 @@ export const Registration = ({navigation}: any) => {
         onPress={handleSubmit(onSubmit)}
         themeVariant={themeVariant}
         isDisabled={!isDirty}
+        isLoading={loading}
       />
     </View>
   );

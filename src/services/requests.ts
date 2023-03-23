@@ -20,12 +20,6 @@ export const getLinkS3ToSaveImage = async (
   return data;
 };
 
-// export const putImageTos3 = async (linkToS3: string, imgBlob: Blob) => {
-//   apiService.instance.defaults.headers.put['Content-Type'] =
-//     'application/octet-stream';
-//   await apiService.put(linkToS3, {imgBlob});
-// };
-
 export const saveImageToS3 = async (
   fileName: string,
   fileCategory: keyof typeof FILE_CATEGORY,

@@ -1,9 +1,10 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Modal, Pressable, FlatList} from 'react-native';
 import {useQuery} from '@apollo/client';
+import Toast from 'react-native-toast-message';
 
 import {AppText, Avatar} from '@app/ui';
-import {AvatarMenu, CardPost, NoPosts, Theme} from '@app/components';
+import {AvatarMenu, CardPost, Loading, NoPosts, Theme} from '@app/components';
 import {
   FavoritePostsType,
   GET_FAVORITE_POSTS,
@@ -11,16 +12,21 @@ import {
   USER_ME,
 } from '@app/graphql';
 import {THEMES} from './themes';
+import {ERROR_MESSAGE} from '@app/constants';
 
 export const Favorites = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {error, data: userData} = useQuery<UserType>(USER_ME);
-  const {error: errorFavoritePosts, data: favoritePostsData} =
-    useQuery<FavoritePostsType>(GET_FAVORITE_POSTS, {
-      variables: {input: {limit: 7}},
-    });
+  const {
+    loading,
+    error: errorFavoritePosts,
+    data: favoritePostsData,
+  } = useQuery<FavoritePostsType>(GET_FAVORITE_POSTS, {
+    variables: {input: {limit: 10}},
+  });
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
+
   const favoritePosts = favoritePostsData?.favouritePosts.data;
   const hasFavoritePosts = favoritePosts && favoritePosts.length > 0;
 
@@ -31,11 +37,12 @@ export const Favorites = ({navigation}: any) => {
   const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
 
   if (error) {
-    console.log('ErrorFavorite' + JSON.stringify(error));
+    navigation.navigate('Welcome');
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
   }
 
   if (errorFavoritePosts) {
-    console.log('Error FavoritePost' + JSON.stringify(errorFavoritePosts));
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.gettingPosts});
   }
 
   const handleOpenPost = (id: string) => {
@@ -69,10 +76,12 @@ export const Favorites = ({navigation}: any) => {
         />
       ) : (
         <View style={styles.wrap}>
-          <NoPosts
-            message="You haven't added anything to your favorites yet"
-            themeVariant={themeVariant}
-          />
+          {!loading && (
+            <NoPosts
+              message="You haven't added anything to your favorites yet"
+              themeVariant={themeVariant}
+            />
+          )}
         </View>
       )}
 
@@ -87,6 +96,8 @@ export const Favorites = ({navigation}: any) => {
           navigation={navigation}
         />
       </Modal>
+
+      {loading && <Loading message="Loading ..." />}
     </View>
   );
 };

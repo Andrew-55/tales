@@ -4,18 +4,8 @@ import {ImageBackground, View, StyleSheet} from 'react-native';
 import {AppButton, AppButtonText, AppText} from '@app/ui';
 import {THEME_VARIANT} from '@app/components';
 import {COLORS} from '@app/assets/styles/constants';
-import {getTokenStore} from '@app/lib';
 
 export const Welcome = ({navigation}: any) => {
-  const isAuth = async () => {
-    const token = await getTokenStore();
-    if (token) {
-      navigation.navigate('MainTab');
-    }
-  };
-
-  isAuth();
-
   return (
     <View style={styles.container}>
       <ImageBackground source={require('@app/assets/image/image46_2x.webp')}>

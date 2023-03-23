@@ -10,7 +10,7 @@ import {AppButton, AppButtonIcon, AppInput, AppText, Upload} from '@app/ui';
 import {SvgArrowLeft, SvgXmark} from '@app/assets/svg';
 import {ERROR_MESSAGE} from '@app/constants';
 import {checkStringIsEmpty} from '@app/lib';
-import {ErrorApi, FILE_CATEGORY, saveImageToS3} from '@app/services';
+import {FILE_CATEGORY, saveImageToS3} from '@app/services';
 import {CREATE_POST, DataPostType, GET_MY_POSTS, GET_POSTS} from '@app/graphql';
 
 export type PhotoType = {
@@ -24,6 +24,8 @@ type CreatePostFormType = {
 };
 
 export const CreatePost = ({navigation}: any) => {
+  const {themeVariant} = useContext(Theme);
+  const stylesThemes = THEMES[themeVariant];
   const [photo, setPhoto] = useState<PhotoType>();
   const [createPost, {loading, error}] = useMutation<DataPostType>(
     CREATE_POST,
@@ -33,11 +35,8 @@ export const CreatePost = ({navigation}: any) => {
   );
 
   if (error) {
-    console.log('ERROR CREATE_POST  ' + JSON.stringify(error));
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
   }
-
-  const {themeVariant} = useContext(Theme);
-  const stylesThemes = THEMES[themeVariant];
 
   const handleAddImage = async () => {
     const result = await launchImageLibrary({mediaType: 'photo'});
@@ -63,12 +62,10 @@ export const CreatePost = ({navigation}: any) => {
           variables: {input: {title, description, mediaUrl}},
         });
       } catch (err) {
-        const errorApi = err as ErrorApi;
-        console.log('S3 ERROR  --  ' + JSON.stringify(errorApi));
-        Toast.show({type: 'info', text1: 'Something broken'});
+        Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
       }
     } else {
-      Toast.show({type: 'info', text1: 'Please add photo'});
+      Toast.show({type: 'info', text1: ERROR_MESSAGE.addPhoto});
     }
   };
 

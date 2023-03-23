@@ -1,17 +1,13 @@
 import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Share, View} from 'react-native';
+import Toast from 'react-native-toast-message';
 import {AppButtonIcon, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {SvgHeart, SvgShare} from '@app/assets/svg';
 import {ThemeVariantType} from '@app/components';
 import {useMutation} from '@apollo/client';
-import {
-  GET_FAVORITE_POSTS,
-  GET_MY_POSTS,
-  GET_POSTS,
-  LIKING,
-  UN_LIKING,
-} from '@app/graphql';
+import {GET_FAVORITE_POSTS, GET_POSTS, LIKING, UN_LIKING} from '@app/graphql';
+import {ERROR_MESSAGE} from '@app/constants';
 
 type PostType = {
   id: string;
@@ -28,18 +24,10 @@ type Props = {
 export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
   const stylesThemes = THEMES[themeVariant];
   const [likePost, {error}] = useMutation(LIKING, {
-    refetchQueries: [
-      {query: GET_POSTS},
-      {query: GET_MY_POSTS},
-      {query: GET_FAVORITE_POSTS},
-    ],
+    refetchQueries: [{query: GET_FAVORITE_POSTS}, {query: GET_POSTS}],
   });
   const [unlikePost, {error: errorUnlike}] = useMutation(UN_LIKING, {
-    refetchQueries: [
-      {query: GET_POSTS},
-      {query: GET_MY_POSTS},
-      {query: GET_FAVORITE_POSTS},
-    ],
+    refetchQueries: [{query: GET_FAVORITE_POSTS}, {query: GET_POSTS}],
   });
 
   if (error) {
@@ -48,6 +36,16 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
   if (errorUnlike) {
     console.log(JSON.stringify(errorUnlike));
   }
+
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: `tales://post/${aboutPost.id}`,
+      });
+    } catch (err) {
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.somethingWrong});
+    }
+  };
 
   const handlePressLike = () => {
     if (aboutPost.isLiked) {
@@ -84,7 +82,11 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
             {aboutPost.likesCount}
           </AppText>
         </View>
-        <AppButtonIcon Icon={SvgShare} themeVariant={themeVariant} />
+        <AppButtonIcon
+          Icon={SvgShare}
+          themeVariant={themeVariant}
+          onPress={handleShare}
+        />
       </View>
     </View>
   );

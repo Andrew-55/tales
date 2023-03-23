@@ -8,7 +8,7 @@ import {
 import dayjs from 'dayjs';
 import Toast from 'react-native-toast-message';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
-import {AddAvatar, DatePick, GenderPick, Theme} from '@app/components';
+import {AddAvatar, DatePick, GenderPick, Loading, Theme} from '@app/components';
 import {THEMES} from './themes';
 import {
   AppButtonIcon,
@@ -22,8 +22,16 @@ import {SvgArrowLeft, SvgCamera} from '@app/assets/svg';
 import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, checkStringIsEmpty} from '@app/lib';
 import {useMutation, useQuery} from '@apollo/client';
-import {EDIT_PROFILE, UserType, USER_ME} from '@app/graphql';
-import {ErrorApi, FILE_CATEGORY, saveImageToS3} from '@app/services';
+import {
+  EDIT_PROFILE,
+  GET_FAVORITE_POSTS,
+  GET_MY_POSTS,
+  GET_POSTS,
+  UserEditProfile,
+  UserType,
+  USER_ME,
+} from '@app/graphql';
+import {FILE_CATEGORY, saveImageToS3} from '@app/services';
 
 type ProfileFormType = {
   firstName: string;
@@ -46,15 +54,21 @@ export const Profile = ({navigation}: any) => {
   const [isDatePickVisible, setIsDatePickVisible] = useState(false);
   const [photo, setPhoto] = useState<PhotoType>();
   const {data: userData} = useQuery<UserType>(USER_ME);
-  const [editProfile, {error}] = useMutation<UserType>(EDIT_PROFILE, {
-    refetchQueries: [{query: USER_ME}],
-  });
+  const [editProfile, {loading, error, data: dataProfile}] =
+    useMutation<UserEditProfile>(EDIT_PROFILE, {
+      refetchQueries: [
+        {query: USER_ME},
+        {query: GET_FAVORITE_POSTS},
+        {query: GET_POSTS},
+        {query: GET_MY_POSTS},
+      ],
+    });
 
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
 
   if (error) {
-    console.log('ERROR EDIT PROFILE  ' + JSON.stringify(error));
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
   }
 
   let avatarUrl = photo?.uri ? photo?.uri : userData?.userMe.avatarUrl;
@@ -122,15 +136,18 @@ export const Profile = ({navigation}: any) => {
           FILE_CATEGORY.AVATARS,
           photo.uri,
         );
-
-        await editProfile({
-          variables: {input: {...profile, avatarUrl}},
-        });
       } catch (err) {
-        const errorApi = err as ErrorApi;
-        console.log('S3 ERROR  --  ' + JSON.stringify(errorApi));
-        Toast.show({type: 'info', text1: 'Something broken'});
+        Toast.show({type: 'error', text1: ERROR_MESSAGE.somethingWrong});
       }
+    }
+    await editProfile({
+      variables: {input: {...profile, avatarUrl}},
+    });
+    if (dataProfile?.userEditProfile.problem) {
+      Toast.show({
+        type: 'info',
+        text1: dataProfile?.userEditProfile.problem.message,
+      });
     }
   };
 
@@ -405,6 +422,8 @@ export const Profile = ({navigation}: any) => {
           currentDate={userData?.userMe.birthDate}
         />
       )}
+
+      {loading && <Loading message="Updating ..." />}
     </View>
   );
 };
