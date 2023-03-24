@@ -10,3 +10,5 @@ export {CreatePost} from './CreatePost';
 export {Post} from './Post';
 export {Profile} from './Profile';
 export {Welcome} from './Welcome';
+export {NAVIGATION_SCREEN} from './Navigation';
+export {TYPE_REQUEST} from './Main';

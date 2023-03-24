@@ -10,6 +10,7 @@ import {checkIsEmail, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
 import {useMutation} from '@apollo/client';
 import {LOGIN, UserSignInResponseType} from '@app/graphql';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 type LoginFormType = {
   email: string;
@@ -54,7 +55,7 @@ export const Login = ({navigation}: any) => {
 
     if (data?.userSignIn.token) {
       await setTokenStore(data.userSignIn.token);
-      navigation.navigate('MainTab');
+      navigation.navigate(NAVIGATION_SCREEN.MAIN_TAB);
     } else {
       Toast.show({type: 'error', text1: ERROR_MESSAGE.wrongEmailPassword});
     }

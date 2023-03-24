@@ -5,15 +5,8 @@ import {AppButtonIcon, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {SvgHeart, SvgShare} from '@app/assets/svg';
 import {ThemeVariantType} from '@app/components';
-import {useMutation} from '@apollo/client';
-import {
-  GET_FAVORITE_POSTS,
-  LIKING,
-  PostLikeType,
-  PostUnlikeType,
-  UN_LIKING,
-} from '@app/graphql';
-import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
+import {ERROR_MESSAGE} from '@app/constants';
+import {useLikePost, useUnlike} from '@app/utils/hooks';
 
 type PostType = {
   id: string;
@@ -29,54 +22,8 @@ type Props = {
 
 export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
   const stylesThemes = THEMES[themeVariant];
-  const [likePost, {error}] = useMutation<PostLikeType>(LIKING, {
-    update(cache, {data: dataLike}) {
-      if (dataLike) {
-        const data = cache.readQuery<any>({
-          query: GET_FAVORITE_POSTS,
-          variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
-        });
-        cache.writeQuery({
-          query: GET_FAVORITE_POSTS,
-          variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
-          data: {
-            favouritePosts: {
-              __typename: 'FindFavouritePostsPaginationResponse',
-              data: data.favouritePosts.data
-                ? [dataLike.postLike, ...data.favouritePosts.data]
-                : [dataLike.postLike],
-            },
-          },
-        });
-      }
-    },
-  });
-
-  const [unlikePost, {error: errorUnlike}] = useMutation<PostUnlikeType>(
-    UN_LIKING,
-    {
-      update(cache, {data: dataUnlike}) {
-        if (dataUnlike) {
-          const data = cache.readQuery<any>({
-            query: GET_FAVORITE_POSTS,
-            variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
-          });
-          cache.writeQuery({
-            query: GET_FAVORITE_POSTS,
-            variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
-            data: {
-              favouritePosts: {
-                __typename: 'FindFavouritePostsPaginationResponse',
-                data: data.favouritePosts.data.filter(
-                  (post: any) => post.id !== dataUnlike.postUnlike.id,
-                ),
-              },
-            },
-          });
-        }
-      },
-    },
-  );
+  const {likePost, error} = useLikePost();
+  const {unlikePost, error: errorUnlike} = useUnlike();
 
   if (error || errorUnlike) {
     Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});

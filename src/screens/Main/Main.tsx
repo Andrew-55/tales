@@ -9,6 +9,7 @@ import {THEMES} from './themes';
 import {PostsType, GET_POSTS, UserType, USER_ME} from '@app/graphql';
 import {Loading} from '@app/components/Loading';
 import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 export enum TYPE_REQUEST {
   NEW = 'NEW',
@@ -33,7 +34,7 @@ export const Main = ({navigation}: any) => {
   const posts = postsData?.posts.data || undefined;
 
   if (error) {
-    navigation.navigate('Welcome');
+    navigation.navigate(NAVIGATION_SCREEN.WELCOME);
     Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
   }
 

@@ -19,6 +19,7 @@ import {CardPost} from '@app/components';
 import {SvgPlus} from '@app/assets/svg';
 import {MyPostCard} from '@app/components';
 import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 export const MyPosts = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
@@ -39,7 +40,7 @@ export const MyPosts = ({navigation}: any) => {
   const myPosts = myPostsData?.myPosts.data || undefined;
 
   if (error) {
-    navigation.navigate('Welcome');
+    navigation.navigate(NAVIGATION_SCREEN.WELCOME);
     Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
   }
 
@@ -48,11 +49,11 @@ export const MyPosts = ({navigation}: any) => {
   }
 
   const handleAddPost = () => {
-    navigation.navigate('CreatePost');
+    navigation.navigate(NAVIGATION_SCREEN.CREATE_POST);
   };
 
   const handleOpenPost = (id: string) => {
-    navigation.navigate('Post', {id: id});
+    navigation.navigate(NAVIGATION_SCREEN.POST, {id: id});
   };
 
   const handleDeletePost = async (id: string) => {

@@ -32,6 +32,7 @@ import {
   USER_ME,
 } from '@app/graphql';
 import {FILE_CATEGORY, saveImageToS3} from '@app/services';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 type ProfileFormType = {
   firstName: string;
@@ -163,7 +164,7 @@ export const Profile = ({navigation}: any) => {
         <AppButtonIcon
           Icon={SvgArrowLeft}
           themeVariant={themeVariant}
-          onPress={() => navigation.navigate('MainTab')}
+          onPress={() => navigation.navigate(NAVIGATION_SCREEN.MAIN_TAB)}
         />
 
         <AppText

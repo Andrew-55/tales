@@ -9,6 +9,7 @@ import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, checkPasswordLength, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
 import {REGISTRATION, UserSignUpResponseType} from '@app/graphql';
+import {NAVIGATION_SCREEN} from '..';
 
 type RegistrationFormType = {
   email: string;
@@ -52,9 +53,9 @@ export const Registration = ({navigation}: any) => {
 
     if (data?.userSignUp.token) {
       await setTokenStore(data.userSignUp.token);
-      navigation.navigate('MainTab');
+      navigation.navigate(NAVIGATION_SCREEN.MAIN_TAB);
     } else if (data?.userSignUp.problem.message) {
-      Toast.show({type: 'error', text1: ERROR_MESSAGE.wrongEmailPassword});
+      Toast.show({type: 'error', text1: data?.userSignUp.problem.message});
     } else {
       Toast.show({type: 'error', text1: ERROR_MESSAGE.wrongEmailPassword});
     }

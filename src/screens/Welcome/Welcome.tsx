@@ -4,6 +4,7 @@ import {ImageBackground, View, StyleSheet} from 'react-native';
 import {AppButton, AppButtonText, AppText} from '@app/ui';
 import {THEME_VARIANT} from '@app/components';
 import {COLORS} from '@app/assets/styles/constants';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 export const Welcome = ({navigation}: any) => {
   return (
@@ -35,7 +36,7 @@ export const Welcome = ({navigation}: any) => {
               <AppButtonText
                 text="Log in"
                 themeVariant={THEME_VARIANT.DARK}
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => navigation.navigate(NAVIGATION_SCREEN.LOGIN)}
               />
             </View>
 
@@ -43,7 +44,9 @@ export const Welcome = ({navigation}: any) => {
               text="Create an account"
               size="Large"
               themeVariant={THEME_VARIANT.DARK}
-              onPress={() => navigation.navigate('Registration')}
+              onPress={() =>
+                navigation.navigate(NAVIGATION_SCREEN.REGISTRATION)
+              }
             />
           </View>
         </View>

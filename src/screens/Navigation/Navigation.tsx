@@ -20,6 +20,16 @@ const linking = {
   prefixes: ['tales://'],
 };
 
+export enum NAVIGATION_SCREEN {
+  MAIN_TAB = 'MainTab',
+  WELCOME = 'Welcome',
+  LOGIN = 'Login',
+  REGISTRATION = 'Registration',
+  POST = 'Post',
+  CREATE_POST = 'CreatePost',
+  PROFILE = 'Profile',
+}
+
 export const Navigation = () => {
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
@@ -29,37 +39,37 @@ export const Navigation = () => {
       <NavigationContainer linking={linking}>
         <Stack.Navigator>
           <Stack.Screen
-            name="MainTab"
+            name={NAVIGATION_SCREEN.MAIN_TAB}
             component={MainTab}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="Welcome"
+            name={NAVIGATION_SCREEN.WELCOME}
             component={Welcome}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="Login"
+            name={NAVIGATION_SCREEN.LOGIN}
             component={Login}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="Registration"
+            name={NAVIGATION_SCREEN.REGISTRATION}
             component={Registration}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="Post"
+            name={NAVIGATION_SCREEN.POST}
             component={Post}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="CreatePost"
+            name={NAVIGATION_SCREEN.CREATE_POST}
             component={CreatePost}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="Profile"
+            name={NAVIGATION_SCREEN.PROFILE}
             component={Profile}
             options={{headerShown: false}}
           />

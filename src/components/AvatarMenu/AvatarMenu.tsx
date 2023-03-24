@@ -1,5 +1,5 @@
 import React, {FC, useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Pressable} from 'react-native';
 
 import {AppButtonIconText, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
@@ -13,6 +13,8 @@ import {COLORS} from '@app/assets/styles/constants';
 import {Theme, THEME_VARIANT} from '@app/components';
 import {useQuery} from '@apollo/client';
 import {UserType, USER_ME} from '@app/graphql';
+import {setTokenStore} from '@app/lib';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 type Props = {
   onClose: () => void;
@@ -32,11 +34,16 @@ export const AvatarMenu: FC<Props> = ({onClose, navigation}) => {
 
   const handlePressProfile = () => {
     onClose();
-    navigation.navigate('Profile');
+    navigation.navigate(NAVIGATION_SCREEN.PROFILE);
+  };
+
+  const handleLogout = async () => {
+    await setTokenStore('');
+    navigation.navigate(NAVIGATION_SCREEN.WELCOME);
   };
 
   return (
-    <View style={styles.avatarMenu}>
+    <Pressable style={styles.avatarMenu} onLongPress={onClose}>
       <View style={[styles.avatarMenuContent, stylesThemes.avatarMenu]}>
         <View>
           <View style={styles.wrapAvatar}>
@@ -65,7 +72,7 @@ export const AvatarMenu: FC<Props> = ({onClose, navigation}) => {
                 Icon={SvgArrowRightOnRectangle}
                 text="Exit"
                 themeVariant={themeVariant}
-                onPress={onClose}
+                onPress={handleLogout}
               />
             </View>
           </View>
@@ -87,7 +94,7 @@ export const AvatarMenu: FC<Props> = ({onClose, navigation}) => {
           />
         )}
       </View>
-    </View>
+    </Pressable>
   );
 };
 

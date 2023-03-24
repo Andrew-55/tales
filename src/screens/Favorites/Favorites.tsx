@@ -13,6 +13,7 @@ import {
 } from '@app/graphql';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 export const Favorites = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
@@ -33,7 +34,7 @@ export const Favorites = ({navigation}: any) => {
   const avatarUrl = userData?.userMe.avatarUrl || '';
 
   if (error) {
-    navigation.navigate('Welcome');
+    navigation.navigate(NAVIGATION_SCREEN.WELCOME);
     Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
   }
 
@@ -42,7 +43,7 @@ export const Favorites = ({navigation}: any) => {
   }
 
   const handleOpenPost = (id: string) => {
-    navigation.navigate('Post', {id: id});
+    navigation.navigate(NAVIGATION_SCREEN.POST, {id: id});
   };
 
   return (
