@@ -1,13 +1,14 @@
 import React, {useContext} from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import Toast from 'react-native-toast-message';
+import {useQuery} from '@apollo/client';
 import dayjs from 'dayjs';
 import {AppButtonIcon, AppText} from '@app/ui';
 import {THEMES} from './themes';
-import {AboutPost} from '@app/components/AboutPost';
-import {Theme} from '@app/components';
+import {AboutPost, Theme} from '@app/components';
 import {SvgArrowLeft} from '@app/assets/svg';
 import {DataPostType, GET_POST} from '@app/graphql';
-import {useQuery} from '@apollo/client';
+import {ERROR_MESSAGE} from '@app/constants';
 
 export type AuthorInfoType = {
   avatarUrl: string;
@@ -44,7 +45,7 @@ export const Post = ({navigation, route}: any) => {
     : undefined;
 
   if (error) {
-    console.log('ErrorMain' + JSON.stringify(error));
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
   }
 
   return (

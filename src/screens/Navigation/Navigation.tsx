@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   UiKit,
   MainTab,
@@ -26,9 +26,7 @@ export const Navigation = () => {
 
   return (
     <View style={[styles.container, stylesThemes.navigation]}>
-      <NavigationContainer
-        linking={linking}
-        fallback={<ActivityIndicator color="blue" size="large" />}>
+      <NavigationContainer linking={linking}>
         <Stack.Navigator>
           <Stack.Screen
             name="MainTab"

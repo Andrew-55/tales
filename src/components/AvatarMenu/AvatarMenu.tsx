@@ -11,24 +11,23 @@ import {
 } from '@app/assets/svg';
 import {COLORS} from '@app/assets/styles/constants';
 import {Theme, THEME_VARIANT} from '@app/components';
-
-export type AuthorInfoType = {
-  avatarUrl: string;
-  firstName: string;
-  lastName: string;
-};
+import {useQuery} from '@apollo/client';
+import {UserType, USER_ME} from '@app/graphql';
 
 type Props = {
-  author: AuthorInfoType;
   onClose: () => void;
   navigation: any;
 };
 
-export const AvatarMenu: FC<Props> = ({author, onClose, navigation}) => {
+export const AvatarMenu: FC<Props> = ({onClose, navigation}) => {
   const {themeVariant, isDarkThemeVariant, handleChangeTheme} =
     useContext(Theme);
+  const {data} = useQuery<UserType>(USER_ME);
 
-  const {avatarUrl, firstName, lastName} = author;
+  const firstName = data?.userMe.firstName || '';
+  const lastName = data?.userMe.lastName || '';
+  const avatarUrl = data?.userMe.avatarUrl || '';
+
   const stylesThemes = THEMES[themeVariant];
 
   const handlePressProfile = () => {

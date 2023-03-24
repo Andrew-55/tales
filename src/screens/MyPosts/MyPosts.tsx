@@ -6,62 +6,46 @@ import Toast from 'react-native-toast-message';
 import {AppButtonIconCircle, AppText, Avatar} from '@app/ui';
 import {AvatarMenu, Loading, NoPosts, Theme} from '@app/components';
 import {
+  client,
   MyPostsType,
   GET_MY_POSTS,
   UserType,
   USER_ME,
   DELETE_POST,
-  GET_FAVORITE_POSTS,
-  GET_POSTS,
+  DeletePostType,
 } from '@app/graphql';
 import {THEMES} from './themes';
 import {CardPost} from '@app/components';
 import {SvgPlus} from '@app/assets/svg';
 import {MyPostCard} from '@app/components';
-import {ERROR_MESSAGE} from '@app/constants';
+import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
 
 export const MyPosts = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {error, data: userData} = useQuery<UserType>(USER_ME);
+  const {themeVariant} = useContext(Theme);
+  const stylesThemes = THEMES[themeVariant];
+  const avatarUrl = userData?.userMe.avatarUrl || '';
   const {
     loading,
     error: errorMyPosts,
     data: myPostsData,
   } = useQuery<MyPostsType>(GET_MY_POSTS, {
-    variables: {input: {limit: 7}},
+    variables: {input: {limit: LIMIT_REQUEST.myPosts}},
   });
   const [deletePost, {loading: loadingDelete, error: errorDelete}] =
-    useMutation(DELETE_POST, {
-      refetchQueries: [
-        {query: GET_POSTS},
-        {query: GET_FAVORITE_POSTS},
-        {query: GET_MY_POSTS},
-      ],
-    });
+    useMutation<DeletePostType>(DELETE_POST);
+
+  const myPosts = myPostsData?.myPosts.data || undefined;
 
   if (error) {
     navigation.navigate('Welcome');
     Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
   }
 
-  if (errorMyPosts) {
+  if (errorMyPosts || errorDelete) {
     Toast.show({type: 'error', text1: ERROR_MESSAGE.gettingPosts});
   }
-
-  if (errorDelete) {
-    Toast.show({type: 'error', text1: ERROR_MESSAGE.gettingPosts});
-  }
-
-  const myPost = myPostsData?.myPosts.data;
-
-  const {themeVariant} = useContext(Theme);
-  const stylesThemes = THEMES[themeVariant];
-
-  const firstName = userData?.userMe.firstName
-    ? userData?.userMe.firstName
-    : '';
-  const lastName = userData?.userMe.lastName ? userData?.userMe.lastName : '';
-  const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
 
   const handleAddPost = () => {
     navigation.navigate('CreatePost');
@@ -71,9 +55,9 @@ export const MyPosts = ({navigation}: any) => {
     navigation.navigate('Post', {id: id});
   };
 
-  const handleDeletePost = (id: string) => {
-    console.log(id);
-    deletePost({variables: {input: {id: id}}});
+  const handleDeletePost = async (id: string) => {
+    await deletePost({variables: {input: {id: id}}});
+    await client.refetchQueries({include: 'active'});
   };
 
   return (
@@ -89,9 +73,9 @@ export const MyPosts = ({navigation}: any) => {
         </Pressable>
       </View>
 
-      {myPost ? (
+      {myPosts ? (
         <FlatList
-          data={myPost}
+          data={myPosts}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <MyPostCard id={item.id} onDeletePost={handleDeletePost}>
@@ -131,7 +115,6 @@ export const MyPosts = ({navigation}: any) => {
         animationType="fade"
         statusBarTranslucent>
         <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
           onClose={() => setIsAvatarMenuVisible(false)}
           navigation={navigation}
         />

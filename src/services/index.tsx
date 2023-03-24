@@ -1,3 +1,3 @@
 export {ENDPOINTS} from './endpoints';
 export * from './apiService';
-export * from './requests';
+export * from './apiRequests';

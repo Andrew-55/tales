@@ -6,8 +6,14 @@ import {THEMES} from './themes';
 import {SvgHeart, SvgShare} from '@app/assets/svg';
 import {ThemeVariantType} from '@app/components';
 import {useMutation} from '@apollo/client';
-import {GET_FAVORITE_POSTS, GET_POSTS, LIKING, UN_LIKING} from '@app/graphql';
-import {ERROR_MESSAGE} from '@app/constants';
+import {
+  GET_FAVORITE_POSTS,
+  LIKING,
+  PostLikeType,
+  PostUnlikeType,
+  UN_LIKING,
+} from '@app/graphql';
+import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
 
 type PostType = {
   id: string;
@@ -23,18 +29,57 @@ type Props = {
 
 export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
   const stylesThemes = THEMES[themeVariant];
-  const [likePost, {error}] = useMutation(LIKING, {
-    refetchQueries: [{query: GET_FAVORITE_POSTS}, {query: GET_POSTS}],
-  });
-  const [unlikePost, {error: errorUnlike}] = useMutation(UN_LIKING, {
-    refetchQueries: [{query: GET_FAVORITE_POSTS}, {query: GET_POSTS}],
+  const [likePost, {error}] = useMutation<PostLikeType>(LIKING, {
+    update(cache, {data: dataLike}) {
+      if (dataLike) {
+        const data = cache.readQuery({
+          query: GET_FAVORITE_POSTS,
+          variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
+        });
+        cache.writeQuery({
+          query: GET_FAVORITE_POSTS,
+          variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
+          data: {
+            favouritePosts: {
+              __typename: 'FindFavouritePostsPaginationResponse',
+              data: data.favouritePosts.data
+                ? [dataLike.postLike, ...data.favouritePosts.data]
+                : [dataLike.postLike],
+            },
+          },
+        });
+      }
+    },
   });
 
-  if (error) {
-    console.log(JSON.stringify(error));
-  }
-  if (errorUnlike) {
-    console.log(JSON.stringify(errorUnlike));
+  const [unlikePost, {error: errorUnlike}] = useMutation<PostUnlikeType>(
+    UN_LIKING,
+    {
+      update(cache, {data: dataUnlike}) {
+        if (dataUnlike) {
+          const data = cache.readQuery({
+            query: GET_FAVORITE_POSTS,
+            variables: {input: {limit: 10}},
+          });
+          cache.writeQuery({
+            query: GET_FAVORITE_POSTS,
+            variables: {input: {limit: 10}},
+            data: {
+              favouritePosts: {
+                __typename: 'FindFavouritePostsPaginationResponse',
+                data: data.favouritePosts.data.filter(
+                  post => post.id !== dataUnlike.postUnlike.id,
+                ),
+              },
+            },
+          });
+        }
+      },
+    },
+  );
+
+  if (error || errorUnlike) {
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
   }
 
   const handleShare = async () => {
@@ -47,11 +92,11 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
     }
   };
 
-  const handlePressLike = () => {
+  const handlePressLike = async () => {
     if (aboutPost.isLiked) {
-      unlikePost({variables: {input: {id: aboutPost.id}}});
+      await unlikePost({variables: {input: {id: aboutPost.id}}});
     } else {
-      likePost({variables: {input: {id: aboutPost.id}}});
+      await likePost({variables: {input: {id: aboutPost.id}}});
     }
   };
 

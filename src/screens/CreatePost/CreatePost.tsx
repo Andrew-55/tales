@@ -8,10 +8,16 @@ import {Theme} from '@app/components';
 import {THEMES} from './themes';
 import {AppButton, AppButtonIcon, AppInput, AppText, Upload} from '@app/ui';
 import {SvgArrowLeft, SvgXmark} from '@app/assets/svg';
-import {ERROR_MESSAGE} from '@app/constants';
+import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
 import {checkStringIsEmpty} from '@app/lib';
 import {FILE_CATEGORY, saveImageToS3} from '@app/services';
-import {CREATE_POST, DataPostType, GET_MY_POSTS, GET_POSTS} from '@app/graphql';
+import {
+  CreatePostType,
+  CREATE_POST,
+  GET_MY_POSTS,
+  GET_POSTS,
+} from '@app/graphql';
+import {TYPE_REQUEST} from '../Main/Main';
 
 export type PhotoType = {
   fileName: string;
@@ -27,15 +33,56 @@ export const CreatePost = ({navigation}: any) => {
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
   const [photo, setPhoto] = useState<PhotoType>();
-  const [createPost, {loading, error}] = useMutation<DataPostType>(
+  const [createPost, {loading, error}] = useMutation<CreatePostType>(
     CREATE_POST,
     {
-      refetchQueries: [{query: GET_POSTS}, {query: GET_MY_POSTS}],
+      update(cache, {data: postCreated}) {
+        if (postCreated) {
+          const data = cache.readQuery({
+            query: GET_MY_POSTS,
+            variables: {input: {limit: LIMIT_REQUEST.myPosts}},
+          });
+          cache.writeQuery({
+            query: GET_MY_POSTS,
+            variables: {input: {limit: LIMIT_REQUEST.myPosts}},
+            data: {
+              myPosts: {
+                __typename: 'FindMyPostsPaginationResponse',
+                data: data.myPosts.data
+                  ? [postCreated.postCreate, ...data.myPosts.data]
+                  : [postCreated.postCreate],
+              },
+            },
+          });
+
+          const dataPosts = cache.readQuery({
+            query: GET_POSTS,
+            variables: {
+              input: {limit: LIMIT_REQUEST.posts, type: TYPE_REQUEST.NEW},
+            },
+          });
+          cache.writeQuery({
+            query: GET_POSTS,
+            variables: {
+              input: {limit: LIMIT_REQUEST.posts, type: TYPE_REQUEST.NEW},
+            },
+            data: {
+              posts: {
+                __typename: 'FindPostsPaginationResponse',
+                data: dataPosts.posts.data
+                  ? [postCreated.postCreate, ...dataPosts.posts.data]
+                  : [postCreated.postCreate],
+              },
+            },
+          });
+        }
+      },
     },
   );
 
   if (error) {
     Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
+    console.log(JSON.stringify(error));
   }
 
   const handleAddImage = async () => {

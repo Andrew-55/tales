@@ -71,7 +71,7 @@ export const Profile = ({navigation}: any) => {
     Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
   }
 
-  let avatarUrl = photo?.uri ? photo?.uri : userData?.userMe.avatarUrl;
+  let avatarUrl = photo?.uri || userData?.userMe.avatarUrl;
 
   const {
     control,
@@ -81,14 +81,14 @@ export const Profile = ({navigation}: any) => {
   } = useForm({
     mode: 'onSubmit',
     defaultValues: {
-      firstName: userData?.userMe.firstName ? userData.userMe.firstName : '',
-      lastName: userData?.userMe.lastName ? userData.userMe.lastName : '',
-      middleName: userData?.userMe.middleName ? userData.userMe.middleName : '',
-      gender: userData?.userMe.gender ? userData.userMe.gender : '',
-      birthDate: userData?.userMe.birthDate ? userData.userMe.birthDate : '',
-      email: userData?.userMe.email ? userData.userMe.email : '',
-      phone: userData?.userMe.phone ? userData.userMe.phone : '',
-      country: userData?.userMe.country ? userData.userMe.country : '',
+      firstName: userData?.userMe.firstName || '',
+      lastName: userData?.userMe.lastName || '',
+      middleName: userData?.userMe.middleName || '',
+      gender: userData?.userMe.gender || '',
+      birthDate: userData?.userMe.birthDate || '',
+      email: userData?.userMe.email || '',
+      phone: userData?.userMe.phone || '',
+      country: userData?.userMe.country || '',
     },
   });
 

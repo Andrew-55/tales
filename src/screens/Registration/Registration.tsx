@@ -47,10 +47,8 @@ export const Registration = ({navigation}: any) => {
     });
 
     if (error) {
-      console.log(JSON.stringify(error));
+      Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
     }
-
-    console.log('Registration start ' + data?.userSignUp.token);
 
     if (data?.userSignUp.token) {
       await setTokenStore(data.userSignUp.token);

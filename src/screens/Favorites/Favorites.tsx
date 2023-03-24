@@ -12,7 +12,7 @@ import {
   USER_ME,
 } from '@app/graphql';
 import {THEMES} from './themes';
-import {ERROR_MESSAGE} from '@app/constants';
+import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
 
 export const Favorites = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
@@ -22,19 +22,15 @@ export const Favorites = ({navigation}: any) => {
     error: errorFavoritePosts,
     data: favoritePostsData,
   } = useQuery<FavoritePostsType>(GET_FAVORITE_POSTS, {
-    variables: {input: {limit: 10}},
+    variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
   });
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
 
-  const favoritePosts = favoritePostsData?.favouritePosts.data;
+  const favoritePosts = favoritePostsData?.favouritePosts.data || undefined;
   const hasFavoritePosts = favoritePosts && favoritePosts.length > 0;
 
-  const firstName = userData?.userMe.firstName
-    ? userData?.userMe.firstName
-    : '';
-  const lastName = userData?.userMe.lastName ? userData?.userMe.lastName : '';
-  const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
+  const avatarUrl = userData?.userMe.avatarUrl || '';
 
   if (error) {
     navigation.navigate('Welcome');
@@ -91,7 +87,6 @@ export const Favorites = ({navigation}: any) => {
         animationType="fade"
         statusBarTranslucent>
         <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
           onClose={() => setIsAvatarMenuVisible(false)}
           navigation={navigation}
         />

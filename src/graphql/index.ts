@@ -1,3 +1,5 @@
 export {client} from './gqlService';
-export * from './requests';
-export * from './types';
+export * from './auth/requests';
+export * from './posts';
+export * from './user';
+export * from './auth';

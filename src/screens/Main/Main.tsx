@@ -8,9 +8,9 @@ import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {PostsType, GET_POSTS, UserType, USER_ME} from '@app/graphql';
 import {Loading} from '@app/components/Loading';
-import {ERROR_MESSAGE} from '@app/constants';
+import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
 
-enum TYPE_REQUEST {
+export enum TYPE_REQUEST {
   NEW = 'NEW',
   TOP = 'TOP',
 }
@@ -24,13 +24,13 @@ export const Main = ({navigation}: any) => {
     error: errorPosts,
     data: postsData,
   } = useQuery<PostsType>(GET_POSTS, {
-    variables: {input: {limit: 5, type: typeRequest}},
+    variables: {input: {limit: LIMIT_REQUEST.posts, type: typeRequest}},
   });
 
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
   const {themeVariant} = useContext(Theme);
 
-  const posts = postsData ? postsData.posts.data : undefined;
+  const posts = postsData?.posts.data || undefined;
 
   if (error) {
     navigation.navigate('Welcome');
@@ -41,11 +41,8 @@ export const Main = ({navigation}: any) => {
     Toast.show({type: 'info', text1: ERROR_MESSAGE.gettingPosts});
   }
 
-  const firstName = userData?.userMe.firstName
-    ? userData?.userMe.firstName
-    : '';
-  const lastName = userData?.userMe.lastName ? userData?.userMe.lastName : '';
-  const avatarUrl = userData?.userMe.avatarUrl ? userData.userMe.avatarUrl : '';
+  const firstName = userData?.userMe.firstName || '';
+  const avatarUrl = userData?.userMe.avatarUrl || '';
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -99,7 +96,6 @@ export const Main = ({navigation}: any) => {
         animationType="fade"
         statusBarTranslucent>
         <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
           onClose={() => setIsAvatarMenuVisible(false)}
           navigation={navigation}
         />
