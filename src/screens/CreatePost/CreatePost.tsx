@@ -38,7 +38,7 @@ export const CreatePost = ({navigation}: any) => {
     {
       update(cache, {data: postCreated}) {
         if (postCreated) {
-          const data = cache.readQuery({
+          const data = cache.readQuery<any>({
             query: GET_MY_POSTS,
             variables: {input: {limit: LIMIT_REQUEST.myPosts}},
           });
@@ -55,7 +55,7 @@ export const CreatePost = ({navigation}: any) => {
             },
           });
 
-          const dataPosts = cache.readQuery({
+          const dataPosts = cache.readQuery<any>({
             query: GET_POSTS,
             variables: {
               input: {limit: LIMIT_REQUEST.posts, type: TYPE_REQUEST.NEW},

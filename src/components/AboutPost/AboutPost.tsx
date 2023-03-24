@@ -32,7 +32,7 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
   const [likePost, {error}] = useMutation<PostLikeType>(LIKING, {
     update(cache, {data: dataLike}) {
       if (dataLike) {
-        const data = cache.readQuery({
+        const data = cache.readQuery<any>({
           query: GET_FAVORITE_POSTS,
           variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
         });
@@ -57,7 +57,7 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
     {
       update(cache, {data: dataUnlike}) {
         if (dataUnlike) {
-          const data = cache.readQuery({
+          const data = cache.readQuery<any>({
             query: GET_FAVORITE_POSTS,
             variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
           });
@@ -68,7 +68,7 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
               favouritePosts: {
                 __typename: 'FindFavouritePostsPaginationResponse',
                 data: data.favouritePosts.data.filter(
-                  post => post.id !== dataUnlike.postUnlike.id,
+                  (post: any) => post.id !== dataUnlike.postUnlike.id,
                 ),
               },
             },
