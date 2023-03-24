@@ -59,11 +59,11 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
         if (dataUnlike) {
           const data = cache.readQuery({
             query: GET_FAVORITE_POSTS,
-            variables: {input: {limit: 10}},
+            variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
           });
           cache.writeQuery({
             query: GET_FAVORITE_POSTS,
-            variables: {input: {limit: 10}},
+            variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
             data: {
               favouritePosts: {
                 __typename: 'FindFavouritePostsPaginationResponse',
