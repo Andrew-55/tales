@@ -30,8 +30,8 @@ import {
   UserEditProfile,
   UserType,
   USER_ME,
-} from '@app/graphql';
-import {FILE_CATEGORY, saveImageToS3} from '@app/services';
+} from '@app/entities';
+import {FILE_CATEGORY, saveImageToS3} from '@app/services/api';
 import {NAVIGATION_SCREEN} from '@app/screens';
 
 type ProfileFormType = {

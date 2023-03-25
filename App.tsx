@@ -4,7 +4,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import {ApolloProvider} from '@apollo/client';
 import {StatusBarComponent, ThemeProvider} from '@app/components';
-import {client} from '@app/graphql';
+import {client} from '@app/entities';
 
 function App(): JSX.Element {
   return (

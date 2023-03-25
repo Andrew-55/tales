@@ -7,7 +7,7 @@ import {AppButtonIcon, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {AboutPost, Theme} from '@app/components';
 import {SvgArrowLeft} from '@app/assets/svg';
-import {DataPostType, GET_POST} from '@app/graphql';
+import {DataPostType, GET_POST} from '@app/entities';
 import {ERROR_MESSAGE} from '@app/constants';
 
 export type AuthorInfoType = {

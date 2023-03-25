@@ -10,7 +10,7 @@ import {
   GET_FAVORITE_POSTS,
   UserType,
   USER_ME,
-} from '@app/graphql';
+} from '@app/entities';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
 import {NAVIGATION_SCREEN} from '@app/screens';

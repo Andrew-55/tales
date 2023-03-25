@@ -6,7 +6,7 @@ import {AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {AboutPost} from '../AboutPost';
 import {ThemeVariantType} from '@app/components';
-import {PostType} from '@app/graphql';
+import {PostType} from '@app/entities';
 
 type Props = {
   post: PostType;

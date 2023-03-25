@@ -1,6 +1,6 @@
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
-import {getTokenStore} from '@app/lib';
+import {getTokenStore} from '@app/services';
 import {GQL_BASE_URL} from 'react-native-dotenv';
 
 const httpLink = createHttpLink({

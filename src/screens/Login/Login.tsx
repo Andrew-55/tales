@@ -9,7 +9,7 @@ import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
 import {useMutation} from '@apollo/client';
-import {LOGIN, UserSignInResponseType} from '@app/graphql';
+import {LOGIN, UserSignInResponseType} from '@app/entities';
 import {NAVIGATION_SCREEN} from '@app/screens';
 
 type LoginFormType = {

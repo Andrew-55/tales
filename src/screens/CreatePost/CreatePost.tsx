@@ -9,8 +9,8 @@ import {AppButton, AppButtonIcon, AppInput, AppText, Upload} from '@app/ui';
 import {SvgArrowLeft, SvgXmark} from '@app/assets/svg';
 import {ERROR_MESSAGE} from '@app/constants';
 import {checkStringIsEmpty} from '@app/lib';
-import {FILE_CATEGORY, saveImageToS3} from '@app/services';
-import {useCreatePost} from '@app/utils/hooks';
+import {FILE_CATEGORY, saveImageToS3} from '@app/services/api';
+import {useCreatePost} from '@app/entities/posts/model';
 
 export type PhotoType = {
   fileName: string;

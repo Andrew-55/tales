@@ -13,7 +13,7 @@ import {
   USER_ME,
   DELETE_POST,
   DeletePostType,
-} from '@app/graphql';
+} from '@app/entities';
 import {THEMES} from './themes';
 import {CardPost} from '@app/components';
 import {SvgPlus} from '@app/assets/svg';

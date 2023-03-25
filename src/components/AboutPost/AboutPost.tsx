@@ -6,7 +6,7 @@ import {THEMES} from './themes';
 import {SvgHeart, SvgShare} from '@app/assets/svg';
 import {ThemeVariantType} from '@app/components';
 import {ERROR_MESSAGE} from '@app/constants';
-import {useLikePost, useUnlike} from '@app/utils/hooks';
+import {useLikePost, useUnlike} from '@app/entities/posts/model';
 
 type PostType = {
   id: string;

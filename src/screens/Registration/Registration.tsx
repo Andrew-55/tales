@@ -8,7 +8,7 @@ import {THEMES} from './themes';
 import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, checkPasswordLength, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
-import {REGISTRATION, UserSignUpResponseType} from '@app/graphql';
+import {REGISTRATION, UserSignUpResponseType} from '@app/entities';
 import {NAVIGATION_SCREEN} from '..';
 
 type RegistrationFormType = {

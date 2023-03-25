@@ -5,7 +5,7 @@ import {
   CREATE_POST,
   GET_MY_POSTS,
   GET_POSTS,
-} from '@app/graphql';
+} from '@app/entities';
 import {TYPE_REQUEST} from '@app/screens';
 
 export const useCreatePost = () => {

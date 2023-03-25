@@ -1,11 +1,11 @@
 import {useMutation} from '@apollo/client';
 import {LIMIT_REQUEST} from '@app/constants';
-import {GET_FAVORITE_POSTS, LIKING, PostLikeType} from '@app/graphql';
+import {GET_FAVORITE_POSTS, PostUnlikeType, UN_LIKING} from '@app/entities';
 
-export const useLikePost = () => {
-  const [likePost, {error}] = useMutation<PostLikeType>(LIKING, {
-    update(cache, {data: dataLike}) {
-      if (dataLike) {
+export const useUnlike = () => {
+  const [unlikePost, {error}] = useMutation<PostUnlikeType>(UN_LIKING, {
+    update(cache, {data: dataUnlike}) {
+      if (dataUnlike) {
         const data = cache.readQuery<any>({
           query: GET_FAVORITE_POSTS,
           variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
@@ -17,9 +17,9 @@ export const useLikePost = () => {
             data: {
               favouritePosts: {
                 __typename: 'FindFavouritePostsPaginationResponse',
-                data: data.favouritePosts.data
-                  ? [dataLike.postLike, ...data.favouritePosts.data]
-                  : [dataLike.postLike],
+                data: data.favouritePosts.data.filter(
+                  (post: any) => post.id !== dataUnlike.postUnlike.id,
+                ),
               },
             },
           });
@@ -27,5 +27,5 @@ export const useLikePost = () => {
       }
     },
   });
-  return {likePost, error};
+  return {unlikePost, error};
 };

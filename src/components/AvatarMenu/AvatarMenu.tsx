@@ -12,8 +12,8 @@ import {
 import {COLORS} from '@app/assets/styles/constants';
 import {Theme, THEME_VARIANT} from '@app/components';
 import {useQuery} from '@apollo/client';
-import {UserType, USER_ME} from '@app/graphql';
-import {setTokenStore} from '@app/lib';
+import {UserType, USER_ME} from '@app/entities';
+import {setTokenStore} from '@app/services';
 import {NAVIGATION_SCREEN} from '@app/screens';
 
 type Props = {

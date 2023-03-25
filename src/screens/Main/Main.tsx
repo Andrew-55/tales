@@ -6,7 +6,7 @@ import Toast from 'react-native-toast-message';
 import {AvatarMenu, CardPost, Theme} from '@app/components';
 import {AppTab, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
-import {PostsType, GET_POSTS, UserType, USER_ME} from '@app/graphql';
+import {PostsType, GET_POSTS, UserType, USER_ME} from '@app/entities';
 import {Loading} from '@app/components/Loading';
 import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
 import {NAVIGATION_SCREEN} from '@app/screens';
