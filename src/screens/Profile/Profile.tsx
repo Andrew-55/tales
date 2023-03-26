@@ -6,8 +6,9 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import dayjs from 'dayjs';
+import Toast from 'react-native-toast-message';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
-import {AddAvatar, DatePick, GenderPick, Theme} from '@app/components';
+import {AddAvatar, DatePick, GenderPick, Loading, Theme} from '@app/components';
 import {THEMES} from './themes';
 import {
   AppButtonIcon,
@@ -20,29 +21,58 @@ import {
 import {SvgArrowLeft, SvgCamera} from '@app/assets/svg';
 import {ERROR_MESSAGE} from '@app/constants';
 import {checkIsEmail, checkStringIsEmpty} from '@app/lib';
-
-export type PhotoType = {
-  uri: string;
-};
+import {useMutation, useQuery} from '@apollo/client';
+import {
+  EDIT_PROFILE,
+  GET_FAVORITE_POSTS,
+  GET_MY_POSTS,
+  GET_POSTS,
+  UserEditProfile,
+  UserType,
+  USER_ME,
+} from '@app/entities';
+import {FILE_CATEGORY, saveImageToS3} from '@app/services/api';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 type ProfileFormType = {
   firstName: string;
   lastName: string;
-  surname: string;
-  bDay: string;
+  middleName: string;
+  birthDate: string;
   email: string;
   phone: string;
   country: string;
   gender: string;
 };
 
+type PhotoType = {
+  fileName: string;
+  uri: string;
+};
+
 export const Profile = ({navigation}: any) => {
   const [isAddAvatarVisible, setIsAddAvatarVisible] = useState(false);
   const [isDatePickVisible, setIsDatePickVisible] = useState(false);
   const [photo, setPhoto] = useState<PhotoType>();
+  const {data: userData} = useQuery<UserType>(USER_ME);
+  const [editProfile, {loading, error, data: dataProfile}] =
+    useMutation<UserEditProfile>(EDIT_PROFILE, {
+      refetchQueries: [
+        {query: USER_ME},
+        {query: GET_FAVORITE_POSTS},
+        {query: GET_POSTS},
+        {query: GET_MY_POSTS},
+      ],
+    });
 
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
+
+  if (error) {
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.somethingWrong});
+  }
+
+  let avatarUrl = photo?.uri || userData?.userMe.avatarUrl;
 
   const {
     control,
@@ -52,31 +82,37 @@ export const Profile = ({navigation}: any) => {
   } = useForm({
     mode: 'onSubmit',
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      surname: '',
-      gender: '',
-      bDay: '',
-      email: '',
-      phone: '',
-      country: '',
+      firstName: userData?.userMe.firstName || '',
+      lastName: userData?.userMe.lastName || '',
+      middleName: userData?.userMe.middleName || '',
+      gender: userData?.userMe.gender || '',
+      birthDate: userData?.userMe.birthDate || '',
+      email: userData?.userMe.email || '',
+      phone: userData?.userMe.phone || '',
+      country: userData?.userMe.country || '',
     },
   });
 
   const addPhoto = (result: ImagePickerResponse) => {
     setIsAddAvatarVisible(false);
-    if (result.assets && result.assets[0].uri) {
-      console.log(result);
-      setPhoto({uri: result.assets[0].uri});
+    if (result.assets && result.assets[0].uri && result.assets[0].fileName) {
+      setPhoto({
+        fileName: result.assets[0].fileName,
+        uri: result.assets[0].uri,
+      });
     }
   };
   const handlePressTakePhoto = async () => {
-    const result = await launchCamera({mediaType: 'photo'});
+    const result = await launchCamera({
+      mediaType: 'photo',
+    });
     addPhoto(result);
   };
 
   const handlePressChoosePhoto = async () => {
-    const result = await launchImageLibrary({mediaType: 'photo'});
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+    });
     addPhoto(result);
   };
 
@@ -86,33 +122,40 @@ export const Profile = ({navigation}: any) => {
   };
 
   const handleChooseDate = (date: Date) => {
-    setValue('bDay', dayjs(date).format('DD.MM.YYYY'));
+    setValue('birthDate', dayjs(date).format('YYYY-MM-DD'));
   };
 
   const handleChooseGender = (value: string) => {
     setValue('gender', value);
   };
 
-  const onSubmit: SubmitHandler<ProfileFormType> = ({
-    firstName,
-    lastName,
-    surname,
-    bDay,
-    email,
-    phone,
-    country,
-    gender,
-  }: ProfileFormType) => {
-    console.warn(
-      firstName,
-      lastName,
-      surname,
-      bDay,
-      email,
-      phone,
-      country,
-      gender,
-    );
+  const handleEditProfile = async (profile: ProfileFormType) => {
+    if (photo && photo.fileName) {
+      try {
+        avatarUrl = await saveImageToS3(
+          photo.fileName,
+          FILE_CATEGORY.AVATARS,
+          photo.uri,
+        );
+      } catch (err) {
+        Toast.show({type: 'error', text1: ERROR_MESSAGE.somethingWrong});
+      }
+    }
+    await editProfile({
+      variables: {input: {...profile, avatarUrl}},
+    });
+    if (dataProfile?.userEditProfile.problem) {
+      Toast.show({
+        type: 'info',
+        text1: dataProfile?.userEditProfile.problem.message,
+      });
+    }
+  };
+
+  const onSubmit: SubmitHandler<ProfileFormType> = (
+    profile: ProfileFormType,
+  ) => {
+    handleEditProfile(profile);
   };
 
   return (
@@ -121,7 +164,7 @@ export const Profile = ({navigation}: any) => {
         <AppButtonIcon
           Icon={SvgArrowLeft}
           themeVariant={themeVariant}
-          onPress={() => navigation.navigate('MainTab')}
+          onPress={() => navigation.navigate(NAVIGATION_SCREEN.MAIN_TAB)}
         />
 
         <AppText
@@ -143,7 +186,7 @@ export const Profile = ({navigation}: any) => {
             <Avatar
               size={160}
               themeVariant={themeVariant}
-              avatarUrl={photo?.uri}
+              avatarUrl={avatarUrl}
             />
             <View style={styles.wrapButtonCamera}>
               <AppButtonIconCircle
@@ -218,12 +261,12 @@ export const Profile = ({navigation}: any) => {
                     onChangeText={onChange}
                     value={value}
                     themeVariant={themeVariant}
-                    isError={!!errors.surname}
-                    errorMessage={errors.surname?.message}
+                    isError={!!errors.middleName}
+                    errorMessage={errors.middleName?.message}
                     isSuccess={isValid}
                   />
                 )}
-                name="surname"
+                name="middleName"
               />
             </View>
 
@@ -240,6 +283,9 @@ export const Profile = ({navigation}: any) => {
                 }}
                 render={() => (
                   <GenderPick
+                    currentGender={
+                      userData?.userMe.gender && userData?.userMe.gender
+                    }
                     onChooseGender={handleChooseGender}
                     themeVariant={themeVariant}
                   />
@@ -272,13 +318,13 @@ export const Profile = ({navigation}: any) => {
                     value={value}
                     onPressIn={() => setIsDatePickVisible(true)}
                     themeVariant={themeVariant}
-                    isError={!!errors.bDay}
-                    errorMessage={errors.bDay?.message}
+                    isError={!!errors.birthDate}
+                    errorMessage={errors.birthDate?.message}
                     isSuccess={isValid}
                     caretHidden
                   />
                 )}
-                name="bDay"
+                name="birthDate"
               />
             </View>
 
@@ -374,8 +420,11 @@ export const Profile = ({navigation}: any) => {
           themeVariant={themeVariant}
           onPress={handleChooseDate}
           onClose={() => setIsDatePickVisible(false)}
+          currentDate={userData?.userMe.birthDate}
         />
       )}
+
+      {loading && <Loading message="Updating ..." />}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {StyleSheet, View, Modal} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
@@ -8,12 +8,18 @@ import {THEMES} from './themes';
 import {ThemeVariantType} from '@app/components';
 
 type Props = {
+  currentDate?: string | null;
   themeVariant: ThemeVariantType;
   onPress: (date: Date) => void;
   onClose: () => void;
 };
 
-export const DatePick: FC<Props> = ({themeVariant, onPress, onClose}) => {
+export const DatePick: FC<Props> = ({
+  themeVariant,
+  onPress,
+  onClose,
+  currentDate = '',
+}) => {
   const [date, setDate] = useState(new Date());
 
   const stylesThemes = THEMES[themeVariant];
@@ -22,6 +28,12 @@ export const DatePick: FC<Props> = ({themeVariant, onPress, onClose}) => {
     onPress(date);
     onClose();
   };
+
+  useEffect(() => {
+    if (currentDate) {
+      setDate(new Date(currentDate));
+    }
+  }, [currentDate]);
 
   return (
     <Modal transparent={true} animationType="fade" onRequestClose={onClose}>
@@ -35,6 +47,7 @@ export const DatePick: FC<Props> = ({themeVariant, onPress, onClose}) => {
           <View style={[styles.line, stylesThemes.datePickTitleLine]} />
           <DatePicker
             date={date}
+            maximumDate={new Date()}
             onDateChange={setDate}
             mode="date"
             textColor={stylesThemes.datePickText}

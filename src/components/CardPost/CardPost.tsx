@@ -1,25 +1,12 @@
 import React, {FC} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
+import dayjs from 'dayjs';
+
 import {AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {AboutPost} from '../AboutPost';
 import {ThemeVariantType} from '@app/components';
-
-export type AuthorInfoType = {
-  avatarUrl: string;
-  firstName: string;
-  lastName: string;
-};
-
-export type PostType = {
-  id: string;
-  title: string;
-  createdAt: string;
-  mediaUrl: string;
-  isLiked?: boolean;
-  likesCount: number;
-  authorInfo: AuthorInfoType;
-};
+import {PostType} from '@app/entities';
 
 type Props = {
   post: PostType;
@@ -31,9 +18,10 @@ export const CardPost: FC<Props> = ({post, themeVariant, onOpenPost}) => {
   const stylesThemes = THEMES[themeVariant];
 
   const aboutPost = {
+    id: post.id,
     isLiked: post.isLiked,
     likesCount: post.likesCount,
-    authorInfo: post.authorInfo,
+    authorInfo: post.author,
   };
 
   return (
@@ -45,7 +33,7 @@ export const CardPost: FC<Props> = ({post, themeVariant, onOpenPost}) => {
           {post.title}
         </AppText>
         <AppText variant="Body_2_Medium_16" style={stylesThemes.postText}>
-          {post.createdAt}
+          {dayjs(post.createdAt).format('DD.MM.YYYY')}
         </AppText>
       </View>
       <Pressable onLongPress={() => onOpenPost(post.id)}>

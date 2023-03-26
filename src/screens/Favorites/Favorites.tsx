@@ -1,25 +1,49 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Modal, Pressable, FlatList} from 'react-native';
+import {useQuery} from '@apollo/client';
+import Toast from 'react-native-toast-message';
 
 import {AppText, Avatar} from '@app/ui';
-import {AvatarMenu, CardPost, NoPosts, Theme} from '@app/components';
+import {AvatarMenu, CardPost, Loading, NoPosts, Theme} from '@app/components';
+import {
+  FavoritePostsType,
+  GET_FAVORITE_POSTS,
+  UserType,
+  USER_ME,
+} from '@app/entities';
 import {THEMES} from './themes';
-import {PostType} from '@app/components/CardPost';
+import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 export const Favorites = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
+  const {error, data: userData} = useQuery<UserType>(USER_ME);
+  const {
+    loading,
+    error: errorFavoritePosts,
+    data: favoritePostsData,
+  } = useQuery<FavoritePostsType>(GET_FAVORITE_POSTS, {
+    variables: {input: {limit: LIMIT_REQUEST.favoritePosts}},
+  });
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
-  const favoritePosts: PostType[] = [];
-  const hasFavoritePosts = favoritePosts.length > 0;
 
-  const firstName = 'John';
-  const lastName = 'Moor';
-  const avatarUrl =
-    'https://virtus-img.cdnvideo.ru/images/material-card/plain/a8/a80fda76-c804-4fc9-9bb5-34d7e18b69be.webp';
+  const favoritePosts = favoritePostsData?.favouritePosts.data || undefined;
+  const hasFavoritePosts = favoritePosts && favoritePosts.length > 0;
+
+  const avatarUrl = userData?.userMe.avatarUrl || '';
+
+  if (error) {
+    navigation.navigate(NAVIGATION_SCREEN.WELCOME);
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
+  }
+
+  if (errorFavoritePosts) {
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.gettingPosts});
+  }
 
   const handleOpenPost = (id: string) => {
-    navigation.navigate('Post', {id: id});
+    navigation.navigate(NAVIGATION_SCREEN.POST, {id: id});
   };
 
   return (
@@ -49,10 +73,12 @@ export const Favorites = ({navigation}: any) => {
         />
       ) : (
         <View style={styles.wrap}>
-          <NoPosts
-            message="You haven't added anything to your favorites yet"
-            themeVariant={themeVariant}
-          />
+          {!loading && (
+            <NoPosts
+              message="You haven't added anything to your favorites yet"
+              themeVariant={themeVariant}
+            />
+          )}
         </View>
       )}
 
@@ -62,11 +88,12 @@ export const Favorites = ({navigation}: any) => {
         animationType="fade"
         statusBarTranslucent>
         <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
           onClose={() => setIsAvatarMenuVisible(false)}
           navigation={navigation}
         />
       </Modal>
+
+      {loading && <Loading message="Loading ..." />}
     </View>
   );
 };

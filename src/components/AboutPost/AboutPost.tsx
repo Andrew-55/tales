@@ -1,15 +1,18 @@
 import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Share, View} from 'react-native';
+import Toast from 'react-native-toast-message';
 import {AppButtonIcon, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
 import {SvgHeart, SvgShare} from '@app/assets/svg';
-import {AuthorInfoType} from '../CardPost/CardPost';
 import {ThemeVariantType} from '@app/components';
+import {ERROR_MESSAGE} from '@app/constants';
+import {useLikePost, useUnlike} from '@app/entities/posts/model';
 
 type PostType = {
+  id: string;
   isLiked?: boolean;
   likesCount: number;
-  authorInfo: AuthorInfoType;
+  authorInfo: {avatarUrl: string; firstName: string; lastName: string};
 };
 
 type Props = {
@@ -19,6 +22,30 @@ type Props = {
 
 export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
   const stylesThemes = THEMES[themeVariant];
+  const {likePost, error} = useLikePost();
+  const {unlikePost, error: errorUnlike} = useUnlike();
+
+  if (error || errorUnlike) {
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
+  }
+
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: `tales://post/${aboutPost.id}`,
+      });
+    } catch (err) {
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.somethingWrong});
+    }
+  };
+
+  const handlePressLike = async () => {
+    if (aboutPost.isLiked) {
+      await unlikePost({variables: {input: {id: aboutPost.id}}});
+    } else {
+      await likePost({variables: {input: {id: aboutPost.id}}});
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -39,6 +66,7 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
             Icon={SvgHeart}
             themeVariant={themeVariant}
             isActive={aboutPost.isLiked}
+            onPress={handlePressLike}
           />
           <AppText
             variant="Body_6_Regular_14"
@@ -46,7 +74,11 @@ export const AboutPost: FC<Props> = ({aboutPost, themeVariant}) => {
             {aboutPost.likesCount}
           </AppText>
         </View>
-        <AppButtonIcon Icon={SvgShare} themeVariant={themeVariant} />
+        <AppButtonIcon
+          Icon={SvgShare}
+          themeVariant={themeVariant}
+          onPress={handleShare}
+        />
       </View>
     </View>
   );

@@ -1,36 +1,64 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Modal, Pressable, FlatList} from 'react-native';
+import {useMutation, useQuery} from '@apollo/client';
+import Toast from 'react-native-toast-message';
 
 import {AppButtonIconCircle, AppText, Avatar} from '@app/ui';
-import {AvatarMenu, NoPosts, Theme} from '@app/components';
+import {AvatarMenu, Loading, NoPosts, Theme} from '@app/components';
+import {
+  client,
+  MyPostsType,
+  GET_MY_POSTS,
+  UserType,
+  USER_ME,
+  DELETE_POST,
+  DeletePostType,
+} from '@app/entities';
 import {THEMES} from './themes';
-import {CardPost, PostType} from '@app/components/CardPost';
+import {CardPost} from '@app/components';
 import {SvgPlus} from '@app/assets/svg';
-import {MOCK_POSTS} from '../Main/mockDate';
 import {MyPostCard} from '@app/components';
+import {ERROR_MESSAGE, LIMIT_REQUEST} from '@app/constants';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 export const MyPosts = ({navigation}: any) => {
   const [isAvatarMenuVisible, setIsAvatarMenuVisible] = useState(false);
+  const {error, data: userData} = useQuery<UserType>(USER_ME);
   const {themeVariant} = useContext(Theme);
   const stylesThemes = THEMES[themeVariant];
-  const favoritePosts: PostType[] = [...MOCK_POSTS];
-  const hasFavoritePosts = favoritePosts.length > 0;
+  const avatarUrl = userData?.userMe.avatarUrl || '';
+  const {
+    loading,
+    error: errorMyPosts,
+    data: myPostsData,
+  } = useQuery<MyPostsType>(GET_MY_POSTS, {
+    variables: {input: {limit: LIMIT_REQUEST.myPosts}},
+  });
+  const [deletePost, {loading: loadingDelete, error: errorDelete}] =
+    useMutation<DeletePostType>(DELETE_POST);
 
-  const firstName = 'John';
-  const lastName = 'Moor';
-  const avatarUrl =
-    'https://virtus-img.cdnvideo.ru/images/material-card/plain/a8/a80fda76-c804-4fc9-9bb5-34d7e18b69be.webp';
+  const myPosts = myPostsData?.myPosts.data || undefined;
+
+  if (error) {
+    navigation.navigate(NAVIGATION_SCREEN.WELCOME);
+    Toast.show({type: 'info', text1: ERROR_MESSAGE.needLogin});
+  }
+
+  if (errorMyPosts || errorDelete) {
+    Toast.show({type: 'error', text1: ERROR_MESSAGE.gettingPosts});
+  }
 
   const handleAddPost = () => {
-    navigation.navigate('CreatePost');
+    navigation.navigate(NAVIGATION_SCREEN.CREATE_POST);
   };
 
   const handleOpenPost = (id: string) => {
-    navigation.navigate('Post', {id: id});
+    navigation.navigate(NAVIGATION_SCREEN.POST, {id: id});
   };
 
-  const handleDeletePost = (id: string) => {
-    console.log(id);
+  const handleDeletePost = async (id: string) => {
+    await deletePost({variables: {input: {id: id}}});
+    await client.refetchQueries({include: 'active'});
   };
 
   return (
@@ -46,9 +74,9 @@ export const MyPosts = ({navigation}: any) => {
         </Pressable>
       </View>
 
-      {hasFavoritePosts ? (
+      {myPosts ? (
         <FlatList
-          data={favoritePosts}
+          data={myPosts}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <MyPostCard id={item.id} onDeletePost={handleDeletePost}>
@@ -62,10 +90,12 @@ export const MyPosts = ({navigation}: any) => {
         />
       ) : (
         <View style={styles.wrap}>
-          <NoPosts
-            message="You haven't posted any posts yet"
-            themeVariant={themeVariant}
-          />
+          {!loading && (
+            <NoPosts
+              message="You haven't posted any posts yet"
+              themeVariant={themeVariant}
+            />
+          )}
         </View>
       )}
 
@@ -86,11 +116,12 @@ export const MyPosts = ({navigation}: any) => {
         animationType="fade"
         statusBarTranslucent>
         <AvatarMenu
-          author={{avatarUrl, firstName, lastName}}
           onClose={() => setIsAvatarMenuVisible(false)}
           navigation={navigation}
         />
       </Modal>
+
+      {(loading || loadingDelete) && <Loading message="Loading ..." />}
     </View>
   );
 };

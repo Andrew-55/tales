@@ -1,5 +1,5 @@
 import React, {FC, useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Pressable} from 'react-native';
 
 import {AppButtonIconText, AppText, Avatar} from '@app/ui';
 import {THEMES} from './themes';
@@ -11,33 +11,39 @@ import {
 } from '@app/assets/svg';
 import {COLORS} from '@app/assets/styles/constants';
 import {Theme, THEME_VARIANT} from '@app/components';
-
-export type AuthorInfoType = {
-  avatarUrl: string;
-  firstName: string;
-  lastName: string;
-};
+import {useQuery} from '@apollo/client';
+import {UserType, USER_ME} from '@app/entities';
+import {setTokenStore} from '@app/services';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 type Props = {
-  author: AuthorInfoType;
   onClose: () => void;
   navigation: any;
 };
 
-export const AvatarMenu: FC<Props> = ({author, onClose, navigation}) => {
+export const AvatarMenu: FC<Props> = ({onClose, navigation}) => {
   const {themeVariant, isDarkThemeVariant, handleChangeTheme} =
     useContext(Theme);
+  const {data} = useQuery<UserType>(USER_ME);
 
-  const {avatarUrl, firstName, lastName} = author;
+  const firstName = data?.userMe.firstName || '';
+  const lastName = data?.userMe.lastName || '';
+  const avatarUrl = data?.userMe.avatarUrl || '';
+
   const stylesThemes = THEMES[themeVariant];
 
   const handlePressProfile = () => {
     onClose();
-    navigation.navigate('Profile');
+    navigation.navigate(NAVIGATION_SCREEN.PROFILE);
+  };
+
+  const handleLogout = async () => {
+    await setTokenStore('');
+    navigation.navigate(NAVIGATION_SCREEN.WELCOME);
   };
 
   return (
-    <View style={styles.avatarMenu}>
+    <Pressable style={styles.avatarMenu} onLongPress={onClose}>
       <View style={[styles.avatarMenuContent, stylesThemes.avatarMenu]}>
         <View>
           <View style={styles.wrapAvatar}>
@@ -66,7 +72,7 @@ export const AvatarMenu: FC<Props> = ({author, onClose, navigation}) => {
                 Icon={SvgArrowRightOnRectangle}
                 text="Exit"
                 themeVariant={themeVariant}
-                onPress={onClose}
+                onPress={handleLogout}
               />
             </View>
           </View>
@@ -88,7 +94,7 @@ export const AvatarMenu: FC<Props> = ({author, onClose, navigation}) => {
           />
         )}
       </View>
-    </View>
+    </Pressable>
   );
 };
 

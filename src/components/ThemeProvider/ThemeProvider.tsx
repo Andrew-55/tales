@@ -24,7 +24,7 @@ export const ThemeProvider: FC<Props> = ({children}) => {
   const handleChangeTheme = (variant: THEME_VARIANT) => {
     setThemeVariant(variant);
   };
-  const isDarkThemeVariant = themeVariant === 'dark';
+  const isDarkThemeVariant = themeVariant === THEME_VARIANT.DARK;
 
   const value = useMemo(
     () => ({themeVariant, isDarkThemeVariant, handleChangeTheme}),

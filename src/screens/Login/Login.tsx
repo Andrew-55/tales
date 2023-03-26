@@ -1,11 +1,16 @@
 import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
+import Toast from 'react-native-toast-message';
+
 import {AppButton, AppButtonText, AppInput, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE} from '@app/constants';
-import {checkIsEmail} from '@app/lib';
+import {checkIsEmail, setTokenStore} from '@app/lib';
 import {Theme} from '@app/components';
+import {useMutation} from '@apollo/client';
+import {LOGIN, UserSignInResponseType} from '@app/entities';
+import {NAVIGATION_SCREEN} from '@app/screens';
 
 type LoginFormType = {
   email: string;
@@ -14,6 +19,8 @@ type LoginFormType = {
 
 export const Login = ({navigation}: any) => {
   const {themeVariant} = useContext(Theme);
+  const [login, {loading, error, data}] =
+    useMutation<UserSignInResponseType>(LOGIN);
 
   const stylesThemes = THEMES[themeVariant];
 
@@ -37,12 +44,28 @@ export const Login = ({navigation}: any) => {
     };
   }, [reset]);
 
+  const handleLogin = async ({email, password}: LoginFormType) => {
+    await login({
+      variables: {input: {email, password}},
+    });
+
+    if (error) {
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.somethingWrong});
+    }
+
+    if (data?.userSignIn.token) {
+      await setTokenStore(data.userSignIn.token);
+      navigation.navigate(NAVIGATION_SCREEN.MAIN_TAB);
+    } else {
+      Toast.show({type: 'error', text1: ERROR_MESSAGE.wrongEmailPassword});
+    }
+  };
+
   const onSubmit: SubmitHandler<LoginFormType> = ({
     email,
     password,
   }: LoginFormType) => {
-    console.warn(email, password);
-    navigation.navigate('MainTab');
+    handleLogin({email, password});
   };
 
   return (
@@ -120,6 +143,7 @@ export const Login = ({navigation}: any) => {
         onPress={handleSubmit(onSubmit)}
         themeVariant={themeVariant}
         isDisabled={!isDirty}
+        isLoading={loading}
       />
     </View>
   );
