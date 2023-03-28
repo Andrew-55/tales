@@ -6,11 +6,12 @@ import Toast from 'react-native-toast-message';
 import {AppButton, AppButtonText, AppInput, AppText} from '@app/ui';
 import {THEMES} from './themes';
 import {ERROR_MESSAGE} from '@app/constants';
-import {checkIsEmail, setTokenStore} from '@app/lib';
+import {checkIsEmail} from '@app/lib';
 import {Theme} from '@app/components';
 import {useMutation} from '@apollo/client';
 import {LOGIN, UserSignInResponseType} from '@app/entities';
 import {NAVIGATION_SCREEN} from '@app/screens';
+import { setTokenStore } from '@app/services';
 
 type LoginFormType = {
   email: string;
